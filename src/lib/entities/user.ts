@@ -12,10 +12,11 @@ export interface VoiceStatus {
   deaf?: boolean;
   serverMuted?: boolean;
 }
-
 export interface User {
   id: string;
   name: string;
+  username: string;
+  bio?: string;
   avatar?: string;
   status: UserStatuses;
   activity?: Activity;

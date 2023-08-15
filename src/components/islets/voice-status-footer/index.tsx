@@ -38,7 +38,7 @@ const VoiceStatusButton = ({
           onClick={onClick}
           className={clsx(
             "group relative flex h-8 w-8 items-center justify-center rounded-md hover:bg-gray-700",
-            "text-gray-400 hover:text-gray-300",
+            "text-gray-300 hover:text-gray-200",
           )}
         >
           {icon}
@@ -47,7 +47,7 @@ const VoiceStatusButton = ({
           )}
         </button>
       </TooltipTrigger>
-      <TooltipContent className="text-xs font-normal text-gray-300">
+      <TooltipContent className="text-xs font-normal text-gray-200">
         {tooltipText}
       </TooltipContent>
     </Tooltip>
@@ -67,7 +67,7 @@ export default function VoiceStatusFooter() {
           />
           <div>
             <div className="text-xs font-semibold">{currentUser.name}</div>
-            <div className="text-[11px] text-gray-400">Don&apos;t disturb</div>
+            <div className="text-[11px] text-gray-300">Don&apos;t disturb</div>
           </div>
         </button>
         <div className="flex items-center">

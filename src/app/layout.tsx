@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={mainFont.className + " dark"}>
         <CommonLayout />
-        <Container>{children}</Container>
+        {children}
       </body>
     </html>
   );

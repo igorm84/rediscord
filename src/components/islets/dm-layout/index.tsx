@@ -26,11 +26,11 @@ export default async function DMLayout({
   const { channels } = await getData();
   return (
     <>
-      <Sidebar className="bottom-70 flex flex-col gap-2">
-        <Header spacingX="2" className="bg-midground">
+      <Sidebar className="bottom-70 flex flex-col">
+        <Header verticalPadding="2" className="bg-midground">
           <FindChatButton />
         </Header>
-        <div className="hover-scrollbar flex-1 overflow-y-auto pl-2 pr-0.5">
+        <div className="hover-scrollbar flex-1 overflow-y-auto py-2 pl-2 pr-0.5">
           <DMHeaderMenu />
           <DMChannelList channels={channels} />
         </div>

@@ -4,7 +4,7 @@ import { BsPersonFill } from "react-icons/bs";
 import { Page, PageContent, PageHeader } from "@/components/layout/page";
 import FriendList from "@/components/islets/friend-list";
 import { delay } from "@/lib/utils";
-import { MOCK_DELAY } from "@/lib/utils/mock";
+import { MOCK_DELAY, generateRandomFakeUsers } from "@/lib/utils/mock";
 import { User } from "@/lib/entities/user";
 
 const getData = async (): Promise<{ friends: User[] }> => {
@@ -12,19 +12,19 @@ const getData = async (): Promise<{ friends: User[] }> => {
    * TODO: Get friend list
    */
 
-  const friends: User[] = [];
+  const friends: User[] = generateRandomFakeUsers(18);
 
   await delay(MOCK_DELAY);
   return { friends };
 };
 
 export default async function MePage() {
-  await getData();
+  const { friends } = await getData();
   return (
     <Page>
       <PageHeader>
-        <div className="flex gap-5">
-          <div className="flex flex-none items-center gap-2 text-sm font-bold">
+        <div className="flex gap-4">
+          <div className="flex flex-none items-center gap-2 text-sm font-semibold">
             <BsPersonFill className="text-gray-500" fontSize={22} />
             Friends
           </div>
@@ -36,7 +36,7 @@ export default async function MePage() {
         </div>
       </PageHeader>
       <PageContent>
-        <FriendList />
+        <FriendList friends={friends} />
       </PageContent>
     </Page>
   );

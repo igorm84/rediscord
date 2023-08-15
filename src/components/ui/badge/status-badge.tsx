@@ -1,6 +1,5 @@
 import { clsx } from "@/lib/utils";
 import { UserStatuses } from "@/lib/entities/user";
-import { cva } from "class-variance-authority";
 import { MdPhoneAndroid } from "react-icons/md";
 
 interface StatusBadgeProps extends React.HTMLAttributes<HTMLDivElement> {

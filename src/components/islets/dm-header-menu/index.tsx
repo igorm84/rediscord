@@ -20,7 +20,11 @@ const HeaderMenuListItem = ({
   className,
   ...props
 }: HeaderMenuListItemProps) => (
-  <ListItem className={clsx("my-0.5 justify-between", className)} {...props}>
+  <ListItem
+    noVerticalPadding
+    className={clsx("my-0.5 justify-between py-2.5", className)}
+    {...props}
+  >
     <span className="inline-flex items-center gap-3">
       {icon}
       {name}

@@ -13,13 +13,20 @@ const List = ({ children, className, ...props }: ListProps) => {
 
 export type ListItemProps = {
   active?: boolean;
+  noVerticalPadding?: boolean;
 } & HybridButtonProps;
-const ListItem = ({ active, className, ...props }: ListItemProps) => {
+const ListItem = ({
+  active,
+  noVerticalPadding,
+  className,
+  ...props
+}: ListItemProps) => {
   const cls = clsx(
-    "flex items-center rounded-md pl-3 pr-2 py-2 text-[15px] hover:bg-white/5",
-    "w-full text-left hover:text-gray-100 active:text-white active:bg-white/10",
-    "focus-visible:ring-0 focus-visible:bg-white/5 focus-visible:text-gray-100",
-    active ? "text-gray-100 bg-white/5" : "text-gray-400",
+    "flex items-center rounded-md pl-3 pr-2 text-[15px] hover:bg-gray-800/50",
+    "w-full text-left hover:text-gray-100 active:text-white active:bg-gray-800/50",
+    "focus-visible:ring-0 focus-visible:bg-gray-800/50 focus-visible:text-gray-100",
+    noVerticalPadding ? "" : "py-2",
+    active ? "text-gray-100 bg-gray-700/60" : "text-gray-400",
     className,
   );
 

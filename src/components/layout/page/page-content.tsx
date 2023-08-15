@@ -11,7 +11,12 @@ export default function PageContent({
 }: PageContentProps) {
   return (
     <div
-      className={clsx("md" && "px-6 py-4", "lg" && "px-8 py-6", className)}
+      className={clsx(
+        "flex flex-1 flex-col overflow-y-auto",
+        padding === "md" && "px-6 pt-4",
+        padding === "lg" && "px-8 pt-6",
+        className,
+      )}
       {...props}
     >
       {children}

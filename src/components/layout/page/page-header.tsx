@@ -18,7 +18,7 @@ const PageHeaderButton = ({
   ...props
 }: PageHeaderButtonProps) => (
   <HybridButton
-    className={clsx("text-gray-300 hover:text-gray-100")}
+    className={clsx("text-gray-300 hover:text-gray-200")}
     {...props}
   >
     {children}

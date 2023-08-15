@@ -24,7 +24,7 @@ export default function DMChannelListHeader() {
               <BsPlus fontSize={22} />
             </button>
           </TooltipTrigger>
-          <TooltipContent className="font-normal text-gray-300">
+          <TooltipContent className="font-normal text-gray-200">
             Create DM
           </TooltipContent>
         </Tooltip>

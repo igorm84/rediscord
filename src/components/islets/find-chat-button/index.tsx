@@ -20,7 +20,7 @@ export default function FindChatButton() {
       className="flex w-full justify-between rounded-sm bg-background p-1.5 text-left text-xs text-gray-400 hover:bg-background/70"
     >
       Find your friends & chats
-      <div className="rounded-sm bg-zinc-700/70 px-1 text-[11px]">Ctrl K</div>
+      <div className="rounded-sm bg-gray-800/50 px-1 text-[11px]">Ctrl K</div>
     </button>
   );
 }

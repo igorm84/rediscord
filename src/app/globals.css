@@ -14,19 +14,19 @@
     --color-semibackground: 30 31 34;
     --color-midground: 43 45 49;
     --color-foreground: 49 51 56;
-    @apply text-gray-200;
+    @apply text-gray-100;
   }
   body {
-    background-color: rgb(var(--color-background));
+    background-color: rgb(var(--color-foreground));
   }
 
   * {
     scrollbar-width: auto;
-    scrollbar-color: var(--color-background) var(--color-midground);
+    scrollbar-color: rgb(var(--color-background)) rgb(var(--color-midground));
   }
 
   *::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
   }
 
   *::-webkit-scrollbar-track {
@@ -55,7 +55,11 @@
   Scrollbar that is only visible on hover
 */
 .hover-scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
   &:not(:hover) {
+    scrollbar-width: 0;
     &::-webkit-scrollbar-thumb {
       background-color: transparent;
     }
