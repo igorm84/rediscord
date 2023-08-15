@@ -1,3 +1,5 @@
+import { Activity } from "./activity";
+
 export enum UserStatuses {
   Online = "online",
   Idle = "idle",
@@ -5,9 +7,17 @@ export enum UserStatuses {
   Offline = "offline",
   Mobile = "mobile",
 }
-
 export interface VoiceStatus {
   mute?: boolean;
   deaf?: boolean;
   serverMuted?: boolean;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  avatar?: string;
+  status: UserStatuses;
+  activity?: Activity;
+  type: "user" | "bot";
 }

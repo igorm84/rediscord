@@ -5,13 +5,17 @@ import { Page, PageContent, PageHeader } from "@/components/layout/page";
 import FriendList from "@/components/islets/friend-list";
 import { delay } from "@/lib/utils";
 import { MOCK_DELAY } from "@/lib/utils/mock";
+import { User } from "@/lib/entities/user";
 
-export const getData = async (): Promise<{}> => {
+const getData = async (): Promise<{ friends: User[] }> => {
   /*
    * TODO: Get friend list
    */
+
+  const friends: User[] = [];
+
   await delay(MOCK_DELAY);
-  return {};
+  return { friends };
 };
 
 export default async function MePage() {
