@@ -3,23 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "@radix-ui/react-dialog": "^1.0.4",
+    "@radix-ui/react-tooltip": "^1.0.6",
     "@types/node": "20.4.9",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.14",
+    "class-variance-authority": "^0.7.0",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.13",
     "next": "13.4.13",
     "postcss": "8.4.27",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.10.1",
     "tailwindcss": "3.3.3",
     "typescript": "5.1.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.4",
+    "prettier": "^3.0.1",
+    "prettier-plugin-tailwindcss": "^0.5.1",
+    "tailwindcss-animate": "^1.0.6"
   }
 }

@@ -2,26 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --color-primary: 88 101 242;
+    --color-black: 14 15 16;
+    /* TODO: add light theme colors */
+  }
+
+  .dark {
+    --color-background: 30 31 34;
+    --color-semibackground: 30 31 34;
+    --color-midground: 43 45 49;
+    --color-foreground: 49 51 56;
+    @apply text-gray-200;
+  }
+  body {
+    background-color: rgb(var(--color-background));
+  }
+
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: var(--color-background) var(--color-midground);
+  }
+
+  *::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: rgb(var(--color-midground));
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--color-background));
+    border-radius: 6px;
+    border: none;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+/*
+  Hide scrollbar but keep scroll
+*/
+.hidden-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/*
+  Scrollbar that is only visible on hover
+*/
+.hover-scrollbar {
+  &:not(:hover) {
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  }
+}
+* {
+  outline: none !important;
+  &:focus-visible {
+    @apply ring-2 ring-primary;
+  }
 }
