@@ -1,6 +1,6 @@
 import AvatarSkeleton from "@/components/ui/avatar/avatar-skeleton";
 import InputSkeleton from "@/components/ui/input/input-skeleton";
-import clsx from "@/lib/clsx";
+import TextSkeleton from "@/components/ui/text/text-skeleton";
 
 export default function FriendListSkeleton() {
   return (
@@ -8,7 +8,7 @@ export default function FriendListSkeleton() {
       <div className="animate-pulse px-2 pb-5">
         <InputSkeleton />
         <div className="mt-6">
-          <div className="h-3 w-16 bg-gray-800/50" />
+          <TextSkeleton fontSize="xs" length={8} />
         </div>
       </div>
       <div className="flex-1 animate-pulse overflow-y-hidden pb-4">
@@ -21,23 +21,13 @@ export default function FriendListSkeleton() {
               <AvatarSkeleton />
               <div className="flex-1 leading-4">
                 <div className="flex items-center gap-1.5 text-sm">
-                  <span
-                    className={clsx(
-                      "h-3.5 bg-gray-800 font-semibold",
-                      i % 2 ? "w-32" : "w-40",
-                    )}
-                  >
-                    &nbsp;
-                  </span>
+                  <TextSkeleton fontSize="sm" length={i % 2 ? 20 : 30} />
                 </div>
-                <div
-                  className={clsx(
-                    "mt-0.5 h-3 bg-gray-800/50",
-                    i % 2 ? "w-28" : "w-36",
-                  )}
-                >
-                  &nbsp;
-                </div>
+                <TextSkeleton
+                  fontSize="xs"
+                  length={i % 2 ? 15 : 22}
+                  className="mt-0.5"
+                />
               </div>
             </div>
           </div>

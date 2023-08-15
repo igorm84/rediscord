@@ -23,6 +23,7 @@ export default function Avatar({ status, src, alt, className }: AvatarProps) {
       {src ? (
         <Image
           className={"rounded-full"}
+          unoptimized
           priority
           src={src}
           width={32}

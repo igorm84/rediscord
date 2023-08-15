@@ -1,4 +1,5 @@
 import AvatarSkeleton from "@/components/ui/avatar/avatar-skeleton";
+import TextSkeleton from "@/components/ui/text/text-skeleton";
 
 export default function DMChannelListSkeleton() {
   return (
@@ -12,8 +13,12 @@ export default function DMChannelListSkeleton() {
           >
             <AvatarSkeleton />
             <div className="flex h-8 flex-1 flex-col gap-1">
-              <div className="h-3 w-full animate-pulse rounded-sm bg-gray-700/50" />
-              <div className="h-3 w-3/4 animate-pulse rounded-sm bg-gray-700/50" />
+              <TextSkeleton
+                fontSize="sm"
+                place="midground"
+                className="w-full"
+              />
+              <TextSkeleton fontSize="xs" place="midground" className="w-3/4" />
             </div>
           </div>
         ))}
