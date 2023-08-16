@@ -6,7 +6,7 @@ import { delay } from "@/lib/utils";
 import { MOCK_DELAY, generateRandomFakeUsers } from "@/lib/utils/mock";
 import { GiCow } from "react-icons/gi";
 
-export const getData = async (id: string): Promise<{ user: User }> => {
+const getData = async (id: string): Promise<{ user: User }> => {
   /*
    * Generate fake user for testing
    */
