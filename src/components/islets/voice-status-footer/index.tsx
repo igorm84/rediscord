@@ -7,12 +7,11 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import { VoiceStatus } from "@/lib/entities/user";
+import { t } from "@/lib/i18n";
 import { clsx } from "@/lib/utils";
 import { generateFakeCurrentUser } from "@/lib/utils/mock";
 import { useState } from "react";
 import { BsGearFill, BsHeadphones, BsMicFill } from "react-icons/bs";
-
-const currentUser = generateFakeCurrentUser();
 
 type VoiceStatusButton = {
   icon: React.ReactNode;
@@ -27,6 +26,7 @@ const VoiceStatusButton = ({
   onClick,
 }: VoiceStatusButton) => {
   const [open, setOpen] = useState(false);
+
   return (
     <Tooltip open={open}>
       <TooltipTrigger
@@ -56,9 +56,10 @@ const VoiceStatusButton = ({
 
 export default function VoiceStatusFooter() {
   const [voiceStatus, setVoiceStatus] = useState<VoiceStatus>({ mute: true });
+  const currentUser = generateFakeCurrentUser();
   return (
     <TooltipProvider>
-      <div className="flex justify-between gap-1 bg-semibackground px-2 py-1">
+      <div className="flex justify-between gap-1 bg-semibackground px-2 py-1.5">
         <button className="flex gap-2 rounded-md py-1 pl-0.5 pr-2 text-left leading-tight hover:bg-white/20">
           <Avatar
             src={currentUser.avatar}
@@ -67,7 +68,9 @@ export default function VoiceStatusFooter() {
           />
           <div>
             <div className="text-xs font-semibold">{currentUser.name}</div>
-            <div className="text-[11px] text-gray-300">Don&apos;t disturb</div>
+            <div className="text-[11px] text-gray-300">
+              {t(`user.status.${currentUser.status}`)}
+            </div>
           </div>
         </button>
         <div className="flex items-center">

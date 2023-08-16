@@ -1,5 +1,8 @@
 export default function VoiceStatusFooterSkeleton() {
   return (
-    <div className="flex h-12 justify-between gap-1 bg-semibackground px-2 py-1"></div>
+    <div
+      style={{ height: 52 }}
+      className="flex justify-between gap-1 bg-semibackground px-2 py-1.5"
+    ></div>
   );
 }

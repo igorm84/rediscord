@@ -13,7 +13,7 @@ const generateRandomDiscordID = () =>
 
 export const generateFakeCurrentUser = () => ({
   name: "Repeep",
-  avatar: faker.internet.avatar(),
+  avatar: "https://avatars.githubusercontent.com/u/16727448?v=4",
   status: UserStatuses.DND,
 });
 

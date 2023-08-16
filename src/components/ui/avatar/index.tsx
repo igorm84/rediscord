@@ -4,18 +4,28 @@ import Image from "next/image";
 import { BsDiscord } from "react-icons/bs";
 import StatusBadge from "@/components/ui/badge/status-badge";
 
-type AvatarProps = {
+interface AvatarProps {
   status?: UserStatuses;
+  size?: "sm" | "md" | "lg";
   src?: string | null;
   alt: string;
   className?: string;
-};
+}
 
-export default function Avatar({ status, src, alt, className }: AvatarProps) {
+export default function Avatar({
+  status,
+  size = "md",
+  src,
+  alt,
+  className,
+}: AvatarProps) {
   return (
     <div
       className={clsx(
         "relative flex h-8 w-8 items-center justify-center rounded-full text-white",
+        size === "sm" && "h-6 w-6",
+        size === "md" && "h-8 w-8",
+        size === "lg" && "h-12 w-12",
         src ? "bg-white/5" : "bg-orange-400",
         className,
       )}

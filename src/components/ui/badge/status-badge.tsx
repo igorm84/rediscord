@@ -3,7 +3,7 @@ import { UserStatuses } from "@/lib/entities/user";
 import { MdPhoneAndroid } from "react-icons/md";
 
 interface StatusBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
-  status: UserStatuses;
+  status: UserStatuses | "skeleton";
 }
 
 export default function StatusBadge({
@@ -14,11 +14,14 @@ export default function StatusBadge({
   return (
     <div
       className={clsx(
-        "flex items-center justify-center rounded-full border-[3px] border-midground",
+        "flex items-center justify-center rounded-full border-[3px]",
         status === UserStatuses.Online && "bg-green-600",
         status === UserStatuses.Offline && "bg-gray-500",
         status === UserStatuses.DND && "bg-red-600",
         status === UserStatuses.Idle && "bg-yellow-600",
+        status === "skeleton"
+          ? "border-gray-900 bg-gray-900"
+          : "border-midground",
         status !== UserStatuses.Mobile && "h-[15px] w-[15px]",
         status === UserStatuses.Mobile &&
           "h-[18px] w-3.5 rounded-sm bg-midground text-green-600",

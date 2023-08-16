@@ -9,7 +9,11 @@ type DMChannelListItemProps = {
 
 export default function DMChannelListItem({ channel }: DMChannelListItemProps) {
   return (
-    <ListItem href={`/channels/${channel.id}`} className="group gap-3">
+    <ListItem
+      noVerticalPadding
+      href={`/channels/${channel.id}`}
+      className="group gap-3 py-1.5"
+    >
       <Avatar
         src={channel.avatar}
         alt={channel.name}

@@ -9,9 +9,8 @@ import { User } from "@/lib/entities/user";
 
 const getData = async (): Promise<{ friends: User[] }> => {
   /*
-   * TODO: Get friend list
+   * Generating fake users for test
    */
-
   const friends: User[] = generateRandomFakeUsers(18);
 
   await delay(MOCK_DELAY);
