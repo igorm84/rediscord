@@ -10,6 +10,7 @@ import {
   generateRandomFakeUsers,
 } from "@/lib/utils/mock";
 import { User } from "@/lib/entities/user";
+import ActiveNowSide from "@/components/islets/friends-tab-active";
 
 const getData = async (): Promise<{ friends: User[] }> => {
   /*
@@ -38,8 +39,11 @@ export default async function MePage() {
           </button>
         </div>
       </PageHeader>
-      <PageContent>
-        <FriendList friends={friends} />
+      <PageContent className="h-full overflow-y-auto ">
+        <div className="flex flex-row">
+          <FriendList friends={friends} />
+          <ActiveNowSide />
+        </div>
       </PageContent>
     </Page>
   );
