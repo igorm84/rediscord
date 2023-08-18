@@ -1,6 +1,7 @@
 import AvatarSkeleton from "@/components/ui/avatar/avatar-skeleton";
 import TextSkeleton from "@/components/ui/text/text-skeleton";
 import clsx from "@/lib/clsx";
+import { MOCK_CHANNELS } from "@/lib/utils/mock";
 
 export default function DMChannelListSkeleton() {
   return (
@@ -10,7 +11,7 @@ export default function DMChannelListSkeleton() {
         <div className="h-4 w-4 rounded-md bg-gray-700/40 p-1"></div>
       </div>
       <div className="mt-1">
-        {Array.from({ length: 18 }, (_, i) => i).map((i) => (
+        {Array.from({ length: MOCK_CHANNELS }, (_, i) => i).map((i) => (
           <div
             key={i}
             className="my-1 flex w-full items-center gap-2 rounded-md bg-foreground px-2 py-2"

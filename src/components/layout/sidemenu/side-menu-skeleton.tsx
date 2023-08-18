@@ -2,6 +2,7 @@ import Divider from "@/components/ui/divider";
 import SideMenuWrapper from "./side-menu-wrapper";
 import { clsx } from "@/lib/utils";
 import { BsDiscord } from "react-icons/bs";
+import { MOCK_SERVERS } from "@/lib/utils/mock";
 
 interface SideMenuItemSkeletonProps
   extends React.HTMLAttributes<HTMLAnchorElement> {
@@ -34,7 +35,7 @@ export default function SideMenuSkeleton() {
       </SideMenuItemSkeleton>
       <Divider className="w-8" />
       <div className="animate-pulse">
-        {Array.from({ length: 18 }, (_, i) => (
+        {Array.from({ length: MOCK_SERVERS }, (_, i) => (
           <SideMenuItemSkeleton key={i} className="mx-auto my-2" />
         ))}
       </div>

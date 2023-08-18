@@ -4,14 +4,18 @@ import { BsPersonFill } from "react-icons/bs";
 import { Page, PageContent, PageHeader } from "@/components/layout/page";
 import FriendList from "@/components/islets/friend-list";
 import { delay } from "@/lib/utils";
-import { MOCK_DELAY, generateRandomFakeUsers } from "@/lib/utils/mock";
+import {
+  MOCK_DELAY,
+  MOCK_FRIENDS,
+  generateRandomFakeUsers,
+} from "@/lib/utils/mock";
 import { User } from "@/lib/entities/user";
 
 const getData = async (): Promise<{ friends: User[] }> => {
   /*
    * Generating fake users for test
    */
-  const friends: User[] = generateRandomFakeUsers(18);
+  const friends: User[] = generateRandomFakeUsers(MOCK_FRIENDS);
 
   await delay(MOCK_DELAY);
   return { friends };

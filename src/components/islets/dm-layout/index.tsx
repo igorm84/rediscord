@@ -6,14 +6,18 @@ import DMHeaderMenu from "@/components/islets/dm-header-menu";
 import DMChannelList from "@/components/islets/dm-channel-list";
 import VoiceStatusFooter from "@/components/islets/voice-status-footer";
 import { ListedDMChannel } from "@/lib/entities/channel";
-import { MOCK_DELAY, generateRandomFakeChannels } from "@/lib/utils/mock";
+import {
+  MOCK_DELAY,
+  MOCK_CHANNELS,
+  generateRandomFakeChannels,
+} from "@/lib/utils/mock";
 import { delay } from "@/lib/utils";
 
 export const getData = async (): Promise<{ channels: ListedDMChannel[] }> => {
   /*
    * Generate fake channels for testing
    */
-  const channels: ListedDMChannel[] = generateRandomFakeChannels(18);
+  const channels: ListedDMChannel[] = generateRandomFakeChannels(MOCK_CHANNELS);
   await delay(MOCK_DELAY);
   return { channels };
 };
