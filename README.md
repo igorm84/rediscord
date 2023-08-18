@@ -31,4 +31,4 @@ npm run dev
 3. Experiment with it :)
 
 ## License
-This is a study project based on [Discord](discord.com) UI so they own the design and it need to be respected. ([see more](discord.com/terms)) - From my part you can freely see and copy the implementation
+This is a study project based on [Discord](discord.com) UI so they own the design and it needs to be respected. ([see more](discord.com/terms)) - From my part you can freely see and copy the implementation.
