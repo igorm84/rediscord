@@ -62,9 +62,11 @@ export default function FriendList({ friends }: { friends: User[] }) {
       </div>
       <TooltipProvider>
         <List className="flex-1 overflow-y-auto pb-4">
-          {friends.map((friend) => (
-            <FriendListItem key={friend.id} friend={friend} />
-          ))}
+          {friends
+            .filter((friend) => friend.status !== "offline")
+            .map((friend) => (
+              <FriendListItem key={friend.id} friend={friend} />
+            ))}
         </List>
       </TooltipProvider>
     </>
