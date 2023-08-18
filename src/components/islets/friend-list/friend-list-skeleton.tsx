@@ -1,6 +1,7 @@
 import AvatarSkeleton from "@/components/ui/avatar/avatar-skeleton";
 import InputSkeleton from "@/components/ui/input/input-skeleton";
 import TextSkeleton from "@/components/ui/text/text-skeleton";
+import { MOCK_FRIENDS } from "@/lib/utils/mock";
 
 export default function FriendListSkeleton() {
   return (
@@ -12,7 +13,7 @@ export default function FriendListSkeleton() {
         </div>
       </div>
       <div className="flex-1 animate-pulse overflow-y-hidden pb-4">
-        {Array.from({ length: 18 }).map((_, i) => (
+        {Array.from({ length: MOCK_FRIENDS }).map((_, i) => (
           <div
             key={i}
             className="group justify-between rounded-md border-t-[1px] border-gray-800 py-2.5 pl-3 pr-2"
