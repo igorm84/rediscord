@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import Avatar from "@/components/ui/avatar";
 import RoundedButton from "@/components/ui/button/rounded-button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { User } from "@/lib/entities/user";
 import { t } from "@/lib/i18n";
 import { BsChatLeftFill, BsSearch, BsThreeDotsVertical } from "react-icons/bs";
+import Image from "next/image";
 
 interface FriendListItemProps {
   friend: User;
@@ -50,21 +51,50 @@ const FriendListItem = ({ friend }: FriendListItemProps) => (
 );
 
 export default function FriendList({ friends }: { friends: User[] }) {
+  const [search, setSearch] = React.useState("");
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  const filteredList =
+    search.length === 0
+      ? friends
+      : friends.filter((friend) =>
+          friend.name.toLowerCase().includes(search.toLowerCase()),
+        );
+
   return (
     <>
       <div className="px-2 pb-5">
         <InputField endIcon={<BsSearch />}>
-          <Input placeholder="Search" />
+          <Input placeholder="Search" onChange={handleSearchChange} />
         </InputField>
         <div className="mt-6 text-xs font-semibold text-gray-400">
-          ONLINE — {friends.length}
+          ONLINE — {filteredList.length}
         </div>
       </div>
       <TooltipProvider>
         <List className="flex-1 overflow-y-auto pb-4">
-          {friends.map((friend) => (
-            <FriendListItem key={friend.id} friend={friend} />
-          ))}
+          {!!filteredList.length ? (
+            <>
+              {filteredList.map((friend) => (
+                <FriendListItem key={friend.id} friend={friend} />
+              ))}
+            </>
+          ) : (
+            <div className="flex h-full w-full flex-col items-center justify-center">
+              <Image
+                width={300}
+                height={300}
+                src="/NotFoundSearching.svg"
+                alt="Not Found friends"
+              />
+              <div className="mt-4 text-gray-400">
+                we cat&apos;t find anyone with that name :(
+              </div>
+            </div>
+          )}
         </List>
       </TooltipProvider>
     </>
