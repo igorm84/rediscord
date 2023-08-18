@@ -8,7 +8,7 @@ export interface InputProps
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, size = "md", ...props }, ref) => {
-    const [showFocusRing, setShowFocusRing] = React.useState(false);
+    const [showFocusRing, setShowFocusRing] = React.useState<boolean>(false);
     return (
       <input
         type={type}

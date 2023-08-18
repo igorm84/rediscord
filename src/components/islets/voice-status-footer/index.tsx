@@ -25,7 +25,7 @@ const VoiceStatusButton = ({
   tooltipText,
   onClick,
 }: VoiceStatusButton) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
     <Tooltip open={open}>

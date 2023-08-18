@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 export default function SearchModal() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const handleEvent = (event: Event) => {
@@ -43,7 +43,7 @@ export default function SearchModal() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
-          <Input placeholder="Where you want me to take you?" size="lg" />
+          <Input placeholder="Where do you want me to take you?" size="lg" />
         </DialogHeader>
         <DialogDescription>
           <div className="text-xs font-semibold text-gray-400">
