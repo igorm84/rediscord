@@ -20,6 +20,11 @@ export const generateFakeCurrentUser = () => ({
   status: UserStatuses.DND,
 });
 
+const currentActivity = {
+  type: ActivityTypes.Playing,
+  name: "Dead by Daylight",
+};
+
 export const generateRandomFakeChannels = (length: number): ListedDMChannel[] =>
   Array.from({ length }, (_, i) => ({
     id: generateRandomDiscordID(),
@@ -29,13 +34,7 @@ export const generateRandomFakeChannels = (length: number): ListedDMChannel[] =>
         : faker.helpers.arrayElement(Object.values(UserStatuses)),
     name: faker.person.fullName(),
     avatar: i === 6 ? undefined : faker.image.avatarGitHub(),
-    activity:
-      i === 0
-        ? {
-            type: ActivityTypes.Playing,
-            name: "Dead by Daylight",
-          }
-        : undefined,
+    activity: i === 0 ? currentActivity : undefined,
   }));
 
 export const generateRandomFakeServers = (length: number): ListedServer[] =>
@@ -50,12 +49,13 @@ export const generateRandomFakeServers = (length: number): ListedServer[] =>
   }));
 
 export const generateRandomFakeUsers = (length: number): User[] =>
-  Array.from({ length }, () => ({
+  Array.from({ length }, (_, i) => ({
     id: generateRandomDiscordID(),
     name: faker.person.fullName(),
     username: faker.internet.userName().toLowerCase(),
     bio: faker.lorem.paragraph(),
     avatar: faker.image.avatarGitHub(),
     status: faker.helpers.arrayElement(Object.values(UserStatuses)),
+    activity: i === 0 ? currentActivity : undefined,
     type: "user",
   }));

@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useFriendsTabStore } from "@/state/friends-tab";
 import FriendListItem from "./friend-list-item";
 import { normalizedCompare } from "@/lib/utils/string";
+import { useFriendStore } from "@/state/friend-list";
 
 const tabProps: Record<
   string,
@@ -44,6 +45,11 @@ const tabProps: Record<
 export default function FriendList({ friends }: { friends: User[] }) {
   const [search, setSearch] = React.useState("");
   const { currentTab } = useFriendsTabStore();
+  const { setFriends } = useFriendStore();
+
+  React.useEffect(() => {
+    setFriends(friends);
+  }, [friends, setFriends]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -51,12 +57,16 @@ export default function FriendList({ friends }: { friends: User[] }) {
 
   const currentTabProp = tabProps[currentTab];
 
-  console.log(currentTabProp);
-  const filteredList = friends.filter(
-    (friend) =>
-      currentTabProp.status.includes(friend.status) &&
-      (!search || normalizedCompare(friend.name, search)),
-  );
+  const filteredList = friends.filter((friend) => {
+    const isMatchingName = !search || normalizedCompare(friend.name, search);
+    return (
+      (currentTab === "Available" &&
+        friend.status !== UserStatuses.Offline &&
+        isMatchingName) ||
+      (currentTabProp.status.includes(friend.status) && isMatchingName)
+    );
+  });
+
   return (
     <div className="overflow-y-auto md:w-3/4">
       {currentTab === "Pending" || currentTab === "Blocked" ? null : (
