@@ -24,9 +24,7 @@ export const getData = async (): Promise<{ channels: ListedDMChannel[] }> => {
 
 export default async function DMLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}: React.PropsWithChildren) {
   const { channels } = await getData();
   return (
     <>

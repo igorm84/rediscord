@@ -11,6 +11,7 @@ import { useFriendsTabStore } from "@/state/friends-tab";
 import FriendListItem from "./friend-list-item";
 import { normalizedCompare } from "@/lib/utils/string";
 import { useFriendStore } from "@/state/friend-list";
+import { EmptyBox } from "../empty-box-image";
 
 const tabProps: Record<
   string,
@@ -82,26 +83,18 @@ export default function FriendList({ friends }: { friends: User[] }) {
       <TooltipProvider>
         <List className="flex-1  overflow-y-scroll pb-4 md:h-[83vh]">
           {currentTab === "Pending" && (
-            <div className="flex h-full w-full flex-col items-center justify-center">
-              <Image
-                width={300}
-                height={300}
-                src="/Waiting.svg"
-                alt="pending"
-              />
-              <div className="mt-4 text-gray-400">No Pending Invitations</div>
-            </div>
+            <EmptyBox
+              src="/Waiting.svg"
+              alt="Pending photo"
+              text="No Pending Invitations"
+            />
           )}
           {currentTab === "Blocked" && (
-            <div className="flex h-full w-full flex-col items-center justify-center">
-              <Image
-                width={300}
-                height={300}
-                src="/Joyride.svg"
-                alt="pending"
-              />
-              <div className="mt-4 text-gray-400">No Blocked Users</div>
-            </div>
+            <EmptyBox
+              src="/Joyride.svg"
+              alt="Blocked photo"
+              text="No Blocked Users"
+            />
           )}
 
           {currentTab === "Pending" || currentTab === "Blocked" ? null : (
@@ -111,17 +104,11 @@ export default function FriendList({ friends }: { friends: User[] }) {
                   <FriendListItem key={friend.id} friend={friend} />
                 ))
               ) : (
-                <div className="flex h-full w-full flex-col items-center justify-center">
-                  <Image
-                    width={300}
-                    height={300}
-                    src="/NotFoundSearching.svg"
-                    alt="Not Found friends"
-                  />
-                  <div className="mt-4 text-gray-400">
-                    we cat&apos;t find anyone with that name :(
-                  </div>
-                </div>
+                <EmptyBox
+                  src="/NotFoundSearching.svg"
+                  alt="Not Found friends"
+                  text="we can't find anyone with that name :("
+                />
               )}
             </>
           )}
