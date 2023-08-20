@@ -41,7 +41,7 @@ export default async function ChannelPage({
         </div>
       </PageHeader>
       <PageContent>
-        <span className="text-sm text-gray-300">Currently working here...</span>{" "}
+        <span className="text-sm text-gray-300">Currently working here...</span>
         <GiCow fontSize={42} className="mt-2 animate-bounce" />
       </PageContent>
     </Page>

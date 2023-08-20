@@ -6,7 +6,6 @@ import { List } from "@/components/ui/list";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { User, UserStatuses } from "@/lib/entities/user";
 import { BsSearch } from "react-icons/bs";
-import Image from "next/image";
 import { useFriendsTabStore } from "@/state/friends-tab";
 import FriendListItem from "./friend-list-item";
 import { normalizedCompare } from "@/lib/utils/string";
@@ -41,6 +40,10 @@ const tabProps: Record<
     title: "BLOCKED",
     status: [],
   },
+  AddFriend: {
+    title: "ADD A FRIEND",
+    status: [],
+  },
 };
 
 export default function FriendList({ friends }: { friends: User[] }) {
@@ -64,22 +67,24 @@ export default function FriendList({ friends }: { friends: User[] }) {
       (currentTab === "Available" &&
         friend.status !== UserStatuses.Offline &&
         isMatchingName) ||
-      (currentTabProp.status.includes(friend.status) && isMatchingName)
+      (currentTabProp?.status.includes(friend.status) && isMatchingName)
     );
   });
 
   return (
     <div className="overflow-y-auto md:w-3/4">
-      {currentTab === "Pending" || currentTab === "Blocked" ? null : (
-        <div className="px-2 pb-5">
-          <InputField endIcon={<BsSearch />}>
-            <Input placeholder="Search" onChange={handleSearchChange} />
-          </InputField>
-          <div className="mt-6 text-xs font-semibold text-gray-400">
-            {currentTabProp.title} — {filteredList.length}
+      {currentTab !== "Pending" &&
+        currentTab !== "Blocked" &&
+        currentTab !== "Add a Friend" && (
+          <div className="px-2 pb-5">
+            <InputField endIcon={<BsSearch />}>
+              <Input placeholder="Search" onChange={handleSearchChange} />
+            </InputField>
+            <div className="mt-6 text-xs font-semibold text-gray-400">
+              {currentTabProp?.title} — {filteredList.length}
+            </div>
           </div>
-        </div>
-      )}
+        )}
       <TooltipProvider>
         <List className="flex-1  overflow-y-scroll pb-4 md:h-[83vh]">
           {currentTab === "Pending" && (
@@ -96,21 +101,16 @@ export default function FriendList({ friends }: { friends: User[] }) {
               text="No Blocked Users"
             />
           )}
-
-          {currentTab === "Pending" || currentTab === "Blocked" ? null : (
-            <>
-              {!!filteredList.length ? (
-                filteredList.map((friend) => (
-                  <FriendListItem key={friend.id} friend={friend} />
-                ))
-              ) : (
-                <EmptyBox
-                  src="/NotFoundSearching.svg"
-                  alt="Not Found friends"
-                  text="we can't find anyone with that name :("
-                />
-              )}
-            </>
+          {!!filteredList.length ? (
+            filteredList.map((friend) => (
+              <FriendListItem key={friend.id} friend={friend} />
+            ))
+          ) : (
+            <EmptyBox
+              src="/NotFoundSearching.svg"
+              alt="Not Found friends"
+              text="we can't find anyone with that name :("
+            />
           )}
         </List>
       </TooltipProvider>
