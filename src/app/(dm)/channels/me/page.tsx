@@ -33,7 +33,7 @@ export default async function MePage() {
           </div>
           <Divider vertical />
           <FriendsTabGroup />
-          <button className="rounded-sm bg-green-700 px-2 py-0.5 text-sm font-semibold text-gray-100 hover:bg-green-800">
+          <button className="rounded bg-green-700 px-2 py-0.5 text-sm font-semibold text-gray-100 hover:bg-green-800">
             Add a Friend
           </button>
         </div>
