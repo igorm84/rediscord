@@ -12,7 +12,7 @@ export default function NotFound() {
         Whooops! Couldn&apos;t find what you looking for
       </h2>
       <Link
-        href="/friends/me"
+        href="/channels/me"
         className="py-4 text-sm text-gray-400 underline hover:text-gray-300"
       >
         Go back home

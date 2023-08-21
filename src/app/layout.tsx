@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
-import Container from "@/components/layout/container";
 import CommonLayout from "@/components/layout/common-layout";
 import "./globals.css";
 
@@ -16,9 +15,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}: React.PropsWithChildren) {
   return (
     <html lang="en">
       <body className={mainFont.className + " dark"}>

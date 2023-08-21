@@ -22,6 +22,3 @@ const HybridButton = React.forwardRef<HybridButtonRef, HybridButtonProps>(
 HybridButton.displayName = "HybridButton";
 
 export default HybridButton;
-// export default function HybridButton({ ...props }: HybridButtonProps) {
-//   return "href" in props ? <Link {...props} /> : <button {...props} />;
-// }

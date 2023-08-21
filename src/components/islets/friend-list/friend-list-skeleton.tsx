@@ -5,7 +5,7 @@ import { MOCK_FRIENDS } from "@/lib/utils/mock";
 
 export default function FriendListSkeleton() {
   return (
-    <>
+    <div className="flex flex-1 flex-col">
       <div className="animate-pulse px-2 pb-3.5">
         <InputSkeleton />
         <div className="mt-6">
@@ -34,6 +34,6 @@ export default function FriendListSkeleton() {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

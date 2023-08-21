@@ -5,6 +5,7 @@ import Header from "@/components/layout/header";
 import DMHeaderMenu from "@/components/islets/dm-header-menu";
 import DMChannelList from "@/components/islets/dm-channel-list";
 import VoiceStatusFooter from "@/components/islets/voice-status-footer";
+
 import { ListedDMChannel } from "@/lib/entities/channel";
 import {
   MOCK_DELAY,
@@ -22,11 +23,7 @@ export const getData = async (): Promise<{ channels: ListedDMChannel[] }> => {
   return { channels };
 };
 
-export default async function DMLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function DMLayout({ children }: React.PropsWithChildren) {
   const { channels } = await getData();
   return (
     <>

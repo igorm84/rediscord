@@ -4,13 +4,20 @@ import { ListedDMChannel } from "@/lib/entities/channel";
 import { BsFillChatLeftTextFill, BsX } from "react-icons/bs";
 
 type DMChannelListItemProps = {
+  active?: boolean;
   channel: ListedDMChannel;
+  onDelete: () => void;
 };
 
-export default function DMChannelListItem({ channel }: DMChannelListItemProps) {
+export default function DMChannelListItem({
+  active,
+  channel,
+  onDelete,
+}: DMChannelListItemProps) {
   return (
     <ListItem
       noVerticalPadding
+      active={active}
       href={`/channels/${channel.id}`}
       className="group gap-3 py-1.5"
     >
@@ -33,7 +40,13 @@ export default function DMChannelListItem({ channel }: DMChannelListItemProps) {
           </div>
         )}
       </div>
-      <button className="hidden text-gray-300 hover:text-white group-hover:block">
+      <button
+        onClick={(event) => {
+          event.preventDefault();
+          onDelete();
+        }}
+        className="hidden text-gray-300 hover:text-white group-hover:block"
+      >
         <BsX fontSize={24} />
       </button>
     </ListItem>

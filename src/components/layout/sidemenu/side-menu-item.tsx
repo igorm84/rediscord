@@ -37,8 +37,6 @@ export default function SideMenuItem({
   image,
   children,
   className,
-  onClick,
-  onDragEnd,
   ...props
 }: SideMenuItemProps) {
   const roundClasses = isActive

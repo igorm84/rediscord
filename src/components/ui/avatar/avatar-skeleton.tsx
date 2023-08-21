@@ -1,6 +1,5 @@
 import clsx from "@/lib/clsx";
 import StatusBadge from "../badge/status-badge";
-
 interface AvatarSkeletonProps {
   size?: "sm" | "md" | "lg";
 }

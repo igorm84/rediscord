@@ -6,9 +6,11 @@ import { ListItem } from "@/components/ui/list";
 import { User } from "@/lib/entities/user";
 import { t } from "@/lib/i18n";
 import { BsChatLeftFill, BsThreeDotsVertical } from "react-icons/bs";
+import { FriendsTab } from "@/lib/types/friend-tab-prop";
 
 interface FriendListItemProps {
   friend: User;
+  tab: FriendsTab;
 }
 
 export default function FriendListItem({ friend }: FriendListItemProps) {

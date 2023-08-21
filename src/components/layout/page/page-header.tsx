@@ -7,27 +7,23 @@ import HybridButton, {
   HybridButtonProps,
 } from "@/components/ui/hybrid/hybrid-button";
 
-interface PageHeader {
-  children: React.ReactNode;
-}
-
-type PageHeaderButtonProps = {} & HybridButtonProps;
+type PageHeaderButtonProps = HybridButtonProps;
 const PageHeaderButton = ({
   children,
   className,
   ...props
 }: PageHeaderButtonProps) => (
   <HybridButton
-    className={clsx("text-gray-300 hover:text-gray-200")}
+    className={clsx("text-gray-300 hover:text-gray-200", className)}
     {...props}
   >
     {children}
   </HybridButton>
 );
 
-export default function PageHeader({ children }: PageHeader) {
+export default function PageHeader({ children }: React.PropsWithChildren) {
   return (
-    <Header className="justify-between">
+    <Header className="flex-none justify-between">
       {children}
       <div className="flex items-center gap-6">
         <PageHeaderButton>

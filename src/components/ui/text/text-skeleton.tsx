@@ -1,7 +1,7 @@
 import clsx from "@/lib/clsx";
 
 interface TextSkeletonProps extends React.HTMLAttributes<HTMLSpanElement> {
-  fontSize?: "xs" | "sm" | "md" | "lg" | string;
+  fontSize?: "xs" | "sm" | "md" | "lg";
   length?: number;
   place?: "foreground" | "midground" | "background";
 }

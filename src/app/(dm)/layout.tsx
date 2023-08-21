@@ -6,9 +6,7 @@ export const revalidate = 0;
 
 export default function SuspendedDMLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}:  React.PropsWithChildren) {
   return (
     <Suspense fallback={<DMLayoutSkeleton>{children}</DMLayoutSkeleton>}>
       <DMLayout>{children}</DMLayout>
