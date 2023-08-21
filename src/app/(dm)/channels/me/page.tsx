@@ -10,19 +10,27 @@ import {
   generateRandomFakeUsers,
 } from "@/lib/utils/mock";
 import { User } from "@/lib/entities/user";
+import ActiveNowPanel from "@/components/islets/active-now-panel";
 
-const getData = async (): Promise<{ friends: User[] }> => {
+interface FriendFetchData {
+  friends: User[];
+  friendRequests: User[];
+  blockedFriends: User[];
+}
+const getData = async (): Promise<FriendFetchData> => {
   /*
    * Generating fake users for test
    */
   const friends: User[] = generateRandomFakeUsers(MOCK_FRIENDS);
+  const friendRequests: User[] = generateRandomFakeUsers(1);
+  const blockedFriends: User[] = [];
 
   await delay(MOCK_DELAY);
-  return { friends };
+  return { friends, friendRequests, blockedFriends };
 };
 
 export default async function MePage() {
-  const { friends } = await getData();
+  const data = await getData();
   return (
     <Page>
       <PageHeader>
@@ -32,14 +40,16 @@ export default async function MePage() {
             Friends
           </div>
           <Divider vertical />
-          <FriendsTabGroup />
-          <button className="rounded-sm bg-green-700 px-2 py-0.5 text-sm font-semibold text-gray-100 hover:bg-green-800">
-            Add a Friend
-          </button>
+          <FriendsTabGroup friendRequestsCount={data.friendRequests.length} />
         </div>
       </PageHeader>
-      <PageContent>
-        <FriendList friends={friends} />
+      <PageContent className="flex-col lg:flex-row" padding="none">
+        <div className="flex flex-1 px-6 pt-4">
+          <FriendList {...data} />
+        </div>
+        <div className="flex md:w-[360px]">
+          <ActiveNowPanel />
+        </div>
       </PageContent>
     </Page>
   );

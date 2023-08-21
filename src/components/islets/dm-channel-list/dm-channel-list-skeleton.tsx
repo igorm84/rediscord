@@ -2,6 +2,7 @@ import AvatarSkeleton from "@/components/ui/avatar/avatar-skeleton";
 import TextSkeleton from "@/components/ui/text/text-skeleton";
 import clsx from "@/lib/clsx";
 import { MOCK_CHANNELS } from "@/lib/utils/mock";
+import React from "react";
 
 export default function DMChannelListSkeleton() {
   return (

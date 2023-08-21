@@ -12,7 +12,7 @@ export default function PageHeaderSkeleton({
   boxSkeletonType = "icon",
 }: PageHeaderSkeletonProps) {
   return (
-    <Header className="justify-between">
+    <Header className="flex-none justify-between">
       <div className={clsx("flex animate-pulse items-center", `gap-${gap}`)}>
         {boxSkeletonType === "icon" ? (
           <div className="h-5 w-5 rounded-full bg-gray-800" />

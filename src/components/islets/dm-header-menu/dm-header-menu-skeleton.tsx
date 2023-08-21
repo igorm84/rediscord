@@ -2,7 +2,7 @@ import { List, ListItem } from "@/components/ui/list";
 import TextSkeleton from "@/components/ui/text/text-skeleton";
 import { clsx } from "@/lib/utils";
 
-const HeaderMenuListItemSkeleton = ({ xLength = 1 }: { xLength?: number }) => (
+const HeaderMenuListItemSkeleton = () => (
   <ListItem
     noVerticalPadding
     className={clsx("my-1 animate-pulse gap-3 !bg-foreground py-2.5")}

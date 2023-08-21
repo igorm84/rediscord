@@ -31,7 +31,7 @@ const ListItem = ({
   );
 
   return (
-    <li>
+    <li className="list-none">
       <HybridButton className={cls} {...props} />
     </li>
   );
