@@ -22,7 +22,7 @@ export default function FriendsTabGroup({
           key={item.key}
           className={`${
             item.key === FriendsTabEnum.AddFriend
-              ? "rounded-sm bg-green-700 px-2 py-0.5 text-sm font-semibold !text-gray-100 hover:bg-green-800"
+              ? "rounded-lg bg-green-700 px-2 py-0.5 text-sm font-semibold !text-gray-100 hover:bg-green-800"
               : ""
           }`}
         >
