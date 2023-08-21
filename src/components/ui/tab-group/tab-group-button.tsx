@@ -12,7 +12,7 @@ export default function TabGroupButton({
   return (
     <button
       className={clsx(
-        "rounded-sm px-2 py-0.5 text-sm hover:bg-gray-800/50",
+        "rounded px-2 py-0.5 text-sm hover:bg-gray-800/50",
         "active:bg-gray-800 active:text-gray-100",
         active
           ? "cursor-default bg-gray-800 text-gray-100"
