@@ -6,10 +6,11 @@ import { List } from "@/components/ui/list";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { User, UserStatuses } from "@/lib/entities/user";
 import { BsSearch } from "react-icons/bs";
-import Image from "next/image";
 import { useFriendsTabStore } from "@/state/friends-tab";
 import FriendListItem from "./friend-list-item";
 import { normalizedCompare } from "@/lib/utils/string";
+import { useFriendStore } from "@/state/friend-list";
+import { EmptyBox } from "../empty-box-image";
 
 const tabProps: Record<
   string,
@@ -39,53 +40,80 @@ const tabProps: Record<
     title: "BLOCKED",
     status: [],
   },
+  AddFriend: {
+    title: "ADD A FRIEND",
+    status: [],
+  },
 };
 
 export default function FriendList({ friends }: { friends: User[] }) {
   const [search, setSearch] = React.useState("");
   const { currentTab } = useFriendsTabStore();
+  const { setFriends } = useFriendStore();
+
+  React.useEffect(() => {
+    setFriends(friends);
+  }, [friends, setFriends]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
   const currentTabProp = tabProps[currentTab];
-  const filteredList = friends.filter(
-    (friend) =>
-      currentTabProp.status.includes(friend.status) &&
-      (!search || normalizedCompare(friend.name, search)),
-  );
+
+  const filteredList = friends.filter((friend) => {
+    const isMatchingName = !search || normalizedCompare(friend.name, search);
+    return (
+      (currentTab === "Available" &&
+        friend.status !== UserStatuses.Offline &&
+        isMatchingName) ||
+      (currentTabProp?.status.includes(friend.status) && isMatchingName)
+    );
+  });
+
   return (
-    <>
-      <div className="px-2 pb-5">
-        <InputField endIcon={<BsSearch />}>
-          <Input placeholder="Search" onChange={handleSearchChange} />
-        </InputField>
-        <div className="mt-6 text-xs font-semibold text-gray-400">
-          {currentTabProp.title} — {filteredList.length}
-        </div>
-      </div>
+    <div className="overflow-y-auto md:w-3/4">
+      {currentTab !== "Pending" &&
+        currentTab !== "Blocked" &&
+        currentTab !== "Add a Friend" && (
+          <div className="px-2 pb-5">
+            <InputField endIcon={<BsSearch />}>
+              <Input placeholder="Search" onChange={handleSearchChange} />
+            </InputField>
+            <div className="mt-6 text-xs font-semibold text-gray-400">
+              {currentTabProp?.title} — {filteredList.length}
+            </div>
+          </div>
+        )}
       <TooltipProvider>
-        <List className="flex-1 overflow-y-auto pb-4">
+        <List className="flex-1  overflow-y-scroll pb-4 md:h-[83vh]">
+          {currentTab === "Pending" && (
+            <EmptyBox
+              src="/Waiting.svg"
+              alt="Pending photo"
+              text="No Pending Invitations"
+            />
+          )}
+          {currentTab === "Blocked" && (
+            <EmptyBox
+              src="/Joyride.svg"
+              alt="Blocked photo"
+              text="No Blocked Users"
+            />
+          )}
           {!!filteredList.length ? (
             filteredList.map((friend) => (
               <FriendListItem key={friend.id} friend={friend} />
             ))
           ) : (
-            <div className="flex h-full w-full flex-col items-center justify-center">
-              <Image
-                width={300}
-                height={300}
-                src="/NotFoundSearching.svg"
-                alt="Not Found friends"
-              />
-              <div className="mt-4 text-gray-400">
-                we cat&apos;t find anyone with that name :(
-              </div>
-            </div>
+            <EmptyBox
+              src="/NotFoundSearching.svg"
+              alt="Not Found friends"
+              text="we can't find anyone with that name :("
+            />
           )}
         </List>
       </TooltipProvider>
-    </>
+    </div>
   );
 }

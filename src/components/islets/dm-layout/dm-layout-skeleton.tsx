@@ -5,11 +5,10 @@ import DMHeaderMenuSkeleton from "../dm-header-menu/dm-header-menu-skeleton";
 import DMChannelListSkeleton from "../dm-channel-list/dm-channel-list-skeleton";
 import VoiceStatusFooterSkeleton from "../voice-status-footer/voice-status-footer-skeleton";
 
+
 export default function DMLayoutSkeleton({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}: React.PropsWithChildren) {
   return (
     <>
       <Sidebar className="bottom-70 flex flex-col">

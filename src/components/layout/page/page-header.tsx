@@ -7,10 +7,6 @@ import HybridButton, {
   HybridButtonProps,
 } from "@/components/ui/hybrid/hybrid-button";
 
-interface PageHeader {
-  children: React.ReactNode;
-}
-
 type PageHeaderButtonProps = {} & HybridButtonProps;
 const PageHeaderButton = ({
   children,
@@ -25,7 +21,7 @@ const PageHeaderButton = ({
   </HybridButton>
 );
 
-export default function PageHeader({ children }: PageHeader) {
+export default function PageHeader({ children }: React.PropsWithChildren) {
   return (
     <Header className="justify-between">
       {children}

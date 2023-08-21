@@ -10,6 +10,7 @@ import {
   generateRandomFakeUsers,
 } from "@/lib/utils/mock";
 import { User } from "@/lib/entities/user";
+import ActiveNowSide from "@/components/islets/friends-tab-active";
 
 const getData = async (): Promise<{ friends: User[] }> => {
   /*
@@ -33,13 +34,13 @@ export default async function MePage() {
           </div>
           <Divider vertical />
           <FriendsTabGroup />
-          <button className="rounded-sm bg-green-700 px-2 py-0.5 text-sm font-semibold text-gray-100 hover:bg-green-800">
-            Add a Friend
-          </button>
         </div>
       </PageHeader>
-      <PageContent>
-        <FriendList friends={friends} />
+      <PageContent className="h-full overflow-y-auto ">
+        <div className="flex flex-row">
+          <FriendList friends={friends} />
+          <ActiveNowSide />
+        </div>
       </PageContent>
     </Page>
   );

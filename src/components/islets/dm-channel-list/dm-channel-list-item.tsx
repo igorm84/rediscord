@@ -5,9 +5,13 @@ import { BsFillChatLeftTextFill, BsX } from "react-icons/bs";
 
 type DMChannelListItemProps = {
   channel: ListedDMChannel;
+  onDelete: () => void;
 };
 
-export default function DMChannelListItem({ channel }: DMChannelListItemProps) {
+export default function DMChannelListItem({
+  channel,
+  onDelete,
+}: DMChannelListItemProps) {
   return (
     <ListItem
       noVerticalPadding
@@ -24,8 +28,8 @@ export default function DMChannelListItem({ channel }: DMChannelListItemProps) {
         {channel.name}
         {channel.activity && (
           <div className="h-4 truncate text-xs leading-3">
-            <span className="capitalize">{channel.activity?.type}</span>{" "}
-            {channel.activity?.name}{" "}
+            <span className="capitalize">{channel.activity?.type}</span>
+            {channel.activity?.name}
             <BsFillChatLeftTextFill
               fontSize={10}
               className="ml-0.5 inline-block"
@@ -33,7 +37,10 @@ export default function DMChannelListItem({ channel }: DMChannelListItemProps) {
           </div>
         )}
       </div>
-      <button className="hidden text-gray-300 hover:text-white group-hover:block">
+      <button
+        onClick={onDelete}
+        className="hidden text-gray-300 hover:text-white group-hover:block"
+      >
         <BsX fontSize={24} />
       </button>
     </ListItem>

@@ -1,9 +1,6 @@
 import { clsx } from "@/lib/utils";
 
-type SideMenuWrapperProps = {
-  children: React.ReactNode;
-};
-export default function SideMenuWrapper({ children }: SideMenuWrapperProps) {
+export default function SideMenuWrapper({ children }: React.PropsWithChildren) {
   return (
     <div
       className={clsx(

@@ -34,6 +34,7 @@ const tabList: TabListItem[] = [
     name: "Blocked",
     status: [],
   },
+  { name: "Add a Friend", status: [] },
 ];
 export default function FriendsTabGroup() {
   const { currentTab, setCurrentTab } = useFriendsTabStore();
@@ -44,6 +45,11 @@ export default function FriendsTabGroup() {
           active={currentTab === item.name}
           onClick={() => setCurrentTab(item.name)}
           key={item.name}
+          className={`${
+            item.name === "Add a Friend"
+              ? "rounded-sm bg-green-700 px-2 py-0.5 text-sm font-semibold !text-gray-100 hover:bg-green-800"
+              : ""
+          }`}
         >
           {item.name} <Badge className="ml-1" count={item.count} />
         </TabGroupButton>
