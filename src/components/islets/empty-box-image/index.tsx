@@ -7,7 +7,7 @@ interface EmptyBoxProps {
 
 export const EmptyBox = ({ src, text, alt }: EmptyBoxProps) => {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
+    <div className="flex h-full flex-1 flex-col items-center justify-center gap-8">
       <Image
         width={300}
         height={300}
@@ -15,7 +15,7 @@ export const EmptyBox = ({ src, text, alt }: EmptyBoxProps) => {
         src={src}
         alt={alt}
       />
-      <p className="mt-4 text-gray-400">{text}</p>
+      <p className="text-gray-400">{text}</p>
     </div>
   );
 };

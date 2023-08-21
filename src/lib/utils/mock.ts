@@ -10,9 +10,7 @@ export const MOCK_CHANNELS = 18;
 export const MOCK_SERVERS = 18;
 
 const generateRandomDiscordID = () =>
-  faker.number
-    .int({ min: 100000000000000000, max: 999999999999999999 })
-    .toString();
+  faker.number.int({ min: 100000000000000, max: 999999999999999 }).toString();
 
 export const generateFakeCurrentUser = () => ({
   name: "Repeep",
@@ -59,3 +57,7 @@ export const generateRandomFakeUsers = (length: number): User[] =>
     activity: i === 0 ? currentActivity : undefined,
     type: "user",
   }));
+
+export const getRandomUserById = (id: string) => {
+  return { ...generateRandomFakeUsers(1)[0], id };
+};

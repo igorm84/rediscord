@@ -3,14 +3,14 @@ import Avatar from "@/components/ui/avatar";
 import Divider from "@/components/ui/divider";
 import { User } from "@/lib/entities/user";
 import { delay } from "@/lib/utils";
-import { MOCK_DELAY, generateRandomFakeUsers } from "@/lib/utils/mock";
+import { MOCK_DELAY, getRandomUserById } from "@/lib/utils/mock";
 import { GiCow } from "react-icons/gi";
 
 const getData = async (id: string): Promise<{ user: User }> => {
   /*
    * Generate fake user for testing
    */
-  const user: User = generateRandomFakeUsers(1)[0];
+  const user = getRandomUserById(id);
   user.id = id;
 
   await delay(MOCK_DELAY);
