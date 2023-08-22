@@ -2,6 +2,7 @@
 import Avatar from "@/components/ui/avatar";
 import { List, ListItem } from "@/components/ui/list";
 import { ActivityTypes } from "@/lib/entities/activity";
+import { UserStatuses } from "@/lib/entities/user";
 import { useFriendStore } from "@/state/friend-list";
 
 export const ActiveNowListItemSkeleton = () => (
@@ -9,13 +10,18 @@ export const ActiveNowListItemSkeleton = () => (
 );
 export default function ActiveNowList() {
   const { friends } = useFriendStore();
+
   if (friends === null) {
     return <ActiveNowListItemSkeleton />;
   }
+
   const filteredList = friends.filter(
     (friend) =>
-      friend.activity && friend.activity.type === ActivityTypes.Playing,
+      friend.activity &&
+      friend.activity.type === ActivityTypes.Playing &&
+      friend.status !== UserStatuses.Offline,
   );
+
   return filteredList.length ? (
     <List>
       {filteredList.map((friend) => (

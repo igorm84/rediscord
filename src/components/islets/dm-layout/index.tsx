@@ -33,7 +33,7 @@ export default async function DMLayout({ children }: React.PropsWithChildren) {
         </Header>
         <div className="hover-scrollbar flex-1 overflow-y-auto py-2 pl-2 pr-0.5">
           <DMHeaderMenu />
-          <DMChannelList channels={channels} />
+          <DMChannelList channelsData={channels} />
         </div>
         <VoiceStatusFooter />
       </Sidebar>

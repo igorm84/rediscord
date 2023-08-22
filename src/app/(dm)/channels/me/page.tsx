@@ -13,7 +13,7 @@ import { User } from "@/lib/entities/user";
 import ActiveNowPanel from "@/components/islets/active-now-panel";
 
 interface FriendFetchData {
-  friends: User[];
+  friendsData: User[];
   friendRequests: User[];
   blockedFriends: User[];
 }
@@ -21,12 +21,12 @@ const getData = async (): Promise<FriendFetchData> => {
   /*
    * Generating fake users for test
    */
-  const friends: User[] = generateRandomFakeUsers(MOCK_FRIENDS);
-  const friendRequests: User[] = generateRandomFakeUsers(1);
+  const friendsData: User[] = generateRandomFakeUsers(MOCK_FRIENDS);
+  const friendRequests: User[] = generateRandomFakeUsers(6);
   const blockedFriends: User[] = [];
 
   await delay(MOCK_DELAY);
-  return { friends, friendRequests, blockedFriends };
+  return { friendsData, friendRequests, blockedFriends };
 };
 
 export default async function MePage() {
@@ -40,7 +40,7 @@ export default async function MePage() {
             Friends
           </div>
           <Divider vertical />
-          <FriendsTabGroup friendRequestsCount={data.friendRequests.length} />
+          <FriendsTabGroup />
         </div>
       </PageHeader>
       <PageContent className="flex-col lg:flex-row" padding="none">

@@ -16,6 +16,7 @@ import {
   FriendsTab,
   friendsTabsProps,
 } from "@/lib/types/friend-tab-prop";
+import { useFriendRequestStore } from "@/state/friendRequest-list";
 
 interface ListDataProps {
   tab: FriendsTab;
@@ -26,6 +27,7 @@ const ListData = ({ tab, data }: ListDataProps) => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
+
   const filteredList = data.filter((user) => {
     const isMatchingName = !search || normalizedCompare(user.name, search);
     return (
@@ -66,21 +68,24 @@ const ListData = ({ tab, data }: ListDataProps) => {
   );
 };
 interface FriendListProps {
-  friends: User[];
+  friendsData: User[];
   friendRequests: User[];
   blockedFriends: User[];
 }
 export default function FriendList({
-  friends,
+  friendsData,
   friendRequests,
   blockedFriends,
 }: FriendListProps) {
   const { currentTab } = useFriendsTabStore();
-  const { setFriends } = useFriendStore();
+  const { friends, setFriends } = useFriendStore();
+  const { friendRequest, setFriendRequests } = useFriendRequestStore();
 
   React.useEffect(() => {
-    setFriends(friends);
-  }, [friends, setFriends]);
+    setFriends(friendsData);
+    setFriendRequests(friendRequests);
+  }, []);
+  // dont use any values in depedency array, becouse this will put basic data into them, its updated in other components
 
   const tab = friendsTabsProps[currentTab];
   const isAllOrAvailableTab = [
@@ -91,13 +96,12 @@ export default function FriendList({
   const data = isAllOrAvailableTab
     ? friends
     : currentTab === FriendsTabEnum.Pending
-    ? friendRequests
+    ? friendRequest
     : blockedFriends;
-
   return (
     <div className="flex flex-1 flex-col">
       <TooltipProvider>
-        <ListData key={currentTab} tab={tab} data={data} />
+        <ListData key={currentTab} tab={tab} data={data || []} />
       </TooltipProvider>
     </div>
   );

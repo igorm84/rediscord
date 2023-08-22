@@ -4,15 +4,13 @@ import Badge from "@/components/ui/badge";
 import TabGroup from "@/components/ui/tab-group";
 import TabGroupButton from "@/components/ui/tab-group/tab-group-button";
 import { FriendsTabEnum, friendsTabsProps } from "@/lib/types/friend-tab-prop";
+import { useFriendRequestStore } from "@/state/friendRequest-list";
 import { useFriendsTabStore } from "@/state/friends-tab";
 
-export default function FriendsTabGroup({
-  friendRequestsCount,
-}: {
-  friendRequestsCount: number;
-}) {
+export default function FriendsTabGroup() {
   const { currentTab, setCurrentTab } = useFriendsTabStore();
-  const PendingBadge = <Badge className="ml-1" count={friendRequestsCount} />;
+  const { friendRequest } = useFriendRequestStore();
+  const PendingBadge = <Badge className="ml-1" count={friendRequest?.length} />;
   return (
     <TabGroup>
       {Object.values(friendsTabsProps).map((item) => (
@@ -26,7 +24,7 @@ export default function FriendsTabGroup({
               : ""
           }`}
         >
-          {item.name || item.title}{" "}
+          {item.name || item.title}
           {item.key === FriendsTabEnum.Pending && PendingBadge}
         </TabGroupButton>
       ))}

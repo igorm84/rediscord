@@ -1,28 +1,58 @@
+"use client";
 import { Page, PageContent, PageHeader } from "@/components/layout/page";
 import Avatar from "@/components/ui/avatar";
 import Divider from "@/components/ui/divider";
-import { User } from "@/lib/entities/user";
-import { delay } from "@/lib/utils";
-import { MOCK_DELAY, getRandomUserById } from "@/lib/utils/mock";
-import { GiCow } from "react-icons/gi";
+import { Input } from "@/components/ui/input";
+import { generateFakeCurrentUser } from "@/lib/utils/mock";
+import { useChannelStore } from "@/state/channel-list";
+import React from "react";
 
-const getData = async (id: string): Promise<{ user: User }> => {
-  /*
-   * Generate fake user for testing
-   */
-  const user = getRandomUserById(id);
-  user.id = id;
+export default function ChannelPage({ params }: { params: { id: string } }) {
+  const { channels } = useChannelStore();
+  const currentUser = generateFakeCurrentUser();
+  const user = channels?.find((channel) => channel.id === params.id);
 
-  await delay(MOCK_DELAY);
-  return { user };
-};
+  const [newMessage, setNewMessageText] = React.useState("");
+  const [messages, setMessages] = React.useState([
+    {
+      id: 1,
+      userId: user?.id,
+      text: "Hello!",
+      timestamp: new Date().toISOString(),
+    },
+  ]);
 
-export default async function ChannelPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const { user } = await getData(params.id);
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleSubmit(e);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  const handleInputChange = (e) => {
+    setNewMessageText(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newMessageObj = {
+      id: messages.length + 1,
+      userId: currentUser?.id,
+      text: newMessage,
+      timestamp: new Date().toISOString(),
+    };
+    setMessages([...messages, newMessageObj]);
+    setNewMessageText("");
+  };
+
   return (
     <Page>
       <PageHeader>
@@ -30,19 +60,50 @@ export default async function ChannelPage({
           <div className="flex flex-none items-center gap-3 text-sm font-semibold">
             <Avatar
               size="sm"
-              src={user.avatar}
+              src={user?.avatar}
               alt="ewqwqe"
-              status={user.status}
+              status={user?.status}
             />
-            {user.name}
+            {user?.name}
           </div>
           <Divider vertical />
-          <div className="text-xs text-gray-400">{user.username}</div>
+          <div className="text-xs text-gray-400">{user?.username}</div>
         </div>
       </PageHeader>
-      <PageContent>
-        <span className="text-sm text-gray-300">Currently working here...</span>
-        <GiCow fontSize={42} className="mt-2 animate-bounce" />
+      <PageContent className="flex-col">
+        {messages.map((message) => (
+          <div key={message.id} className="my-4 flex items-start gap-2">
+            <Avatar
+              size="sm"
+              src={
+                message?.userId === currentUser.id
+                  ? currentUser.avatar
+                  : user?.avatar
+              }
+              alt="Avatar"
+              status={user?.status}
+            />
+            <div className="flex flex-col">
+              <div className="flex items-center justify-start">
+                <div className="text-sm font-semibold">
+                  {message?.userId === currentUser?.id
+                    ? currentUser.name
+                    : user?.name}
+                </div>
+                <div className=" ml-2 text-xs text-gray-400">
+                  {new Date(message.timestamp).toLocaleTimeString()}
+                </div>
+              </div>
+              <div>{message.text}</div>
+            </div>
+          </div>
+        ))}
+        <div className="flex items-center gap-2">
+          <Input type="text" value={newMessage} onChange={handleInputChange} />
+          <button type="button" onClick={handleSubmit}>
+            Send
+          </button>
+        </div>
       </PageContent>
     </Page>
   );
