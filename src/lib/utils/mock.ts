@@ -13,6 +13,7 @@ const generateRandomDiscordID = () =>
   faker.number.int({ min: 100000000000000, max: 999999999999999 }).toString();
 
 export const generateFakeCurrentUser = () => ({
+  id: generateRandomDiscordID(),
   name: "Repeep",
   avatar: "https://avatars.githubusercontent.com/u/16727448?v=4",
   status: UserStatuses.DND,

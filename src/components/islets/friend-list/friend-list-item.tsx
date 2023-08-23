@@ -14,6 +14,7 @@ import {
 import { FriendsTab, FriendsTabEnum } from "@/lib/types/friend-tab-prop";
 import { useFriendStore } from "@/state/friend-list";
 import { useFriendRequestStore } from "@/state/friendRequest-list";
+import { useChannelStore } from "@/state/channel-list";
 
 interface FriendListItemProps {
   friend: User;
@@ -23,6 +24,7 @@ interface FriendListItemProps {
 export default function FriendListItem({ friend, tab }: FriendListItemProps) {
   const { friends, setFriends } = useFriendStore();
   const { friendRequest, setFriendRequests } = useFriendRequestStore();
+  const { channels, setChannels } = useChannelStore();
 
   const handleAcceptFriends = () => {
     if (friends !== null && friendRequest !== null) {
@@ -34,6 +36,11 @@ export default function FriendListItem({ friend, tab }: FriendListItemProps) {
   const handleDeclineFriends = () => {
     if (friendRequest !== null) {
       setFriendRequests(friendRequest.filter((item) => item.id !== friend.id));
+    }
+  };
+  const handleAddChannel = () => {
+    if (channels !== null) {
+      setChannels([ friend,...channels]);
     }
   };
   return (
@@ -85,7 +92,7 @@ export default function FriendListItem({ friend, tab }: FriendListItemProps) {
           </>
         ) : (
           <>
-            <RoundedButton tooltipContent="Message">
+            <RoundedButton onClick={handleAddChannel} tooltipContent="Message">
               <BsChatLeftFill />
             </RoundedButton>
             <RoundedButton tooltipContent="More">

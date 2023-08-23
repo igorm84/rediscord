@@ -15,10 +15,10 @@ export interface VoiceStatus {
 export interface User {
   id: string;
   name: string;
-  username: string;
+  username?: string;
   bio?: string;
   avatar?: string;
   status: UserStatuses;
   activity?: Activity;
-  type: "user" | "bot";
+  type?: "user" | "bot";
 }
