@@ -22,6 +22,8 @@ export default function ActiveNowList() {
   const { friends } = useFriendStore();
   const { channels, setChannels } = useChannelStore();
   const router = useRouter();
+  const playingTime = Math.floor(Math.random() * 12) + 1;
+
   if (friends === null) {
     return <ActiveNowListItemSkeleton />;
   }
@@ -32,7 +34,7 @@ export default function ActiveNowList() {
       friend.activity.type === ActivityTypes.Playing &&
       friend.status !== UserStatuses.Offline,
   );
-  const handleAddChannel = (friend:User) => {
+  const handleAddChannel = (friend: User) => {
     if (channels !== null) {
       const isFriendAlreadyAdded = channels.some(
         (channel) => channel.id === friend.id,
@@ -64,7 +66,7 @@ export default function ActiveNowList() {
                   <span className="text-gray-100">{friend.name}</span>
                   {friend.activity && (
                     <div className="h-4 truncate text-xs leading-3">
-                      {friend.activity.name} - 5 hours
+                      {friend.activity.name} - {playingTime} hours
                     </div>
                   )}
                 </div>

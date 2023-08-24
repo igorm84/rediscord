@@ -82,11 +82,14 @@ export default function FriendList({
   const { friendRequest, setFriendRequests } = useFriendRequestStore();
 
   React.useEffect(() => {
-    setFriends(friendsData);
-    setFriendRequests(friendRequests);
+    if (!friends) {
+      setFriends(friendsData);
+    }
+    if (!friendRequests) {
+      setFriendRequests(friendRequests);
+    }
   }, []);
   // dont use any values in depedency array, becouse this will put basic data into them, its updated in other components
-
   const tab = friendsTabsProps[currentTab];
   const isAllOrAvailableTab = [
     FriendsTabEnum.All,

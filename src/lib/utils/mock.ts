@@ -34,6 +34,7 @@ export const generateRandomFakeChannels = (length: number): ListedDMChannel[] =>
     name: faker.person.fullName(),
     avatar: i === 6 ? undefined : faker.image.avatarGitHub(),
     activity: i === 0 ? currentActivity : undefined,
+    username: faker.internet.userName().toLowerCase(),
   }));
 
 export const generateRandomFakeServers = (length: number): ListedServer[] =>

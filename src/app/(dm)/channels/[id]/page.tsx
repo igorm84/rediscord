@@ -14,14 +14,19 @@ import { useChannelStore } from "@/state/channel-list";
 import React from "react";
 import InputField from "@/components/ui/input/input-field";
 import { useCurrentUserStore } from "@/state/user";
+import { useFriendStore } from "@/state/friend-list";
 
 export default function ChannelPage({ params }: { params: { id: string } }) {
   const { channels } = useChannelStore();
+  const { friends, setFriends } = useFriendStore();
   const { currentUser } = useCurrentUserStore();
   const user = channels?.find((channel) => channel.id === params.id);
-
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getDate()} ${currentDate.toLocaleString(
+    "default",
+    { month: "long" },
+  )} ${currentDate.getFullYear()}`;
   const [newMessage, setNewMessageText] = React.useState("");
-
   const [messages, setMessages] = React.useState([
     {
       id: 1,
@@ -30,6 +35,21 @@ export default function ChannelPage({ params }: { params: { id: string } }) {
       timestamp: new Date().toISOString(),
     },
   ]);
+  const chatContainerRef = React.useRef<HTMLDivElement | null>(null);
+
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    }
+  };
+
+  React.useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   const [showDetailMessage, setShowDetailMessage] = React.useState<{
     [key: number]: boolean;
   }>({});
@@ -48,6 +68,24 @@ export default function ChannelPage({ params }: { params: { id: string } }) {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewMessageText(e.target.value);
   };
+  const intersection = channels?.filter(
+    (channel) => friends?.includes(channel),
+  );
+  const isFriend = intersection?.some((friend) => friend.id === params.id);
+
+  const handleAddDelete = () => {
+    if (friends !== null) {
+      if (isFriend) {
+        setFriends(friends.filter((friend) => friend.id !== params.id));
+      } else {
+        const newFriend = channels?.find((channel) => channel.id === params.id);
+        if (newFriend) {
+          setFriends([newFriend, ...friends]);
+        }
+      }
+    }
+  };
+
   return (
     <Page>
       {!user?.id ? (
@@ -62,7 +100,7 @@ export default function ChannelPage({ params }: { params: { id: string } }) {
                 <Avatar
                   size="sm"
                   src={user?.avatar}
-                  alt="ewqwqe"
+                  alt="avatar"
                   status={user?.status}
                 />
                 {user?.name}
@@ -73,8 +111,49 @@ export default function ChannelPage({ params }: { params: { id: string } }) {
           </PageHeader>
           <PageContent className="h-full w-full flex-col pl-6 pr-1 ">
             <div className="max-h-[86vh] !overflow-y-auto ">
+              <div className="flex flex-col ">
+                <Avatar
+                  className=" relative left-4 top-4 mb-12 scale-[2]"
+                  src={user?.avatar}
+                  alt="avatar"
+                />
+                <p className="text-3xl font-bold"> {user?.name}</p>
+                <p className="my-3 text-xl font-semibold"> {user?.username}</p>
+                <span className="text-base text-gray-300">
+                  this is the beginning of your story with
+                  <span className="ml-1 font-semibold text-gray-200">
+                    {user?.name}
+                  </span>
+                </span>
+                <div className="my-4 flex h-fit items-center gap-4 text-[14px]">
+                  <p>no shared servers</p>
+                  <button
+                    onClick={() => {
+                      handleAddDelete();
+                    }}
+                    className={`duration-400 ${
+                      isFriend
+                        ? "bg-gray-600 hover:bg-gray-500"
+                        : "bg-blue-500 hover:bg-blue-600"
+                    } rounded px-3 py-0.5 transition-colors ease-in-out `}
+                  >
+                    {isFriend ? " Delete Friend" : "Add Friend"}
+                  </button>
+                  <button className="duration-400 rounded bg-gray-600 px-3 py-0.5 transition-colors ease-in-out hover:bg-gray-500">
+                    Block
+                  </button>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <Divider className="h-[1px] w-full" />
+                <p className="flex  whitespace-nowrap px-1 text-xs font-semibold text-gray-400">
+                  {formattedDate}
+                </p>
+                <Divider className="h-[1px] w-full" />
+              </div>
               {messages.map((message, index) => (
                 <div
+                  ref={chatContainerRef}
                   key={message.id}
                   className={`  ${
                     index === 0 ||
