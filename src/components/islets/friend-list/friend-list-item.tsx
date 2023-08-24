@@ -40,7 +40,12 @@ export default function FriendListItem({ friend, tab }: FriendListItemProps) {
   };
   const handleAddChannel = () => {
     if (channels !== null) {
-      setChannels([ friend,...channels]);
+      const isFriendAlreadyAdded = channels.some(
+        (channel) => channel.id === friend.id,
+      );
+      if (!isFriendAlreadyAdded) {
+        setChannels([friend, ...channels]);
+      }
     }
   };
   return (

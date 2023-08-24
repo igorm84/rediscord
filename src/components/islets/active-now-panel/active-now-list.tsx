@@ -9,7 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ActivityTypes } from "@/lib/entities/activity";
-import { UserStatuses } from "@/lib/entities/user";
+import { User, UserStatuses } from "@/lib/entities/user";
 import { useChannelStore } from "@/state/channel-list";
 import { useFriendStore } from "@/state/friend-list";
 import Image from "next/image";
@@ -32,7 +32,7 @@ export default function ActiveNowList() {
       friend.activity.type === ActivityTypes.Playing &&
       friend.status !== UserStatuses.Offline,
   );
-  const handleAddChannel = (friend) => {
+  const handleAddChannel = (friend:User) => {
     if (channels !== null) {
       const isFriendAlreadyAdded = channels.some(
         (channel) => channel.id === friend.id,
