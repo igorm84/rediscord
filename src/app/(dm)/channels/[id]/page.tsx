@@ -15,6 +15,8 @@ import React from "react";
 import InputField from "@/components/ui/input/input-field";
 import { useCurrentUserStore } from "@/state/user";
 import { useFriendStore } from "@/state/friend-list";
+import { ChatDM } from "@/components/islets/dm-chat";
+import { UserProfileInfo } from "@/components/islets/user-info-in-chat";
 
 export default function ChannelPage({ params }: { params: { id: string } }) {
   const { channels } = useChannelStore();
@@ -35,24 +37,6 @@ export default function ChannelPage({ params }: { params: { id: string } }) {
       timestamp: new Date().toISOString(),
     },
   ]);
-  const chatContainerRef = React.useRef<HTMLDivElement | null>(null);
-
-  const scrollToBottom = () => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
-    }
-  };
-
-  React.useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const [showDetailMessage, setShowDetailMessage] = React.useState<{
-    [key: number]: boolean;
-  }>({});
 
   const handleSubmit = () => {
     const newMessageObj = {
@@ -111,116 +95,23 @@ export default function ChannelPage({ params }: { params: { id: string } }) {
           </PageHeader>
           <PageContent className="h-full w-full flex-col pl-6 pr-1 ">
             <div className="max-h-[86vh] !overflow-y-auto ">
-              <div className="flex flex-col ">
-                <Avatar
-                  className=" relative left-4 top-4 mb-12 scale-[2]"
-                  src={user?.avatar}
-                  alt="avatar"
-                />
-                <p className="text-3xl font-bold"> {user?.name}</p>
-                <p className="my-3 text-xl font-semibold"> {user?.username}</p>
-                <span className="text-base text-gray-300">
-                  this is the beginning of your story with
-                  <span className="ml-1 font-semibold text-gray-200">
-                    {user?.name}
-                  </span>
-                </span>
-                <div className="my-4 flex h-fit items-center gap-4 text-[14px]">
-                  <p>no shared servers</p>
-                  <button
-                    onClick={() => {
-                      handleAddDelete();
-                    }}
-                    className={`duration-400 ${
-                      isFriend
-                        ? "bg-gray-600 hover:bg-gray-500"
-                        : "bg-blue-500 hover:bg-blue-600"
-                    } rounded px-3 py-0.5 transition-colors ease-in-out `}
-                  >
-                    {isFriend ? " Delete Friend" : "Add Friend"}
-                  </button>
-                  <button className="duration-400 rounded bg-gray-600 px-3 py-0.5 transition-colors ease-in-out hover:bg-gray-500">
-                    Block
-                  </button>
-                </div>
-              </div>
+              <UserProfileInfo
+                user={user}
+                handleAddDelete={handleAddDelete}
+                isFriend={isFriend}
+              />
               <div className="flex items-center">
                 <Divider className="h-[1px] w-full" />
                 <p className="flex  whitespace-nowrap px-1 text-xs font-semibold text-gray-400">
                   {formattedDate}
                 </p>
-                <Divider className="h-[1px] w-full" />
+                <Divider className="h-[1px] w-full" />U
               </div>
-              {messages.map((message, index) => (
-                <div
-                  ref={chatContainerRef}
-                  key={message.id}
-                  className={`  ${
-                    index === 0 ||
-                    messages[index]?.userId !== messages[index - 1]?.userId
-                      ? "my-4"
-                      : "my-0 h-fit"
-                  } relative flex items-start gap-2`}
-                >
-                  <Avatar
-                    className={` ${
-                      index === 0 ||
-                      messages[index]?.userId !== messages[index - 1]?.userId
-                        ? "opacity-100"
-                        : "!h-0 opacity-0"
-                    } z-[1]`}
-                    size="sm"
-                    src={
-                      message?.userId === user?.id
-                        ? user?.avatar
-                        : currentUser?.avatar
-                    }
-                    alt="Avatar"
-                    status={user?.status}
-                  />
-                  {showDetailMessage[message.id] && (
-                    <div className="absolute top-1.5 z-0 text-xs text-gray-400">
-                      {new Date(message.timestamp).toLocaleTimeString([], {
-                        hour: "numeric",
-                        minute: "numeric",
-                      })}
-                    </div>
-                  )}
-                  <div className="flex w-full flex-col overflow-hidden">
-                    {(index === 0 ||
-                      messages[index]?.userId !==
-                        messages[index - 1]?.userId) && (
-                      <div className="flex items-center justify-start">
-                        <div className="text-sm font-semibold">
-                          {message?.userId === user?.id
-                            ? user?.name
-                            : currentUser?.name}
-                        </div>
-                        <div className=" ml-2 text-xs text-gray-400">
-                          {new Date(message.timestamp).toLocaleTimeString()}
-                        </div>
-                      </div>
-                    )}
-                    <div
-                      onMouseEnter={() => {
-                        setShowDetailMessage((prev) => ({
-                          ...prev,
-                          [message.id]: true,
-                        }));
-                      }}
-                      onMouseLeave={() => {
-                        setShowDetailMessage((prev) => ({
-                          ...prev,
-                          [message.id]: false,
-                        }));
-                      }}
-                      className="break-words pr-12"
-                    >
-                      {message.text}
-                    </div>
-                  </div>
-                </div>
-              ))}
+              <ChatDM
+                messages={messages}
+                user={user}
+                currentUser={currentUser}
+              />
             </div>
             <InputField
               startIcon={
