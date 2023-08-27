@@ -14,17 +14,15 @@ import {
 } from "@/lib/utils/mock";
 import { delay } from "@/lib/utils";
 
+export const channelsData: ListedDMChannel[] =
+  generateRandomFakeChannels(MOCK_CHANNELS);
+
 export const getData = async (): Promise<{ channels: ListedDMChannel[] }> => {
-  /*
-   * Generate fake channels for testing
-   */
-  const channels: ListedDMChannel[] = generateRandomFakeChannels(MOCK_CHANNELS);
   await delay(MOCK_DELAY);
-  return { channels };
+  return { channels: channelsData };
 };
 
 export default async function DMLayout({ children }: React.PropsWithChildren) {
-  const { channels } = await getData();
   return (
     <>
       <Sidebar className="bottom-70 flex flex-col">
@@ -33,7 +31,7 @@ export default async function DMLayout({ children }: React.PropsWithChildren) {
         </Header>
         <div className="hover-scrollbar flex-1 overflow-y-auto py-2 pl-2 pr-0.5">
           <DMHeaderMenu />
-          <DMChannelList channelsData={channels} />
+          <DMChannelList channelsData={channelsData} />
         </div>
         <VoiceStatusFooter />
       </Sidebar>
