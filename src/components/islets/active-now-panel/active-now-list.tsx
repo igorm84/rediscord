@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ActivityTypes } from "@/lib/entities/activity";
 import { User, UserStatuses } from "@/lib/entities/user";
+import { calculateHoursBetweenDates } from "@/lib/utils";
 import { useChannelStore } from "@/state/channel-list";
 import { useFriendStore } from "@/state/friend-list";
 import Image from "next/image";
@@ -22,7 +23,6 @@ export default function ActiveNowList() {
   const { friends } = useFriendStore();
   const { channels, setChannels } = useChannelStore();
   const router = useRouter();
-  const playingTime = Math.floor(Math.random() * 12) + 1;
 
   if (friends === null) {
     return <ActiveNowListItemSkeleton />;
@@ -53,6 +53,7 @@ export default function ActiveNowList() {
           <Tooltip>
             <TooltipTrigger className="w-full">
               <ListItem
+                href={`/channels/${friend.id}`}
                 noVerticalPadding
                 className="group  gap-3 border-[1px] border-gray-800  bg-midground p-4"
               >
@@ -66,7 +67,12 @@ export default function ActiveNowList() {
                   <span className="text-gray-100">{friend.name}</span>
                   {friend.activity && (
                     <div className="h-4 truncate text-xs leading-3">
-                      {friend.activity.name} - {playingTime} hours
+                      {friend.activity.name} -{" "}
+                      {calculateHoursBetweenDates(
+                        friend.activity.since,
+                        new Date(),
+                      )}{" "}
+                      hours
                     </div>
                   )}
                 </div>

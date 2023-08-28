@@ -13,7 +13,7 @@ import { User } from "@/lib/entities/user";
 import ActiveNowPanel from "@/components/islets/active-now-panel";
 
 interface FriendFetchData {
-  friendsData: User[];
+  friends: User[];
   friendRequests: User[];
   blockedFriends: User[];
 }
@@ -21,12 +21,12 @@ const getData = async (): Promise<FriendFetchData> => {
   /*
    * Generating fake users for test
    */
-  const friendsData: User[] = generateRandomFakeUsers(MOCK_FRIENDS);
+  const friends: User[] = generateRandomFakeUsers(MOCK_FRIENDS);
   const friendRequests: User[] = generateRandomFakeUsers(6);
   const blockedFriends: User[] = [];
 
   await delay(MOCK_DELAY);
-  return { friendsData, friendRequests, blockedFriends };
+  return { friends, friendRequests, blockedFriends };
 };
 
 export default async function MePage() {

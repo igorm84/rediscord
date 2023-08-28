@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { User, UserStatuses } from "@/lib/entities/user";
-import { ActivityTypes } from "@/lib/entities/activity";
+import { Activity, ActivityTypes } from "@/lib/entities/activity";
 import { ListedServer } from "../entities/server";
 import { ListedDMChannel } from "../entities/channel";
 
@@ -19,9 +19,13 @@ export const generateFakeCurrentUser = () => ({
   status: UserStatuses.DND,
 });
 
-const currentActivity = {
+const generatePastHoursDate = (hours: number) =>
+  new Date(Date.now() - hours * 60 * 60 * 1000);
+
+const currentActivity: Activity = {
   type: ActivityTypes.Playing,
   name: "Dead by Daylight",
+  since: generatePastHoursDate(5),
 };
 
 export const generateRandomFakeChannels = (length: number): ListedDMChannel[] =>

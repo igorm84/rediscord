@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import InputField from "@/components/ui/input/input-field";
 import { List } from "@/components/ui/list";
@@ -9,14 +9,13 @@ import { BsSearch } from "react-icons/bs";
 import { useFriendsTabStore } from "@/state/friends-tab";
 import FriendListItem from "./friend-list-item";
 import { normalizedCompare } from "@/lib/utils/string";
-import { useFriendStore } from "@/state/friend-list";
 import { EmptyBox } from "../empty-box-image";
 import {
   FriendsTabEnum,
   FriendsTab,
   friendsTabsProps,
 } from "@/lib/types/friend-tab-prop";
-import { useFriendRequestStore } from "@/state/friendRequest-list";
+import { useFriendStore } from "@/state/friend-list";
 
 interface ListDataProps {
   tab: FriendsTab;
@@ -68,28 +67,22 @@ const ListData = ({ tab, data }: ListDataProps) => {
   );
 };
 interface FriendListProps {
-  friendsData: User[];
+  friends: User[];
   friendRequests: User[];
   blockedFriends: User[];
 }
 export default function FriendList({
-  friendsData,
+  friends,
   friendRequests,
   blockedFriends,
 }: FriendListProps) {
   const { currentTab } = useFriendsTabStore();
-  const { friends, setFriends } = useFriendStore();
-  const { friendRequest, setFriendRequests } = useFriendRequestStore();
+  const { setFriends } = useFriendStore();
 
-  React.useEffect(() => {
-    if (!friends) {
-      setFriends(friendsData);
-    }
-    if (!friendRequests) {
-      setFriendRequests(friendRequests);
-    }
-  }, []);
-  // dont use any values in depedency array, becouse this will put basic data into them, its updated in other components
+  useEffect(() => {
+    setFriends(friends);
+  }, [friends, setFriends]);
+
   const tab = friendsTabsProps[currentTab];
   const isAllOrAvailableTab = [
     FriendsTabEnum.All,
@@ -99,7 +92,7 @@ export default function FriendList({
   const data = isAllOrAvailableTab
     ? friends
     : currentTab === FriendsTabEnum.Pending
-    ? friendRequest
+    ? friendRequests
     : blockedFriends;
   return (
     <div className="flex flex-1 flex-col">
