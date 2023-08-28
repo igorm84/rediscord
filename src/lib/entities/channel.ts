@@ -7,4 +7,5 @@ export type ListedDMChannel = {
   status: UserStatuses;
   activity?: Activity | null;
   avatar?: string | null;
+  username?: string | null;
 };

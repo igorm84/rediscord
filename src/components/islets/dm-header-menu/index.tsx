@@ -5,6 +5,7 @@ import { List, ListItem } from "@/components/ui/list";
 import Badge from "@/components/ui/badge";
 import { clsx } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { useFriendRequestStore } from "@/state/friendRequest-list";
 
 type HeaderMenuListItemProps = {
   icon: React.ReactNode;
@@ -34,6 +35,7 @@ const HeaderMenuListItem = ({
 );
 export default function DMHeaderMenu() {
   const pathname = usePathname();
+  const { friendRequest } = useFriendRequestStore();
   return (
     <List className="w-full">
       <HeaderMenuListItem
@@ -41,7 +43,7 @@ export default function DMHeaderMenu() {
         active={pathname === "/channels/me"}
         icon={<BsPersonFill fontSize={20} />}
         name="Friends"
-        rightContent={<Badge count={1} />}
+        rightContent={<Badge count={friendRequest?.length} />}
       />
       <HeaderMenuListItem
         href="/nitro"
