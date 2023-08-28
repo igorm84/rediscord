@@ -5,7 +5,7 @@ import InputField from "@/components/ui/input/input-field";
 import { List } from "@/components/ui/list";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { User } from "@/lib/entities/user";
-import { BsSearch } from "react-icons/bs";
+import { BsSearch, BsXLg } from "react-icons/bs";
 import { useFriendsTabStore } from "@/state/friends-tab";
 import FriendListItem from "./friend-list-item";
 import { normalizedCompare } from "@/lib/utils/string";
@@ -16,6 +16,7 @@ import {
   friendsTabsProps,
 } from "@/lib/types/friend-tab-prop";
 import { useFriendStore } from "@/state/friend-list";
+import clsx from "@/lib/clsx";
 
 interface ListDataProps {
   tab: FriendsTab;
@@ -38,8 +39,32 @@ const ListData = ({ tab, data }: ListDataProps) => {
     <>
       {!!data.length && (
         <div className="px-2 pb-5">
-          <InputField endIcon={<BsSearch />}>
-            <Input placeholder="Search" onChange={handleSearchChange} />
+          <InputField
+            endIcon={
+              <>
+                <BsSearch
+                  className={clsx(
+                    "absolute right-0 transition-all",
+                    search ? "-rotate-90 opacity-0" : "rotate-0 opacity-100",
+                  )}
+                />
+                <button
+                  className={clsx(
+                    "absolute right-0 outline-none transition-all",
+                    search ? "rotate-0 opacity-100" : "rotate-90 opacity-0",
+                  )}
+                  onClick={() => setSearch("")}
+                >
+                  <BsXLg />
+                </button>
+              </>
+            }
+          >
+            <Input
+              placeholder="Search"
+              value={search}
+              onChange={handleSearchChange}
+            />
           </InputField>
           <div className="mt-6 text-xs font-semibold uppercase text-gray-400">
             {tab.title} — {filteredList.length}
