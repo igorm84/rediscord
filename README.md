@@ -1,6 +1,7 @@
 # Rediscord - NextJS 13 and TailwindCSS
 
 Rediscord is a study of Discord UI built in NextJS and TailwindCSS using some [shadcn](https://ui.shadcn.com/) concepts and components showing how powerful are these libs and how they can replicate a specific design and complex UI.
+#### Live Preview at [rediscord.com](https://rediscord.com)
 
 > **Warning**
 > This project is being developed and isn't completed yet.
