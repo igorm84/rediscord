@@ -8,22 +8,20 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useAddChannel } from "@/customHooks/useAddChannel";
 import { ActivityTypes } from "@/lib/entities/activity";
-import { User, UserStatuses } from "@/lib/entities/user";
+import { UserStatuses } from "@/lib/entities/user";
 import { calculateHoursBetweenDates } from "@/lib/utils";
-import { useChannelStore } from "@/state/channel-list";
+
 import { useFriendStore } from "@/state/friend-list";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 export const ActiveNowListItemSkeleton = () => (
   <div className="h-[70px] animate-pulse rounded-md bg-gray-900"></div>
 );
 export default function ActiveNowList() {
   const { friends } = useFriendStore();
-  const { channels, setChannels } = useChannelStore();
-  const router = useRouter();
-
+  const { handleAddChannel, setSelectedFriend } = useAddChannel();
   if (friends === null) {
     return <ActiveNowListItemSkeleton />;
   }
@@ -34,17 +32,6 @@ export default function ActiveNowList() {
       friend.activity.type === ActivityTypes.Playing &&
       friend.status !== UserStatuses.Offline,
   );
-  const handleAddChannel = (friend: User) => {
-    if (channels !== null) {
-      const isFriendAlreadyAdded = channels.some(
-        (channel) => channel.id === friend.id,
-      );
-      if (!isFriendAlreadyAdded) {
-        setChannels([friend, ...channels]);
-      }
-      router.push(`/channels/${friend.id}`);
-    }
-  };
 
   return filteredList.length ? (
     <List>
@@ -53,7 +40,6 @@ export default function ActiveNowList() {
           <Tooltip>
             <TooltipTrigger className="w-full">
               <ListItem
-                href={`/channels/${friend.id}`}
                 noVerticalPadding
                 className="group  gap-3 border-[1px] border-gray-800  bg-midground p-4"
               >
@@ -71,7 +57,7 @@ export default function ActiveNowList() {
                       {calculateHoursBetweenDates(
                         friend.activity.since,
                         new Date(),
-                      )}{" "}
+                      )}
                       hours
                     </div>
                   )}
@@ -93,7 +79,8 @@ export default function ActiveNowList() {
               <div className="flex w-full flex-col items-end justify-center ">
                 <p
                   onClick={() => {
-                    handleAddChannel(friend);
+                    setSelectedFriend(friend);
+                    handleAddChannel();
                   }}
                   className="flex h-8 w-full cursor-pointer items-center rounded px-2 transition-colors duration-300 ease-in-out hover:bg-blue-600"
                 >
