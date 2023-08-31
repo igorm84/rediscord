@@ -6,13 +6,15 @@ import {
   Tooltip,
   TooltipContent,
 } from "@/components/ui/tooltip";
-import { VoiceStatus } from "@/lib/entities/user";
+import { Database } from "@/lib/db/database.types";
+import { UserStatuses, VoiceStatus } from "@/lib/entities/user";
 import { t } from "@/lib/i18n";
 import { clsx } from "@/lib/utils";
-import { generateFakeCurrentUser } from "@/lib/utils/mock";
 import { useCurrentUserStore } from "@/state/user";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState, useEffect } from "react";
 import { BsGearFill, BsHeadphones, BsMicFill } from "react-icons/bs";
+import ProfileRequiredDialog from "./profile-required-dialog";
 
 type VoiceStatusButton = {
   icon: React.ReactNode;
@@ -57,64 +59,102 @@ const VoiceStatusButton = ({
 
 export default function VoiceStatusFooter() {
   const [voiceStatus, setVoiceStatus] = useState<VoiceStatus>({ mute: true });
-  const currentUserData = generateFakeCurrentUser();
-  const { currentUser, setCurrentUser } = useCurrentUserStore();
+  const { currentUser, setCurrentUser, logout } = useCurrentUserStore();
+  const supabase = createClientComponentClient<Database>();
 
   useEffect(() => {
-    if (currentUserData !== null) {
-      setCurrentUser(currentUserData);
+    if (supabase) {
+      const fetchCurrentUser = async () => {
+        try {
+          const user = await supabase.auth.getUser();
+
+          if (user?.data?.user?.id) {
+            const { data, error } = await supabase
+              .from("profiles")
+              .select("*")
+              .eq("id", user?.data?.user?.id)
+              .single();
+            if (error) {
+              throw error;
+            } else {
+              setCurrentUser({
+                ...data,
+                status: data.status
+                  ? UserStatuses[data.status]
+                  : UserStatuses.offline,
+              });
+            }
+          } else {
+            logout();
+          }
+        } catch (error) {
+          console.log("Couldn't load the user", error);
+        }
+      };
+      fetchCurrentUser();
     }
-  }, []);
+  }, [logout, setCurrentUser, supabase]);
 
   return (
     <>
-      {currentUser ? (
-        <TooltipProvider>
-          <div className="flex justify-between gap-1 bg-semibackground px-2 py-1.5">
-            <button className="flex gap-2 rounded-md py-1 pl-0.5 pr-2 text-left leading-tight hover:bg-white/20">
-              <Avatar
-                src={currentUser.avatar}
-                status={currentUser.status}
-                alt={currentUser.name}
-              />
-              <div>
-                <div className="text-xs font-semibold">{currentUser.name}</div>
-                <div className="text-[11px] text-gray-300">
-                  {t(`user.status.${currentUser.status}`)}
+      {currentUser && <ProfileRequiredDialog />}
+      <TooltipProvider>
+        <div
+          className="flex gap-1 bg-semibackground px-2 py-1.5"
+          style={{
+            minHeight: 52,
+          }}
+        >
+          {currentUser ? (
+            <>
+              <button className="flex gap-2 overflow-x-hidden rounded-md py-1 pl-0.5 text-left leading-tight hover:bg-white/20">
+                <Avatar
+                  status={currentUser.status}
+                  alt={currentUser.display_name || "avatar"}
+                  src={currentUser.avatar}
+                  className="flex-none"
+                />
+                <div className="flex-1 truncate">
+                  <div className="max-w truncate text-xs font-semibold">
+                    {currentUser.display_name}
+                  </div>
+                  <div className="truncate text-[11px] text-gray-300">
+                    {t(`user.status.${currentUser.status}`)}
+                  </div>
                 </div>
+              </button>
+              <div className="flex items-center">
+                <VoiceStatusButton
+                  muted={voiceStatus.mute || voiceStatus.deaf}
+                  tooltipText={
+                    voiceStatus.mute || voiceStatus.deaf ? "Unmute" : "Mute"
+                  }
+                  onClick={() =>
+                    setVoiceStatus((prev) => ({
+                      ...prev,
+                      deaf: false,
+                      mute: !prev.mute,
+                    }))
+                  }
+                  icon={<BsMicFill fontSize={18} />}
+                />
+                <VoiceStatusButton
+                  muted={voiceStatus.deaf}
+                  tooltipText={voiceStatus.deaf ? "Undeaf" : "Deaf"}
+                  onClick={() =>
+                    setVoiceStatus((prev) => ({ ...prev, deaf: !prev.deaf }))
+                  }
+                  icon={<BsHeadphones fontSize={20} />}
+                />
+                <VoiceStatusButton
+                  tooltipText="Settings"
+                  icon={<BsGearFill fontSize={18} />}
+                />
               </div>
-            </button>
-            <div className="flex items-center">
-              <VoiceStatusButton
-                muted={voiceStatus.mute || voiceStatus.deaf}
-                tooltipText={
-                  voiceStatus.mute || voiceStatus.deaf ? "Unmute" : "Mute"
-                }
-                onClick={() =>
-                  setVoiceStatus((prev) => ({
-                    ...prev,
-                    deaf: false,
-                    mute: !prev.mute,
-                  }))
-                }
-                icon={<BsMicFill fontSize={18} />}
-              />
-              <VoiceStatusButton
-                muted={voiceStatus.deaf}
-                tooltipText={voiceStatus.deaf ? "Undeaf" : "Deaf"}
-                onClick={() =>
-                  setVoiceStatus((prev) => ({ ...prev, deaf: !prev.deaf }))
-                }
-                icon={<BsHeadphones fontSize={20} />}
-              />
-              <VoiceStatusButton
-                tooltipText="Settings"
-                icon={<BsGearFill fontSize={18} />}
-              />
-            </div>
-          </div>
-        </TooltipProvider>
-      ) : null}
+            </>
+          ) : null}
+        </div>
+      </TooltipProvider>
     </>
   );
 }

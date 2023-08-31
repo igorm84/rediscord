@@ -5,7 +5,11 @@
 @layer base {
   :root {
     --color-primary: 88 101 242;
+    --color-primary-accent: 90 111 252;
+    --color-primary-muted: 97 108 226;
+    --color-primary-muted-accent: 112 122 228;
     --color-black: 14 15 16;
+
     /* TODO: add light theme colors */
   }
 

@@ -91,23 +91,23 @@ export default function ActiveNowList() {
               className="p-2 text-xs leading-3 md:w-[200px]"
             >
               <div className="flex w-full flex-col items-end justify-center ">
-                <p
+                <span
                   onClick={() => {
                     handleAddChannel(friend);
                   }}
                   className="flex h-8 w-full cursor-pointer items-center rounded px-2 transition-colors duration-300 ease-in-out hover:bg-blue-600"
                 >
                   Message
-                </p>
+                </span>
                 <Divider className="my-1 w-full" />
                 <div className="flex w-full items-center rounded  px-2 transition-colors duration-300 ease-in-out hover:bg-blue-600">
                   <Avatar
                     src={friend.avatar}
-                    alt={friend.name}
+                    alt={friend.display_name}
                     status={friend.status}
                     className="mr-2 !w-6 flex-none"
                   />
-                  <p> {friend.name}</p>
+                  <span>{friend.display_name}</span>
                 </div>
               </div>
             </TooltipContent>

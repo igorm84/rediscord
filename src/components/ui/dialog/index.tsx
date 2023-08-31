@@ -52,7 +52,7 @@ const DialogContent = React.forwardRef<
         "data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2",
         "data-[state=open]:slide-in-from-top-[48%]",
         "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4",
-        "bg-midground p-6 shadow-lg duration-200 sm:rounded-lg md:w-full",
+        "rounded bg-midground shadow-lg duration-200 md:w-full",
         className,
       )}
       {...props}
@@ -75,7 +75,7 @@ const DialogHeader = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={clsx(
-      "flex flex-col space-y-1.5 text-center sm:text-left",
+      "flex flex-col space-y-1.5 px-6 pt-6 text-center sm:text-left",
       className,
     )}
     {...props}
@@ -89,7 +89,7 @@ const DialogFooter = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={clsx(
-      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+      "mt-6 flex flex-col-reverse rounded-b bg-background px-6 pb-4 sm:flex-row sm:justify-end sm:space-x-2",
       className,
     )}
     {...props}
@@ -118,7 +118,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={clsx("text-muted-foreground text-sm", className)}
+    className={clsx("text-muted-foreground px-6 text-sm", className)}
     {...props}
   />
 ));

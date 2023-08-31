@@ -1,24 +1,23 @@
+import { Database } from "../db/database.types";
 import { Activity } from "./activity";
 
 export enum UserStatuses {
-  Online = "online",
-  Idle = "idle",
-  DND = "dnd",
-  Offline = "offline",
-  Mobile = "mobile",
+  online = "online",
+  idle = "idle",
+  dnd = "dnd",
+  offline = "offline",
+  mobile = "mobile",
 }
 export interface VoiceStatus {
   mute?: boolean;
   deaf?: boolean;
   serverMuted?: boolean;
 }
-export interface User {
-  id: string;
-  name: string;
-  username?: string | null;
-  bio?: string;
-  avatar?: string | null;
+
+export type User = Omit<
+  Database["public"]["Tables"]["profiles"]["Row"],
+  "status"
+> & {
+  activities?: Activity[];
   status: UserStatuses;
-  activity?: Activity | null;
-  type?: "user" | "bot";
-}
+};

@@ -136,7 +136,7 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
               className="!absolute bottom-0 left-0 right-0 mx-6 mb-4 w-auto"
             >
               <Input
-                className=" py-2 pl-12 pr-36 !placeholder-gray-600"
+                className="py-2 pl-12 pr-36 !placeholder-gray-600"
                 type="text"
                 placeholder={`write something to @${user.name}`}
                 value={newMessage}

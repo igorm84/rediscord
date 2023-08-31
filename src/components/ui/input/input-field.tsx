@@ -8,6 +8,7 @@ interface InputFieldProps extends React.HTMLAttributes<HTMLDivElement> {
 export default function InputField({
   endIcon,
   startIcon,
+  help,
   children,
   className,
   ...props

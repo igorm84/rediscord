@@ -3,11 +3,12 @@ import * as React from "react";
 
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
-  size?: "sm" | "md" | "lg";
+  bg?: "none" | "default";
+  size?: "none" | "sm" | "md" | "lg";
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, size = "md", ...props }, ref) => {
+  ({ className, type, bg = "default", size = "md", ...props }, ref) => {
     const [showFocusRing, setShowFocusRing] = React.useState(false);
     return (
       <input
@@ -24,7 +25,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         }}
         className={clsx(
           "placeholder:text-gray-400",
-          "flex w-full rounded-md border-0 bg-background",
+          "flex w-full rounded-md border-0",
+          bg === "default" && "bg-background",
           "file:bg-transparent file:text-sm file:font-medium ",
           "disabled:cursor-not-allowed disabled:opacity-50",
           size === "sm" && "px-1.5 py-1.5 text-sm",

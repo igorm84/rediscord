@@ -11,19 +11,32 @@ import {
 } from "@/lib/utils/mock";
 import { User } from "@/lib/entities/user";
 import ActiveNowPanel from "@/components/islets/active-now-panel";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+import { Database } from "@/lib/db/database.types";
+import { Friend } from "@/lib/entities/friends";
 
 interface FriendFetchData {
-  friends: User[];
-  friendRequests: User[];
-  blockedFriends: User[];
+  friends: Friend[];
+  friendRequests: Friend[];
+  blockedFriends: Friend[];
 }
 const getData = async (): Promise<FriendFetchData> => {
-  /*
-   * Generating fake users for test
-   */
-  const friends: User[] = generateRandomFakeUsers(MOCK_FRIENDS);
-  const friendRequests: User[] = generateRandomFakeUsers(6);
-  const blockedFriends: User[] = [];
+  const supabase = createServerComponentClient<Database>({ cookies });
+
+  const { data: friendships, error } = await supabase
+    .from("friendships")
+    .select("user_1_id, user_2_id, status");
+
+  if (error) throw new Error(error.message);
+
+  const friends: Friend[] = friendships.filter(
+    (friend) => friend.status === "accepted",
+  );
+  const friendRequests: Friend[] = friendships.filter(
+    (friend) => friend.status === "requested",
+  );
+  const blockedFriends: Friend[] = [];
 
   await delay(MOCK_DELAY);
   return { friends, friendRequests, blockedFriends };

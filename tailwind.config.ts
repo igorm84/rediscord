@@ -28,6 +28,10 @@ const config: Config = {
         midground: "rgb(var(--color-midground) / <alpha-value>)",
         foreground: "rgb(var(--color-foreground) / <alpha-value>)",
         primary: "rgb(var(--color-primary) / <alpha-value>)",
+        "primary-accent": "rgb(var(--color-primary-accent) / <alpha-value>)",
+        "primary-muted": "rgb(var(--color-primary-muted) / <alpha-value>)",
+        "primary-muted-accent":
+          "rgb(var(--color-primary-muted-accent) / <alpha-value>)",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

@@ -4,7 +4,7 @@ import { Activity, ActivityTypes } from "@/lib/entities/activity";
 import { ListedServer } from "../entities/server";
 import { ListedDMChannel } from "../entities/channel";
 
-export const MOCK_DELAY = 2000;
+export const MOCK_DELAY = 0;
 export const MOCK_FRIENDS = 18;
 export const MOCK_CHANNELS = 18;
 export const MOCK_SERVERS = 18;
