@@ -17,6 +17,7 @@ export const generateFakeCurrentUser = () => ({
   name: "Repeep",
   avatar: "https://avatars.githubusercontent.com/u/16727448?v=4",
   status: UserStatuses.DND,
+  username: "Reepep",
 });
 
 const generatePastHoursDate = (hours: number) =>
