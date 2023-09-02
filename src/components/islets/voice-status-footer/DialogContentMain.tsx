@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import Divider from "@/components/ui/divider";
 import { Input } from "@/components/ui/input";
+import InputField from "@/components/ui/input/input-field";
 import { ListItem } from "@/components/ui/list";
 import {
   Select,
@@ -17,9 +18,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import clsx from "@/lib/clsx";
 import { Time } from "@/lib/entities/time";
 import { User, UserStatuses } from "@/lib/entities/user";
 import React from "react";
+import { BsXLg } from "react-icons/bs";
 import { FaRegSmileBeam } from "react-icons/fa";
 
 interface DialogContentMainProps {
@@ -28,6 +31,24 @@ interface DialogContentMainProps {
 }
 
 function DialogContentMain({ currentUser, statuses }: DialogContentMainProps) {
+  const [open, setOpen] = React.useState(false);
+  const [formData, setFormData] = React.useState({
+    statusValue: "",
+    cleanStatus: "",
+    status: "",
+  });
+  const formNames = Object.keys(formData);
+
+  const handleValueChange = (value: string, name: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const handleSubmit = () => {
+    console.log(formData);
+  };
+  
   const timeMappings = [
     { value: Time.FourHours, text: "4 hours" },
     { value: Time.OneHour, text: "1 hour" },
@@ -36,7 +57,7 @@ function DialogContentMain({ currentUser, statuses }: DialogContentMainProps) {
   ];
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <ListItem className="mb-2 flex  items-center  !rounded !py-1">
           <FaRegSmileBeam />
@@ -49,14 +70,33 @@ function DialogContentMain({ currentUser, statuses }: DialogContentMainProps) {
             Set your invidual status
           </h2>
           <p>HOW ARE YOU, {currentUser.username?.toLocaleUpperCase()}?</p>
-          <Input
-            className="!rounded font-thin"
-            placeholder="reinforcements arrived"
-          />
+          <InputField>
+            <Input
+              value={formData.statusValue}
+              onChange={(e) => {
+                handleValueChange(e.target.value, formNames[0]);
+              }}
+              className="!rounded font-thin"
+              placeholder="reinforcements arrived"
+            />
+            <button
+              className={clsx(
+                "absolute  right-4 top-1/2 -translate-y-1/2 outline-none transition-all",
+                formData.statusValue
+                  ? "rotate-0 opacity-100"
+                  : "rotate-90 opacity-0",
+              )}
+              onClick={() => handleValueChange("", formNames[0])}
+            >
+              <BsXLg />
+            </button>
+          </InputField>
         </DialogHeader>
         <DialogDescription>
           <p className="mb-2 text-[12px] font-bold">CLEAN AFTER</p>
-          <Select>
+          <Select
+            onValueChange={(value) => handleValueChange(value, formNames[1])}
+          >
             <SelectTrigger className="w-full !border-none">
               <SelectValue placeholder="Today" />
             </SelectTrigger>
@@ -70,16 +110,17 @@ function DialogContentMain({ currentUser, statuses }: DialogContentMainProps) {
           </Select>
           <Divider className="my-4 h-[1px] w-full" />
           <p className="mb-2 text-[12px] font-bold">STATUS</p>
-          <Select>
+          <Select onValueChange={(value) => handleValueChange(value,formNames[2])}>
             <SelectTrigger className="w-full !border-none">
               <SelectValue placeholder={currentUser.status} />
             </SelectTrigger>
             <SelectContent>
               {statuses.map((status, index) => (
-                <SelectItem value={status.value} key={index}>
+                <SelectItem className="group" value={status.value} key={index}>
                   <div className=" flex items-center">
                     <StatusBadge
-                      className="relative h-[10px] w-[10px] !border-none group-hover:!bg-white"
+                      customBackgroundColor="bg-midground group-hover:!bg-foreground "
+                      className="relative h-[9px] w-[9px] !border-none group-hover:!bg-white"
                       status={status.value as UserStatuses}
                     />
                     <p className="ml-2">
@@ -92,10 +133,21 @@ function DialogContentMain({ currentUser, statuses }: DialogContentMainProps) {
             </SelectContent>
           </Select>
           <div className=" flex w-full justify-end">
-            <Button className="mr-2" bg={false}>
+            <Button
+              onClick={() => setOpen((prev) => !prev)}
+              className="mr-2"
+              bg={false}
+            >
               Cancel
             </Button>
-            <Button>Save</Button>
+            <Button
+              onClick={() => {
+                setOpen((prev) => !prev);
+                handleSubmit();
+              }}
+            >
+              Save
+            </Button>
           </div>
         </DialogDescription>
       </DialogContent>

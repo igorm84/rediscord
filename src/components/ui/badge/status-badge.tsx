@@ -4,11 +4,13 @@ import { MdPhoneAndroid } from "react-icons/md";
 
 interface StatusBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   status: UserStatuses | "skeleton";
+  customBackgroundColor?: string;
 }
 
 export default function StatusBadge({
   status,
   className,
+  customBackgroundColor = "bg-midground",
   ...props
 }: StatusBadgeProps) {
   return (
@@ -36,7 +38,9 @@ export default function StatusBadge({
         <div className="h-0.5 w-1.5 rounded-sm bg-midground"></div>
       )}
       {status === UserStatuses.Idle && (
-        <div className="absolute -left-0.5 -top-0.5 h-2 w-2 rounded-full bg-midground"></div>
+        <div
+          className={`absolute -left-0.5 -top-0.5 h-2 w-2 rounded-full ${customBackgroundColor} `}
+        ></div>
       )}
       {status === UserStatuses.Mobile && (
         <MdPhoneAndroid fontSize={15} className="flex-none" />

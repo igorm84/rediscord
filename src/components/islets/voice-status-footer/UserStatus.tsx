@@ -14,7 +14,8 @@ function UserStatus({ statuses }: { statuses: { value: string }[] }) {
           >
             <div className="flex items-center">
               <StatusBadge
-                className="h-[10px] relative  w-[10px] !border-none group-hover:!bg-white"
+                customBackgroundColor="bg-black group-hover:!bg-[#5865f2]"
+                className="relative h-[9px]  w-[9px] !border-none group-hover:!bg-white"
                 status={status.value as UserStatuses}
               />
               <p className="ml-2">
