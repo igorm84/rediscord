@@ -1,12 +1,13 @@
 import { Activity } from "./activity";
 
-export enum UserStatuses {
+export enum StaticUserStatuses {
   Online = "online",
   Idle = "idle",
   DND = "dnd",
   Offline = "offline",
   Mobile = "mobile",
 }
+export type UserStatuses = StaticUserStatuses | string;
 export interface VoiceStatus {
   mute?: boolean;
   deaf?: boolean;

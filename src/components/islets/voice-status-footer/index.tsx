@@ -3,7 +3,7 @@
 import Avatar from "@/components/ui/avatar";
 import { Popover, PopoverTrigger } from "@/components/ui/popover";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { VoiceStatus } from "@/lib/entities/user";
+import { StaticUserStatuses, VoiceStatus } from "@/lib/entities/user";
 import { t } from "@/lib/i18n";
 import { generateFakeCurrentUser } from "@/lib/utils/mock";
 import { useCurrentUserStore } from "@/state/user";
@@ -32,7 +32,7 @@ export default function VoiceStatusFooter() {
                 <button className="flex gap-2 rounded-md py-1 pl-0.5 pr-2 text-left leading-tight hover:bg-white/20">
                   <Avatar
                     src={currentUser.avatar}
-                    status={currentUser.status}
+                    status={currentUser.status as StaticUserStatuses}
                     alt={currentUser.name}
                   />
                   <div>
@@ -50,7 +50,10 @@ export default function VoiceStatusFooter() {
                 setVoiceStatus={setVoiceStatus}
               />
             </div>
-            <PopoverContentMain currentUser={currentUser} />
+            <PopoverContentMain
+              setCurrentUser={setCurrentUser}
+              currentUser={currentUser}
+            />
           </Popover>
         </TooltipProvider>
       ) : null}

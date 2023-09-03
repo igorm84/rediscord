@@ -23,6 +23,7 @@ import { useFriendStore } from "@/state/friend-list";
 import { ListItem } from "@/components/ui/list";
 import Avatar from "@/components/ui/avatar";
 import { useAddChannel } from "@/customHooks/useAddChannel";
+import { StaticUserStatuses } from "@/lib/entities/user";
 
 type PageHeaderButtonProps = HybridButtonProps;
 
@@ -124,7 +125,7 @@ export default function PageHeader({ children }: React.PropsWithChildren) {
                       <Avatar
                         alt={friend.name}
                         src={friend.avatar}
-                        status={friend.status}
+                        status={friend.status  as StaticUserStatuses}
                       />
                       <p className=" ml-2 mr-1 whitespace-nowrap text-white">
                         {friend.name}

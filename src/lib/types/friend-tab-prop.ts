@@ -1,4 +1,4 @@
-import { UserStatuses } from "../entities/user";
+import { StaticUserStatuses } from "../entities/user";
 
 export enum FriendsTabEnum {
   Available = "Available",
@@ -12,7 +12,7 @@ export type FriendsTab = {
   key: FriendsTabEnum;
   title: string;
   name?: string;
-  status?: UserStatuses[];
+  status?: StaticUserStatuses[];
   empty: {
     imageSrc: string;
     imageAlt: string;
@@ -33,10 +33,10 @@ export const friendsTabsProps: Record<
     key: FriendsTabEnum.Available,
     title: "Online",
     status: [
-      UserStatuses.Online,
-      UserStatuses.DND,
-      UserStatuses.Mobile,
-      UserStatuses.Idle,
+      StaticUserStatuses.Online,
+      StaticUserStatuses.DND,
+      StaticUserStatuses.Mobile,
+      StaticUserStatuses.Idle,
     ],
     empty: FRIENDS_EMPTY_PROP,
   },
@@ -44,7 +44,7 @@ export const friendsTabsProps: Record<
     key: FriendsTabEnum.All,
     title: "All your Friends",
     name: "All",
-    status: Object.values(UserStatuses),
+    status: Object.values(StaticUserStatuses),
     empty: FRIENDS_EMPTY_PROP,
   },
   [FriendsTabEnum.Pending]: {

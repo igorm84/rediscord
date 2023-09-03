@@ -1,11 +1,11 @@
 import { clsx } from "@/lib/utils";
-import { UserStatuses } from "@/lib/entities/user";
+import { StaticUserStatuses } from "@/lib/entities/user";
 import Image from "next/image";
 import { BsDiscord } from "react-icons/bs";
 import StatusBadge from "@/components/ui/badge/status-badge";
 
 interface AvatarProps {
-  status?: UserStatuses;
+  status?: StaticUserStatuses;
   size?: "sm" | "md" | "lg";
   src?: string | null;
   alt: string;

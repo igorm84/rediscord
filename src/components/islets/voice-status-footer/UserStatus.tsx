@@ -1,14 +1,22 @@
 import StatusBadge from "@/components/ui/badge/status-badge";
 import Divider from "@/components/ui/divider";
 import { ListItem } from "@/components/ui/list";
-import { UserStatuses } from "@/lib/entities/user";
+import { StaticUserStatuses, UserStatuses } from "@/lib/entities/user";
+interface UserStatusProps {
+  statuses: { value: string }[];
+  handleSubmit: (status: UserStatuses) => void;
+  setOpen: (open: boolean) => void;
+}
 
-function UserStatus({ statuses }: { statuses: { value: string }[] }) {
+function UserStatus({ statuses, handleSubmit, setOpen }: UserStatusProps) {
   return (
     <div className="leading-[16px]">
       {statuses.map((status, index) => (
         <>
           <ListItem
+            onClick={() => {
+              setOpen(false), handleSubmit(status.value);
+            }}
             className="group my-1 min-w-[180px] max-w-[380px] flex-col  !items-start !rounded text-gray-300 hover:!bg-[#5865f2]"
             key={index}
           >
@@ -16,7 +24,7 @@ function UserStatus({ statuses }: { statuses: { value: string }[] }) {
               <StatusBadge
                 customBackgroundColor="bg-black group-hover:!bg-[#5865f2]"
                 className="relative h-[9px]  w-[9px] !border-none group-hover:!bg-white"
-                status={status.value as UserStatuses}
+                status={status.value as StaticUserStatuses}
               />
               <p className="ml-2">
                 {status.value.charAt(0).toUpperCase() + status.value.slice(1)}

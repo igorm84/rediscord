@@ -13,17 +13,30 @@ import React from "react";
 import { AiOutlineRight } from "react-icons/ai";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { HiSwitchVertical } from "react-icons/hi";
-import { User, UserStatuses } from "@/lib/entities/user";
+import { User, StaticUserStatuses, UserStatuses } from "@/lib/entities/user";
 import UserStatus from "./UserStatus";
 
 import DialogContentMain from "./DialogContentMain";
+interface PopoverContentMainProps {
+  currentUser: User;
+  setCurrentUser: (user: User | null) => void;
+}
 
-function PopoverContentMain({ currentUser }: { currentUser: User }) {
-  const statuses = Object.values(UserStatuses)
+function PopoverContentMain({
+  currentUser,
+  setCurrentUser,
+}: PopoverContentMainProps) {
+  const [open, setOpen] = React.useState(false);
+  const statuses = Object.values(StaticUserStatuses)
     .slice(0, 4)
     .map((status) => ({
       value: status,
     }));
+
+  const handleSubmit = (status: UserStatuses) => {
+    const updatedUser = { ...currentUser, status: status };
+    setCurrentUser(updatedUser);
+  };
   return (
     <PopoverContent
       side="top"
@@ -33,7 +46,7 @@ function PopoverContentMain({ currentUser }: { currentUser: User }) {
       <Avatar
         className="relative -top-4 left-8 scale-[2] ring-[3px] ring-midground"
         src={currentUser.avatar}
-        status={currentUser.status}
+        status={currentUser.status as StaticUserStatuses}
         alt={currentUser.name}
       />
       <div className="relative mx-2 my-6 rounded-lg bg-black px-4 py-2">
@@ -49,7 +62,7 @@ function PopoverContentMain({ currentUser }: { currentUser: User }) {
         <Divider className="mt-2 h-[1px]" />
         <p className="py-2 text-xs font-semibold">DISCORD MEMBER SINCE</p>
         <Divider className="h-[1px]" />
-        <Tooltip>
+        <Tooltip open={open} onOpenChange={setOpen}>
           <TooltipTrigger asChild>
             <ListItem className="mt-2 flex items-center justify-between space-x-2 !rounded !py-1 text-gray-200">
               <div className=" flex items-center justify-center">
@@ -64,10 +77,14 @@ function PopoverContentMain({ currentUser }: { currentUser: User }) {
             className="!relative left-6 !text-sm"
             sideOffset={0}
           >
-            <UserStatus statuses={statuses} />
+            <UserStatus setOpen={setOpen} handleSubmit={handleSubmit} statuses={statuses} />
           </TooltipContent>
         </Tooltip>
-        <DialogContentMain currentUser={currentUser} statuses={statuses} />
+        <DialogContentMain
+          currentUser={currentUser}
+          handleSubmit={handleSubmit}
+          statuses={statuses}
+        />
         <Divider className="h-[1px] w-full" />
         <Tooltip>
           <TooltipTrigger asChild>

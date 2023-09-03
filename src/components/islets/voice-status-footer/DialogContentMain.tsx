@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import clsx from "@/lib/clsx";
 import { Time } from "@/lib/entities/time";
-import { User, UserStatuses } from "@/lib/entities/user";
+import { User, StaticUserStatuses, UserStatuses } from "@/lib/entities/user";
 import React from "react";
 import { BsXLg } from "react-icons/bs";
 import { FaRegSmileBeam } from "react-icons/fa";
@@ -28,9 +28,14 @@ import { FaRegSmileBeam } from "react-icons/fa";
 interface DialogContentMainProps {
   currentUser: User;
   statuses: { value: string }[];
+  handleSubmit: (status: UserStatuses) => void;
 }
 
-function DialogContentMain({ currentUser, statuses }: DialogContentMainProps) {
+function DialogContentMain({
+  currentUser,
+  statuses,
+  handleSubmit,
+}: DialogContentMainProps) {
   const [open, setOpen] = React.useState(false);
   const [formData, setFormData] = React.useState({
     statusValue: "",
@@ -45,10 +50,7 @@ function DialogContentMain({ currentUser, statuses }: DialogContentMainProps) {
       [name]: value,
     }));
   };
-  const handleSubmit = () => {
-    console.log(formData);
-  };
-  
+
   const timeMappings = [
     { value: Time.FourHours, text: "4 hours" },
     { value: Time.OneHour, text: "1 hour" },
@@ -110,7 +112,9 @@ function DialogContentMain({ currentUser, statuses }: DialogContentMainProps) {
           </Select>
           <Divider className="my-4 h-[1px] w-full" />
           <p className="mb-2 text-[12px] font-bold">STATUS</p>
-          <Select onValueChange={(value) => handleValueChange(value,formNames[2])}>
+          <Select
+            onValueChange={(value) => handleValueChange(value, formNames[2])}
+          >
             <SelectTrigger className="w-full !border-none">
               <SelectValue placeholder={currentUser.status} />
             </SelectTrigger>
@@ -121,7 +125,7 @@ function DialogContentMain({ currentUser, statuses }: DialogContentMainProps) {
                     <StatusBadge
                       customBackgroundColor="bg-midground group-hover:!bg-foreground "
                       className="relative h-[9px] w-[9px] !border-none group-hover:!bg-white"
-                      status={status.value as UserStatuses}
+                      status={status.value as StaticUserStatuses}
                     />
                     <p className="ml-2">
                       {status.value.charAt(0).toUpperCase() +
@@ -143,7 +147,8 @@ function DialogContentMain({ currentUser, statuses }: DialogContentMainProps) {
             <Button
               onClick={() => {
                 setOpen((prev) => !prev);
-                handleSubmit();
+                handleSubmit(formData.status);
+                // handleSubmit(formData.statusValue.trim() || formData.status);
               }}
             >
               Save
