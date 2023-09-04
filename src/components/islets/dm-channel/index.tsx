@@ -1,5 +1,5 @@
 "use client";
-import { Page, PageContent, PageHeader } from "@/components/layout/page";
+import { PageContent, PageHeader } from "@/components/layout/page";
 import Avatar from "@/components/ui/avatar";
 import Divider from "@/components/ui/divider";
 import { Input } from "@/components/ui/input";
@@ -18,12 +18,21 @@ import { useFriendStore } from "@/state/friend-list";
 import { ChatDM } from "@/components/islets/dm-chat";
 import { UserProfileInfo } from "@/components/islets/user-info-in-chat";
 import { User } from "@/lib/entities/user";
+import AudioVideoCall from "@/components/ui/audio-video-calls";
+interface Message {
+  id: number;
+  userId?: string;
+  text: string;
+  timestamp: string;
+  bot?: string;
+}
 
 export default function ChannelDM({ user }: { user: User | undefined }) {
   const { channels } = useChannelStore();
 
   const { friends, setFriends } = useFriendStore();
   const { currentUser } = useCurrentUserStore();
+  const [showAudioVideoCall, setShowAudioVideoCall] = React.useState(false);
 
   const currentDate = new Date();
   const formattedDate = `${currentDate.getDate()} ${currentDate.toLocaleString(
@@ -31,7 +40,7 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
     { month: "long" },
   )} ${currentDate.getFullYear()}`;
   const [newMessage, setNewMessageText] = React.useState("");
-  const [messages, setMessages] = React.useState([
+  const [messages, setMessages] = React.useState<Message[]>([
     {
       id: 1,
       userId: user?.id,
@@ -54,6 +63,24 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewMessageText(e.target.value);
   };
+  const handleAudioVideoCall = () => {
+    if (user) {
+      setShowAudioVideoCall(true);
+    }
+  };
+  const handleVideoCallEnd = () => {
+    setShowAudioVideoCall(false);
+
+    const endedMessage = {
+      id: messages.length + 1,
+      bot: "endCall",
+      text: "He/She initiated a conversation, which lasted for a few seconds.",
+      timestamp: new Date().toISOString(),
+    };
+    setMessages((prevMessages) => [...prevMessages, endedMessage]);
+  };
+  console.log(messages);
+
   const intersection = channels?.filter(
     (channel) => friends?.includes(channel),
   );
@@ -80,7 +107,11 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
         </div>
       ) : (
         <>
-          <PageHeader>
+          <PageHeader
+            user={user}
+            handleAudioVideoCall={handleAudioVideoCall}
+            showAudioVideoCall={showAudioVideoCall}
+          >
             <div className="flex items-center gap-4">
               <div className="flex flex-none items-center gap-3 text-sm font-semibold">
                 <Avatar
@@ -91,10 +122,15 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
                 />
                 {user?.name}
               </div>
-              <Divider vertical />
-              <div className="text-xs text-gray-400">{user?.username}</div>
             </div>
           </PageHeader>
+          {showAudioVideoCall && (
+            <AudioVideoCall
+              user={user}
+              currentUser={currentUser}
+              handleVideoCallEnd={handleVideoCallEnd}
+            />
+          )}
           <PageContent className="h-full w-full flex-col pl-6 pr-1 ">
             <div className="max-h-[86vh] !overflow-y-auto ">
               <UserProfileInfo
@@ -109,6 +145,7 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
                 </p>
                 <Divider className="h-[1px] w-full" />
               </div>
+
               <ChatDM
                 messages={messages}
                 user={user}
@@ -123,7 +160,7 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
                 />
               }
               endIcon={
-                <div className="absolute right-4 top-0 flex h-full cursor-pointer items-center space-x-2.5 text-gray-400 ">
+                <div className="absolute right-4 top-0  flex h-full cursor-pointer items-center space-x-2.5 text-gray-400 ">
                   <AiFillGift className="hover:text-gray-300" size={22} />
                   <AiOutlineGif className="hover:text-gray-300" size={22} />
                   <AiOutlineFileText
@@ -133,7 +170,7 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
                   <CgSmileMouthOpen className="hover:text-gray-300" size={22} />
                 </div>
               }
-              className="!absolute bottom-0 left-0 right-0 mx-6 mb-4 w-auto"
+              className="!absolute bottom-0 left-0 right-0 !z-[10] mx-6 mb-4 w-auto bg-foreground"
             >
               <Input
                 className=" py-2 pl-12 pr-36 !placeholder-gray-600"
@@ -148,6 +185,7 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
                 onChange={handleInputChange}
               />
             </InputField>
+            <div className=" absolute bottom-0 left-0 right-0 !z-[9]  h-8 bg-foreground" />
           </PageContent>
         </>
       )}

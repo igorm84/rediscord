@@ -14,7 +14,9 @@ export default function DMChannelList({ channelsData }: DMChannelListrops) {
   const { channels, setChannels } = useChannelStore();
 
   React.useEffect(() => {
-    setChannels(channelsData);
+    if (channelsData) {
+      setChannels(channelsData);
+    }
   }, []);
 
   const handleChannelDelete = (channelId: string) => {

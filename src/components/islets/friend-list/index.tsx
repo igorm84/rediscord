@@ -105,8 +105,10 @@ export default function FriendList({
   const { setFriends } = useFriendStore();
 
   useEffect(() => {
-    setFriends(friends);
-  }, [friends, setFriends]);
+    if (friends) {
+      setFriends(friends);
+    }
+  }, []);
 
   const tab = friendsTabsProps[currentTab];
   const isAllOrAvailableTab = [

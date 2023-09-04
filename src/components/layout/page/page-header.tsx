@@ -1,5 +1,6 @@
 "use client";
 import { BsChatRightFill, BsGithub, BsInboxFill } from "react-icons/bs";
+import { BiSolidPhoneCall } from "react-icons/bi";
 import Header from "../header";
 import Divider from "@/components/ui/divider";
 import React from "react";
@@ -23,6 +24,7 @@ import { useFriendStore } from "@/state/friend-list";
 import { ListItem } from "@/components/ui/list";
 import Avatar from "@/components/ui/avatar";
 import { useAddChannel } from "@/customHooks/useAddChannel";
+import { User } from "@/lib/entities/user";
 
 type PageHeaderButtonProps = HybridButtonProps;
 
@@ -44,6 +46,11 @@ PageHeaderButton.displayName = "PageHeadeButton";
 
 const headerIcons = [
   {
+    icon: <BiSolidPhoneCall size={20} />,
+    tooltip: "Start a voice call",
+    href: "",
+  },
+  {
     icon: <BsChatRightFill size={18} />,
     tooltip: "Create  private Message",
     href: "",
@@ -56,25 +63,46 @@ const headerIcons = [
   },
 ];
 
-export default function PageHeader({ children }: React.PropsWithChildren) {
+interface PageHeaderProps {
+  children: React.ReactNode;
+  user?: User;
+  handleAudioVideoCall?: () => void;
+  showAudioVideoCall?: boolean;
+}
+export default function PageHeader({
+  children,
+  user,
+  handleAudioVideoCall,
+  showAudioVideoCall,
+}: PageHeaderProps) {
   const { handleAddChannel, setSelectedFriend, selectedFriend } =
     useAddChannel();
+
   const { friends } = useFriendStore();
   const partFriends = friends?.slice(0, 6);
 
   return (
-    <Header className="flex-none justify-between">
+    <Header
+      className={`flex-none justify-between ${
+        showAudioVideoCall ? "bg-[#000000]" : ""
+      } transition-colors duration-200 ease-in-out `}
+    >
       {children}
+
       <div className="flex items-center gap-6">
         <TooltipProvider>
           <Popover>
             {headerIcons.map((icon, index) => {
-              const messageIconIndex = index === 0;
+              if (index === 0 && !user) {
+                return null;
+              }
+              const messageIconIndex = index === 1;
               return (
                 <Tooltip key={index}>
                   <TooltipTrigger asChild>
                     <PopoverTrigger asChild={messageIconIndex}>
                       <PageHeaderButton
+                        onClick={index === 0 ? handleAudioVideoCall : undefined}
                         className={`${
                           messageIconIndex ? "hidden md:block" : null
                         }`}
