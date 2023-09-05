@@ -125,7 +125,7 @@ export default function PageHeader({ children }: React.PropsWithChildren) {
                       <Avatar
                         alt={friend.name}
                         src={friend.avatar}
-                        status={friend.status  as StaticUserStatuses}
+                        status={friend.status as StaticUserStatuses}
                       />
                       <p className=" ml-2 mr-1 whitespace-nowrap text-white">
                         {friend.name}
@@ -140,7 +140,7 @@ export default function PageHeader({ children }: React.PropsWithChildren) {
                     onClick={() => {
                       handleAddChannel();
                     }}
-                    className="w-full rounded bg-[#5865f2] p-2 text-sm font-semibold transition-colors duration-300 ease-in-out hover:bg-[#4750b8]"
+                    className="w-full rounded bg-primary p-2 text-sm font-semibold transition-colors duration-300 ease-in-out hover:bg-[#4750b8]"
                   >
                     Create private messsage
                   </button>

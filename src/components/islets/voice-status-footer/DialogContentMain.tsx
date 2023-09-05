@@ -61,7 +61,7 @@ function DialogContentMain({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <ListItem className="mb-2 flex  items-center  !rounded !py-1">
+        <ListItem className="mb-2 flex  items-center  !rounded !py-1 active:!bg-primary">
           <FaRegSmileBeam />
           <p className="ml-2">set your own status</p>
         </ListItem>

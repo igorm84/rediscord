@@ -11,7 +11,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={clsx(
-          bg ? "rounded bg-[#5865f2] hover:bg-[#4751be]" : "hover:underline",
+          bg ? "rounded bg-primary hover:bg-[#4751be]" : "hover:underline",
           " my-4 px-4 py-2.5",
           "text-white",
           className,

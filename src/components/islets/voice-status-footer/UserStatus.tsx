@@ -17,12 +17,12 @@ function UserStatus({ statuses, handleSubmit, setOpen }: UserStatusProps) {
             onClick={() => {
               setOpen(false), handleSubmit(status.value);
             }}
-            className="group my-1 min-w-[180px] max-w-[380px] flex-col  !items-start !rounded text-gray-300 hover:!bg-[#5865f2]"
+            className="group my-1 min-w-[180px] max-w-[380px] flex-col  !items-start !rounded text-gray-300 hover:!bg-primary"
             key={index}
           >
             <div className="flex items-center">
               <StatusBadge
-                customBackgroundColor="bg-black group-hover:!bg-[#5865f2]"
+                customBackgroundColor="bg-black group-hover:!bg-primary"
                 className="relative h-[9px]  w-[9px] !border-none group-hover:!bg-white"
                 status={status.value as StaticUserStatuses}
               />

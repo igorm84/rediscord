@@ -88,7 +88,7 @@ const SelectItem = React.forwardRef<
   >
     <span className="absolute right-4 flex h-3.5 w-3.5 items-center justify-center text-white">
       <SelectPrimitive.ItemIndicator>
-        <BsCheck2 className="h-4 w-4 rounded-full bg-[#5865f2]" />
+        <BsCheck2 className="h-4 w-4 rounded-full bg-primary" />
       </SelectPrimitive.ItemIndicator>
     </span>
 
