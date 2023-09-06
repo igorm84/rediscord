@@ -14,16 +14,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { useFriendStore } from "@/state/friend-list";
-import { ListItem } from "@/components/ui/list";
-import Avatar from "@/components/ui/avatar";
-import { useAddChannel } from "@/customHooks/useAddChannel";
-import { StaticUserStatuses } from "@/lib/entities/user";
+import { Popover, PopoverTrigger } from "@/components/ui/popover";
+import DMChannelPopover from "@/components/islets/dm-channel-list/dm-channel-popover";
 
 type PageHeaderButtonProps = HybridButtonProps;
 
@@ -58,17 +50,13 @@ const headerIcons = [
 ];
 
 export default function PageHeader({ children }: React.PropsWithChildren) {
-  const { handleAddChannel, setSelectedFriend, selectedFriend } =
-    useAddChannel();
-  const { friends } = useFriendStore();
-  const partFriends = friends?.slice(0, 6);
-
+  const [open, setOpen] = React.useState(false);
   return (
     <Header className="flex-none justify-between">
       {children}
       <div className="flex items-center gap-6">
         <TooltipProvider>
-          <Popover>
+          <Popover open={open} onOpenChange={setOpen}>
             {headerIcons.map((icon, index) => {
               const messageIconIndex = index === 0;
               return (
@@ -104,49 +92,7 @@ export default function PageHeader({ children }: React.PropsWithChildren) {
                 </Tooltip>
               );
             })}
-            <PopoverContent className="relative right-20 !w-full border-[1px] border-[#242628] bg-[#313338] !px-0 md:min-w-[400px]">
-              <>
-                <div className="flex flex-col px-4">
-                  <h2 className="font-bold">Choose friends</h2>
-                  <p className="text-[12px] text-gray-300">
-                    you can add more {partFriends?.length}
-                  </p>
-                </div>
-                <Divider className="mt-4 h-[1px] w-full bg-[#242628]" />
-                <div className="h-[200px] overflow-y-auto px-2">
-                  {partFriends?.map((friend, index) => (
-                    <ListItem
-                      className={`${
-                        selectedFriend?.id === friend.id ? "bg-gray-800/50" : ""
-                      }`}
-                      onClick={() => setSelectedFriend(friend)}
-                      key={index}
-                    >
-                      <Avatar
-                        alt={friend.name}
-                        src={friend.avatar}
-                        status={friend.status as StaticUserStatuses}
-                      />
-                      <p className=" ml-2 mr-1 whitespace-nowrap text-white">
-                        {friend.name}
-                      </p>
-                      <p className="text-gray-500">{friend.username}</p>
-                    </ListItem>
-                  ))}
-                </div>
-                <div className="px-4">
-                  <Divider className="mb-4 h-[1px]" />
-                  <button
-                    onClick={() => {
-                      handleAddChannel();
-                    }}
-                    className="w-full rounded bg-primary p-2 text-sm font-semibold transition-colors duration-300 ease-in-out hover:bg-[#4750b8]"
-                  >
-                    Create private messsage
-                  </button>
-                </div>
-              </>
-            </PopoverContent>
+            <DMChannelPopover setOpen={setOpen} position="right-20" />
           </Popover>
         </TooltipProvider>
       </div>

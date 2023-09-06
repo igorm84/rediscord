@@ -125,7 +125,7 @@ function DialogContentMain({
                     <StatusBadge
                       customBackgroundColor="bg-midground group-hover:!bg-foreground "
                       className="relative h-[9px] w-[9px] !border-none group-hover:!bg-white"
-                      status={status.value as StaticUserStatuses}
+                      status={status.value}
                     />
                     <p className="ml-2">
                       {status.value.charAt(0).toUpperCase() +

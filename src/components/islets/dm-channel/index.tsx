@@ -1,5 +1,5 @@
 "use client";
-import { Page, PageContent, PageHeader } from "@/components/layout/page";
+import { PageContent, PageHeader } from "@/components/layout/page";
 import Avatar from "@/components/ui/avatar";
 import Divider from "@/components/ui/divider";
 import { Input } from "@/components/ui/input";

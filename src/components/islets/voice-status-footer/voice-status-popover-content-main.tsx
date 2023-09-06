@@ -12,9 +12,9 @@ import Image from "next/image";
 import React from "react";
 import { AiOutlineRight } from "react-icons/ai";
 import { StaticUserStatuses, User, UserStatuses } from "@/lib/entities/user";
-import UserStatus from "./UserStatus";
-import DialogContentMain from "./DialogContentMain";
-import PopoverContentSub from "./PopoverContentSub";
+import UserStatus from "./voice-status-user-status";
+import DialogContentMain from "./voice-status-dialog-content-main";
+import PopoverContentSub from "./voice-status-popover-content-sub";
 interface PopoverContentMainProps {
   currentUser: User;
   setCurrentUser: (user: User | null) => void;
@@ -45,7 +45,7 @@ function PopoverContentMain({
       <Avatar
         className="relative -top-4 left-8 scale-[2]  ring-[3px] ring-[#1e1f22]"
         src={currentUser.avatar}
-        status={currentUser.status as StaticUserStatuses}
+        status={currentUser.status}
         alt={currentUser.name}
       />
       <div className="relative mt-6 rounded-lg bg-black p-2">

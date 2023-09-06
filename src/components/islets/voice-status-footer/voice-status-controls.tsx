@@ -1,5 +1,5 @@
 import React from "react";
-import VoiceStatusButton from "./VoiceStatusButton";
+import VoiceStatusButton from "./voice-status-button";
 import { BsGearFill, BsHeadphones, BsMicFill } from "react-icons/bs";
 
 interface VoiceControlsProps {

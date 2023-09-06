@@ -19,7 +19,7 @@ export interface User {
   username?: string | null;
   bio?: string;
   avatar?: string | null;
-  status: UserStatuses;
+  status: StaticUserStatuses;
   activity?: Activity | null;
   type?: "user" | "bot";
 }

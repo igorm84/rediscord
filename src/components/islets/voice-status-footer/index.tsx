@@ -8,8 +8,8 @@ import { t } from "@/lib/i18n";
 import { generateFakeCurrentUser } from "@/lib/utils/mock";
 import { useCurrentUserStore } from "@/state/user";
 import { useState, useEffect } from "react";
-import VoiceControls from "./VoiceControls";
-import PopoverContentMain from "./PopoverContentMain";
+import VoiceControls from "./voice-status-controls";
+import PopoverContentMain from "./voice-status-popover-content-main";
 
 export default function VoiceStatusFooter() {
   const [voiceStatus, setVoiceStatus] = useState<VoiceStatus>({ mute: true });
@@ -32,7 +32,7 @@ export default function VoiceStatusFooter() {
                 <button className="flex gap-2 rounded-md py-1 pl-0.5 pr-2 text-left leading-tight hover:bg-white/20">
                   <Avatar
                     src={currentUser.avatar}
-                    status={currentUser.status as StaticUserStatuses}
+                    status={currentUser.status}
                     alt={currentUser.name}
                   />
                   <div>
