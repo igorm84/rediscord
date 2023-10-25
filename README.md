@@ -5,6 +5,7 @@ Rediscord is a study of Discord UI built in NextJS and TailwindCSS using some [s
 
 > **Warning**
 > Live preview (rediscord.com) was closed due to attacks causing millions of invocations and incurring charges in Vercel
+> 
 > This project is being developed and isn't completed yet.
 > Currently only frontend and some mock data.
 > Feel free to request or contribute.
