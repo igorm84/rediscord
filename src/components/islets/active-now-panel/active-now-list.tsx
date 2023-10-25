@@ -1,4 +1,5 @@
 "use client";
+
 import Avatar from "@/components/ui/avatar";
 import { List, ListItem } from "@/components/ui/list";
 import { ActivityTypes } from "@/lib/entities/activity";
@@ -22,7 +23,7 @@ export default function ActiveNowList() {
         <ListItem
           key={friend.id}
           noVerticalPadding
-          href={`/channels/${friend.id}`}
+          href={`/users/${friend.id}/private`}
           className="group gap-3 border-[1px] border-gray-800  bg-midground p-4"
         >
           <Avatar

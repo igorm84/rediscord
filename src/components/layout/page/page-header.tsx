@@ -1,6 +1,4 @@
-import { BsChatRightFill, BsGithub, BsInboxFill } from "react-icons/bs";
 import Header from "../header";
-import Divider from "@/components/ui/divider";
 import React from "react";
 import clsx from "@/lib/clsx";
 import HybridButton, {
@@ -8,7 +6,7 @@ import HybridButton, {
 } from "@/components/ui/hybrid/hybrid-button";
 
 type PageHeaderButtonProps = HybridButtonProps;
-const PageHeaderButton = ({
+export const PageHeaderButton = ({
   children,
   className,
   ...props
@@ -20,26 +18,18 @@ const PageHeaderButton = ({
     {children}
   </HybridButton>
 );
-
-export default function PageHeader({ children }: React.PropsWithChildren) {
+interface PageHeaderProps {
+  rightContent?: React.ReactNode;
+  children: React.ReactNode;
+}
+export default function PageHeader({
+  children,
+  rightContent,
+}: PageHeaderProps) {
   return (
-    <Header className="flex-none justify-between">
+    <Header className="sticky top-0 z-10 flex-none justify-between bg-foreground">
       {children}
-      <div className="flex items-center gap-6">
-        <PageHeaderButton>
-          <BsChatRightFill fontSize={18} />
-        </PageHeaderButton>
-        <Divider vertical />
-        <PageHeaderButton>
-          <BsInboxFill fontSize={20} />
-        </PageHeaderButton>
-        <PageHeaderButton
-          href="https://github.com/igorm84/rediscord"
-          target="_blank"
-        >
-          <BsGithub fontSize={20} />
-        </PageHeaderButton>
-      </div>
+      <div className="flex items-center gap-6">{rightContent}</div>
     </Header>
   );
 }

@@ -1,43 +1,40 @@
 import Sidebar from "@/components/layout/sidebar";
-import FindChatButton from "@/components/islets/find-chat-button";
-
 import Header from "@/components/layout/header";
-import DMHeaderMenu from "@/components/islets/dm-header-menu";
-import DMChannelList from "@/components/islets/dm-channel-list";
 import VoiceStatusFooter from "@/components/islets/voice-status-footer";
+import dynamic from "next/dynamic";
+import ActiveNowPanelSkeleton from "../active-now-panel/active-now-panel-skeleton";
+import { Suspense } from "react";
+import DMChatListSkeleton from "../dm-chat-list/dm-chat-list-skeleton";
+import DMChatList from "../dm-chat-list";
+import DMHeaderMenu from "../dm-header-menu";
+import FindSomethingButton from "@/components/islets/find-chat-button";
 
-import { ListedDMChannel } from "@/lib/entities/channel";
-import {
-  MOCK_DELAY,
-  MOCK_CHANNELS,
-  generateRandomFakeChannels,
-} from "@/lib/utils/mock";
-import { delay } from "@/lib/utils";
-
-export const getData = async (): Promise<{ channels: ListedDMChannel[] }> => {
-  /*
-   * Generate fake channels for testing
-   */
-  const channels: ListedDMChannel[] = generateRandomFakeChannels(MOCK_CHANNELS);
-  await delay(MOCK_DELAY);
-  return { channels };
-};
+const ActiveNowPanel = dynamic(() => import("../active-now-panel"), {
+  ssr: false,
+  loading: () => <ActiveNowPanelSkeleton />,
+});
 
 export default async function DMLayout({ children }: React.PropsWithChildren) {
-  const { channels } = await getData();
   return (
     <>
       <Sidebar className="bottom-70 flex flex-col">
         <Header verticalPadding="2" className="bg-midground">
-          <FindChatButton />
+          <FindSomethingButton text="Find chats" />
         </Header>
         <div className="hover-scrollbar flex-1 overflow-y-auto py-2 pl-2 pr-0.5">
           <DMHeaderMenu />
-          <DMChannelList channels={channels} />
+          <Suspense fallback={<DMChatListSkeleton />}>
+            <DMChatList />
+          </Suspense>
         </div>
         <VoiceStatusFooter />
       </Sidebar>
-      {children}
+      <div className="grid min-h-screen xl:grid-cols-[1fr_350px]">
+        {children}
+        <div className="hidden max-w-[350px] flex-1 xl:flex ">
+          <ActiveNowPanel />
+        </div>
+      </div>
     </>
   );
 }

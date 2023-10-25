@@ -18,7 +18,7 @@ export default function DMChannelListItem({
     <ListItem
       noVerticalPadding
       active={active}
-      href={`/channels/${channel.id}`}
+      href={`/users/${channel.id}/private`}
       className="group gap-3 py-1.5"
     >
       <Avatar

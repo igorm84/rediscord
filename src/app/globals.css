@@ -8,7 +8,6 @@
     --color-black: 14 15 16;
     /* TODO: add light theme colors */
   }
-
   .dark {
     --color-background: 30 31 34;
     --color-semibackground: 30 31 34;
@@ -19,7 +18,6 @@
   body {
     background-color: rgb(var(--color-foreground));
   }
-
   * {
     scrollbar-width: auto;
     scrollbar-color: rgb(var(--color-background)) rgb(var(--color-midground));
@@ -37,6 +35,9 @@
     background-color: rgb(var(--color-background));
     border-radius: 6px;
     border: none;
+  }
+  .reset-input {
+    @apply border-none bg-transparent outline-none focus:outline-none focus:ring-0;
   }
 }
 

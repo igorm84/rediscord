@@ -10,7 +10,6 @@ import {
   generateRandomFakeUsers,
 } from "@/lib/utils/mock";
 import { User } from "@/lib/entities/user";
-import ActiveNowPanel from "@/components/islets/active-now-panel";
 
 interface FriendFetchData {
   friends: User[];
@@ -18,9 +17,6 @@ interface FriendFetchData {
   blockedFriends: User[];
 }
 const getData = async (): Promise<FriendFetchData> => {
-  /*
-   * Generating fake users for test
-   */
   const friends: User[] = generateRandomFakeUsers(MOCK_FRIENDS);
   const friendRequests: User[] = generateRandomFakeUsers(1);
   const blockedFriends: User[] = [];
@@ -46,9 +42,6 @@ export default async function MePage() {
       <PageContent className="flex-col lg:flex-row" padding="none">
         <div className="flex flex-1 px-6 pt-4">
           <FriendList {...data} />
-        </div>
-        <div className="flex md:w-[360px]">
-          <ActiveNowPanel />
         </div>
       </PageContent>
     </Page>

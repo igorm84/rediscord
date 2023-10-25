@@ -37,8 +37,8 @@ export default function DMHeaderMenu() {
   return (
     <List className="w-full">
       <HeaderMenuListItem
-        href="/channels/me"
-        active={pathname === "/channels/me"}
+        href="/me"
+        active={pathname === "/me"}
         icon={<BsPersonFill fontSize={20} />}
         name="Friends"
         rightContent={<Badge count={1} />}

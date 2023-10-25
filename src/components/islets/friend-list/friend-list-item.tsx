@@ -16,7 +16,7 @@ interface FriendListItemProps {
 export default function FriendListItem({ friend }: FriendListItemProps) {
   return (
     <ListItem
-      href={`/channels/${friend.id}`}
+      href={`/users/${friend.id}/private`}
       className="group justify-between border-t-[1px] border-gray-800 py-2.5 pr-3"
       noVerticalPadding
     >

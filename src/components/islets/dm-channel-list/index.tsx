@@ -1,40 +1,20 @@
-"use client";
-import React from "react";
 import { ListedDMChannel } from "@/lib/entities/channel";
-import { List } from "@/components/ui/list";
-import DMChannelListHeader from "./dm-channel-list-header";
-import DMChannelListItem from "./dm-channel-list-item";
-import { useParams } from "next/navigation";
-
-interface DMChannelListrops {
-  channels: ListedDMChannel[];
-}
-export default function DMChannelList({ channels }: DMChannelListrops) {
-  const [currentChannels, setCurrentChannels] =
-    React.useState<ListedDMChannel[]>(channels);
-
-  const handleChannelDelete = (channelId: string) => {
-    setCurrentChannels((prev) =>
-      prev.filter((channel) => channel.id !== channelId),
-    );
-  };
-  const params = useParams();
-
-  return (
-    <div className="pt-4">
-      <DMChannelListHeader />
-      <List className="mt-1">
-        {currentChannels.map((channel) => (
-          <DMChannelListItem
-            active={params.id === channel.id}
-            key={channel.id}
-            channel={channel}
-            onDelete={() => {
-              handleChannelDelete(channel.id);
-            }}
-          />
-        ))}
-      </List>
-    </div>
-  );
+import DMChannelListContent from "./dm-channel-list-content";
+import {
+  MOCK_CHANNELS,
+  MOCK_DELAY,
+  generateRandomFakeChannels,
+} from "@/lib/utils/mock";
+import { delay } from "@/lib/utils";
+export const getData = async (): Promise<{ channels: ListedDMChannel[] }> => {
+  /*
+   * Generate fake channels for testing
+   */
+  const channels: ListedDMChannel[] = generateRandomFakeChannels(MOCK_CHANNELS);
+  await delay(MOCK_DELAY);
+  return { channels };
+};
+export default async function DMChannelList() {
+  const { channels } = await getData();
+  return <DMChannelListContent channels={channels} />;
 }
