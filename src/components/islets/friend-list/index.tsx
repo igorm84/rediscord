@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+
+import  { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import InputField from "@/components/ui/input/input-field";
 import { List } from "@/components/ui/list";
@@ -23,7 +24,7 @@ interface ListDataProps {
   data: User[];
 }
 const ListData = ({ tab, data }: ListDataProps) => {
-  const [search, setSearch] = React.useState("");
+  const [search, setSearch] = useState("");
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
@@ -71,7 +72,7 @@ const ListData = ({ tab, data }: ListDataProps) => {
         </div>
       )}
       <div className="flex-1 overflow-y-scroll">
-        {!!filteredList.length ? (
+        {filteredList.length ? (
           <List>
             {filteredList.map((friend) => (
               <FriendListItem tab={tab} key={friend.id} friend={friend} />
@@ -90,7 +91,7 @@ const ListData = ({ tab, data }: ListDataProps) => {
     </>
   );
 };
-interface FriendListProps {
+export interface FriendListProps {
   friends: User[];
   friendRequests: User[];
   blockedFriends: User[];
@@ -103,7 +104,7 @@ export default function FriendList({
   const { currentTab } = useFriendsTabStore();
   const { setFriends } = useFriendStore();
 
-  React.useEffect(() => {
+  useEffect(() => {
     setFriends(friends);
   }, [friends, setFriends]);
 

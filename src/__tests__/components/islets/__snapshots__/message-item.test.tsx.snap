@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders message item 1`] = `
+<div
+  class="grid min-h-[35px] cursor-pointer grid-cols-[35px_1fr] 
+    items-start gap-2 bg-transparent px-4 py-3 hover:bg-midground"
+>
+  <div
+    class="relative flex h-8 w-8 items-center justify-center rounded-full text-white h-8 w-8 bg-white/5"
+  >
+    <img
+      alt="avatar"
+      class="rounded-full"
+      data-nimg="1"
+      decoding="async"
+      fetchpriority="high"
+      height="32"
+      src="https://i.pravatar.cc/150?img=3"
+      style="color: transparent;"
+      width="32"
+    />
+  </div>
+  <div
+    class="grid grid-rows-[13px_1fr] gap-[5px]"
+  >
+    <div
+      class="flex gap-[6px]"
+    >
+      <span
+        class="grow-0 text-xs font-semibold text-white"
+      >
+        John Doe
+      </span>
+      <span
+        class="grow-0 text-xs font-medium text-zinc-500"
+      >
+        21:57 PM
+      </span>
+    </div>
+    <p
+      class="text-xs font-medium text-zinc-300"
+    >
+      Hello, world!
+    </p>
+  </div>
+</div>
+`;

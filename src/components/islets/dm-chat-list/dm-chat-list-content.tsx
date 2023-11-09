@@ -4,7 +4,7 @@ import { List } from "@/components/ui/list";
 import { useParams, usePathname } from "next/navigation";
 import DMChatListHeader from "./dm-chat-list-header";
 import DMChatListItem from "./dm-chat-list-item";
-import { ListedDMChat } from "@/lib/entities/chat";
+import { Chat } from "@/lib/entities/chat";
 import { motion } from "framer-motion";
 import clsx from "@/lib/clsx";
 
@@ -35,13 +35,13 @@ export function ActiveListItemTab({
 }
 
 interface DMChatListContentProps {
-  channels: ListedDMChat[];
+  channels: Chat[];
 }
 export default function DMChatListContent({
   channels,
 }: DMChatListContentProps) {
   const [currentChannels, setCurrentChannels] =
-    React.useState<ListedDMChat[]>(channels);
+    React.useState<Chat[]>(channels);
 
   const handleChannelDelete = (channelId: string) => {
     setCurrentChannels((prev) =>

@@ -11,7 +11,7 @@ import {
   BsEmojiWink,
 } from "react-icons/bs";
 import { Message } from "../entities/message";
-import { ListedDMChat } from "../entities/chat";
+import { Chat } from "../entities/chat";
 import { Channel, ChannelGroup } from "../entities/channel";
 
 export const MOCK_DELAY = 2000;
@@ -33,7 +33,7 @@ const currentActivity = {
   name: "Dead by Daylight",
 };
 
-export const generateRandomFakeChats = (length: number): ListedDMChat[] =>
+export const generateRandomFakeChats = (length: number): Chat[] =>
   Array.from({ length }, (_, i) => ({
     id: generateRandomDiscordID(),
     status:

@@ -10,10 +10,9 @@ const Dialog = DialogPrimitive.Root;
 const DialogTrigger = DialogPrimitive.Trigger;
 
 const DialogPortal = ({
-  className,
   ...props
 }: DialogPrimitive.DialogPortalProps) => (
-  <DialogPrimitive.Portal className={clsx(className)} {...props} />
+  <DialogPrimitive.Portal  {...props} />
 );
 DialogPortal.displayName = DialogPrimitive.Portal.displayName;
 

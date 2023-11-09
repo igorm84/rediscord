@@ -4,10 +4,10 @@ import {
   generateRandomFakeChats,
 } from "@/lib/utils/mock";
 import { delay } from "@/lib/utils";
-import { ListedDMChat } from "@/lib/entities/chat";
+import { Chat } from "@/lib/entities/chat";
 import DMChatListContent from "./dm-chat-list-content";
-export const getData = async (): Promise<{ channels: ListedDMChat[] }> => {
-  const channels: ListedDMChat[] = generateRandomFakeChats(MOCK_CHATS);
+export const getData = async (): Promise<{ channels: Chat[] }> => {
+  const channels: Chat[] = generateRandomFakeChats(MOCK_CHATS);
   await delay(MOCK_DELAY + 1000);
   return { channels };
 };

@@ -3,13 +3,16 @@
 import Avatar from "@/components/ui/avatar";
 import { List, ListItem } from "@/components/ui/list";
 import { ActivityTypes } from "@/lib/entities/activity";
+import { User } from "@/lib/entities/user";
 import { useFriendStore } from "@/state/friend-list";
 
 export const ActiveNowListItemSkeleton = () => (
   <div className="h-[70px] animate-pulse rounded-md bg-gray-900"></div>
 );
-export default function ActiveNowList() {
-  const { friends } = useFriendStore();
+interface ActiveNowListItemProps {
+  friends: User[] | null;
+}
+export default function ActiveNowList({ friends }: ActiveNowListItemProps) {
   if (friends === null) {
     return <ActiveNowListItemSkeleton />;
   }

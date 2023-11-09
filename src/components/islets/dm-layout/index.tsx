@@ -14,7 +14,7 @@ const ActiveNowPanel = dynamic(() => import("../active-now-panel"), {
   loading: () => <ActiveNowPanelSkeleton />,
 });
 
-export default async function DMLayout({ children }: React.PropsWithChildren) {
+export default function DMLayout({ children }: React.PropsWithChildren) {
   return (
     <>
       <Sidebar className="bottom-70 flex flex-col">

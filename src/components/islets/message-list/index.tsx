@@ -20,9 +20,9 @@ export default function MessageList({
         const diff = curr.day() - prev.day() + (curr.month() - prev.month());
 
         return (
-          <div className="flex flex-col">
+          <div key={item.id} className="flex flex-col">
             {diff ? <DateBar date={curr.format("D MMMM, YYYY")} /> : null}
-            <MessageItem key={item.id} {...item} />
+            <MessageItem  {...item} />
           </div>
         );
       })}

@@ -15,7 +15,7 @@ export default function ServerGroup({
   groupTitle,
   channelList,
 }: ServerGroupProps) {
-  const pathSegments = usePathname().split("/");
+  const pathSegments = usePathname().split("/") || [];
   const router = useRouter();
 
   const isActiveGroup = useMemo(
@@ -34,17 +34,20 @@ export default function ServerGroup({
         onClick={() => setChannelVisibility((v) => !v)}
         className="grid flex-1 cursor-pointer grid-cols-[12px_1fr] gap-1 rounded-sm px-1 
       py-2 transition-all hover:text-white"
+        data-testid="channel-group"
       >
         <AiOutlineArrowDown
           className={`${isChannelVisible ? "rotate-180" : ""} transition-all`}
           width="12px"
           height="12px"
+          data-testid="channel-group-icon"
         />
         <span className="uppercase">{groupTitle}</span>
       </div>
       <motion.div
         animate={{ height: isChannelVisible ? "100%" : "0px" }}
         className="grid grid-flow-row overflow-hidden"
+        data-testid="channel-list"
       >
         {channelList.map((channel) => (
           <ChannelItem

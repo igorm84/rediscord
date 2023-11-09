@@ -14,9 +14,13 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
-export default function SearchModal() {
-  const [open, setOpen] = useState(false);
+interface SearchModalProps {
+  defaultOpen?: boolean;
+}
 
+export default function SearchModal({ defaultOpen = false }: SearchModalProps) {
+  const [open, setOpen] = useState(defaultOpen);
+  useEffect(() => setOpen(defaultOpen), [defaultOpen])
   useEffect(() => {
     const handleEvent = (event: Event) => {
       const { detail } = event as SearchModalEvent;
@@ -41,17 +45,17 @@ export default function SearchModal() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
+      <DialogContent role="search-dialog-content">
         <DialogHeader>
           <Input placeholder="Where you want me to take you?" size="lg" />
         </DialogHeader>
         <DialogDescription>
-          <div className="text-xs font-semibold text-gray-400">
+          <span className="text-xs font-semibold text-gray-400">
             LAST CHANNELS
-          </div>
-          <div className="text-gray-500">
+          </span>
+          <span className="text-gray-500">
             No recent channels. Start a new search.
-          </div>
+          </span>
         </DialogDescription>
         <div className="text-xs text-gray-400">
           <strong className="text-green-400">HERE&apos;s a TIP:</strong> Write

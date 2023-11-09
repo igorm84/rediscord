@@ -43,6 +43,7 @@ export const MessageTypeEmojiBtn = ({
       onMouseLeave={() => setCanChange(true)}
       className={clsx("text-gray-300 hover:text-gray-200", className)}
       {...props}
+      data-testid="message-type-emoji-btn"
     >
       <EmojiComponent fontSize={24} />
     </HybridButton>

@@ -14,6 +14,7 @@ export default function MessageItem({
   const hDiff = dayjs(Date.now()).diff(timestamp) / 1000 / 60 / 60;
   return (
     <div
+    role="message-item"
       className="grid min-h-[35px] cursor-pointer grid-cols-[35px_1fr] 
     items-start gap-2 bg-transparent px-4 py-3 hover:bg-midground"
     >
