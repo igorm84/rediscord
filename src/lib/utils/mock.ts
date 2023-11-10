@@ -2,11 +2,21 @@ import { faker } from "@faker-js/faker";
 import { User, UserStatuses } from "@/lib/entities/user";
 import { ActivityTypes } from "@/lib/entities/activity";
 import { ListedServer } from "../entities/server";
-import { ListedDMChannel } from "../entities/channel";
+import {
+  BsEmojiAngry,
+  BsEmojiDizzy,
+  BsEmojiKiss,
+  BsEmojiNeutral,
+  BsEmojiSmile,
+  BsEmojiWink,
+} from "react-icons/bs";
+import { Message } from "../entities/message";
+import { Chat } from "../entities/chat";
+import { Channel, ChannelGroup } from "../entities/channel";
 
 export const MOCK_DELAY = 2000;
 export const MOCK_FRIENDS = 18;
-export const MOCK_CHANNELS = 18;
+export const MOCK_CHATS = 18;
 export const MOCK_SERVERS = 18;
 
 const generateRandomDiscordID = () =>
@@ -23,7 +33,7 @@ const currentActivity = {
   name: "Dead by Daylight",
 };
 
-export const generateRandomFakeChannels = (length: number): ListedDMChannel[] =>
+export const generateRandomFakeChats = (length: number): Chat[] =>
   Array.from({ length }, (_, i) => ({
     id: generateRandomDiscordID(),
     status:
@@ -43,9 +53,8 @@ export const generateRandomFakeServers = (length: number): ListedServer[] =>
       width: 64,
       height: 64,
     }),
-    messages: i === 0 ? 3 : undefined,
+    messages: !i ? 3 : undefined,
   }));
-
 export const generateRandomFakeUsers = (length: number): User[] =>
   Array.from({ length }, (_, i) => ({
     id: generateRandomDiscordID(),
@@ -58,6 +67,55 @@ export const generateRandomFakeUsers = (length: number): User[] =>
     type: "user",
   }));
 
+export const generateRandomChannels = (length: number): Channel[] =>
+  // @ts-ignore
+  Array.from({ length }, () => ({
+    id: generateRandomDiscordID(),
+    title: faker.word.noun(),
+    slug: faker.word.verb(),
+    type: Math.random() > 0.5 ? "text" : "voice",
+  })).concat([
+    {
+      id: generateRandomDiscordID(),
+      title: "My test",
+      slug: "my-test",
+      type: "voice",
+    },
+    {
+      id: generateRandomDiscordID(),
+      title: "My test 1",
+      slug: "my-test-1",
+      type: "voice",
+    },
+  ]);
+export const generateRandomChannelGroup = (length: number): ChannelGroup[] =>
+  Array.from({ length }, (_, i) => ({
+    id: generateRandomDiscordID(),
+    title: faker.word.verb(),
+    channels: generateRandomChannels(2),
+  }));
+export const generateRandomFakeMegssages = (length: number): Message[] =>
+  Array.from({ length }, (_, i) => ({
+    id: generateRandomDiscordID(),
+    message: faker.word.sample(),
+    authorAvatar: faker.image.avatar(),
+    timestamp: Date.now(),
+    authorNickname: faker.person.fullName(),
+  }));
+
 export const getRandomUserById = (id: string) => {
   return { ...generateRandomFakeUsers(1)[0], id };
 };
+export const emojiList: React.FC<any>[] = [
+  BsEmojiAngry,
+  BsEmojiKiss,
+  BsEmojiWink,
+  BsEmojiSmile,
+  BsEmojiNeutral,
+  BsEmojiDizzy,
+];
+export const messageTypes = [
+  { type: "emoji", text: "Emoji" },
+  { type: "stickers", text: "Stickers" },
+  { type: "gif", text: "GIF" },
+];

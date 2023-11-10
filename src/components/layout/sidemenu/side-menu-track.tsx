@@ -46,7 +46,7 @@ export default function SideMenuTrack({ servers }: SideMenuTrackProps) {
           Direct messages side menu button
         */}
         <SideMenuItem
-          href="/channels/me"
+          href="/me"
           onClick={() => setActive("default")}
           tooltipContent={<div className="font-semibold">Direct messages</div>}
           notificationCount={432}
@@ -66,7 +66,7 @@ export default function SideMenuTrack({ servers }: SideMenuTrackProps) {
         */}
         {servers?.map((server) => (
           <ServerMenuItem
-            href={`/channels/${server.id}`}
+            href={`/server/${server.id}/`}
             key={server.id}
             server={server}
             isActive={active === server.id}

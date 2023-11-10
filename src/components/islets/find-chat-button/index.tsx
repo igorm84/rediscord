@@ -9,18 +9,24 @@ export const FindChatButtonSkeleton = () => {
     </button>
   );
 };
-
-export default function FindChatButton() {
+interface FindSomethingButtonProps {
+  text: string;
+  icon?: React.ReactNode;
+}
+export default function FindSomethingButton({
+  text,
+  icon,
+}: FindSomethingButtonProps) {
   const handleClick = () => {
     sendSearchModalEvent("open");
   };
   return (
     <button
       onClick={handleClick}
-      className="flex w-full justify-between rounded-sm bg-background p-1.5 text-left text-xs text-gray-400 hover:bg-background/70"
+      className="flex w-full items-center justify-between gap-2 rounded-sm bg-background p-1.5 text-left text-[13px] text-gray-400 hover:bg-background/70"
     >
-      Find your friends & chats
-      <div className="rounded-sm bg-gray-800/50 px-1 text-[11px]">Ctrl K</div>
+      {text}
+      {icon}
     </button>
   );
 }

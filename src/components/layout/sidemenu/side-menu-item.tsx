@@ -55,6 +55,7 @@ export default function SideMenuItem({
             className,
           )}
           {...props}
+          data-testid={isActive ? "side-menu-active-item" : "side-menu-item"}
         >
           <SideTip isActive={isActive} />
           <BorderedBadge

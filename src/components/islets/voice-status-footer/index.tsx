@@ -18,12 +18,14 @@ type VoiceStatusButton = {
   muted?: boolean;
   tooltipText: string;
   onClick?: () => void;
+  dataTestid?: string;
 };
 const VoiceStatusButton = ({
   icon,
   muted,
   tooltipText,
   onClick,
+  dataTestid
 }: VoiceStatusButton) => {
   const [open, setOpen] = useState(false);
 
@@ -36,6 +38,7 @@ const VoiceStatusButton = ({
       >
         <button
           onClick={onClick}
+          data-testid={dataTestid}
           className={clsx(
             "group relative flex h-8 w-8 items-center justify-center rounded-md hover:bg-gray-700",
             "text-gray-300 hover:text-gray-200",
@@ -86,6 +89,7 @@ export default function VoiceStatusFooter() {
                 mute: !prev.mute,
               }))
             }
+            dataTestid="mute-button"
             icon={<BsMicFill fontSize={18} />}
           />
           <VoiceStatusButton
@@ -94,10 +98,12 @@ export default function VoiceStatusFooter() {
             onClick={() =>
               setVoiceStatus((prev) => ({ ...prev, deaf: !prev.deaf }))
             }
+            dataTestid="deaf-button"
             icon={<BsHeadphones fontSize={20} />}
           />
           <VoiceStatusButton
             tooltipText="Settings"
+            dataTestid="settings-button"
             icon={<BsGearFill fontSize={18} />}
           />
         </div>

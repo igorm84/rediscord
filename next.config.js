@@ -3,9 +3,14 @@ const nextConfig = {
   redirects: async () => [
     {
       source: "/",
-      destination: "/channels/me",
+      destination: "/me",
       permanent: true,
     },
+    {
+      source: "/channels/me",
+      destination: "/me",
+      permanent: true
+    }
   ],
   images: {
     remotePatterns: [

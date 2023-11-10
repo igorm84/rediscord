@@ -1,10 +1,20 @@
-import { UserStatuses } from "./user";
-import { Activity } from "./activity";
+import { Component, ReactComponentElement } from "react";
+import { AiFillSound } from "react-icons/ai";
+import { BsHash } from "react-icons/bs";
 
-export type ListedDMChannel = {
+// here keys represent the type of channel
+export const channelIcons = {
+  "text": BsHash,
+  "voice": AiFillSound,
+}
+export interface Channel {
   id: string;
-  name: string;
-  status: UserStatuses;
-  activity?: Activity | null;
-  avatar?: string | null;
-};
+  title: string;
+  slug: string;
+  type: keyof typeof channelIcons;
+}
+export interface ChannelGroup {
+  id: string;
+  title: string;
+  channels: Channel[];
+}

@@ -12,7 +12,7 @@ export default function PageContent({
   return (
     <div
       className={clsx(
-        "flex flex-1 lg:overflow-hidden",
+        "flex flex-1",
         padding === "md" && "px-6 pt-4",
         padding === "lg" && "px-8 pt-6",
         className,

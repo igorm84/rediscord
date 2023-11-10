@@ -22,6 +22,8 @@ const config: Config = {
           "800": "#40444c",
           "900": "#383a42",
           "950": "#25272c",
+          bright: "#41434A",
+          "aqua-haze": "#F2F3F5",
         },
         background: "rgb(var(--color-background) / <alpha-value>)",
         semibackground: "rgb(var(--color-semibackground) / <alpha-value>)",
