@@ -22,7 +22,7 @@ const getData = async (): Promise<FriendFetchData> => {
    * Generating fake users for test
    */
   const friends: User[] = generateRandomFakeUsers(MOCK_FRIENDS);
-  const friendRequests: User[] = generateRandomFakeUsers(1);
+  const friendRequests: User[] = generateRandomFakeUsers(6);
   const blockedFriends: User[] = [];
 
   await delay(MOCK_DELAY);
@@ -40,7 +40,7 @@ export default async function MePage() {
             Friends
           </div>
           <Divider vertical />
-          <FriendsTabGroup friendRequestsCount={data.friendRequests.length} />
+          <FriendsTabGroup />
         </div>
       </PageHeader>
       <PageContent className="flex-col lg:flex-row" padding="none">

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import InputField from "@/components/ui/input/input-field";
 import { List } from "@/components/ui/list";
@@ -9,13 +9,13 @@ import { BsSearch, BsXLg } from "react-icons/bs";
 import { useFriendsTabStore } from "@/state/friends-tab";
 import FriendListItem from "./friend-list-item";
 import { normalizedCompare } from "@/lib/utils/string";
-import { useFriendStore } from "@/state/friend-list";
 import { EmptyBox } from "../empty-box-image";
 import {
   FriendsTabEnum,
   FriendsTab,
   friendsTabsProps,
 } from "@/lib/types/friend-tab-prop";
+import { useFriendStore } from "@/state/friend-list";
 import clsx from "@/lib/clsx";
 
 interface ListDataProps {
@@ -27,6 +27,7 @@ const ListData = ({ tab, data }: ListDataProps) => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
+
   const filteredList = data.filter((user) => {
     const isMatchingName = !search || normalizedCompare(user.name, search);
     return (
@@ -103,9 +104,11 @@ export default function FriendList({
   const { currentTab } = useFriendsTabStore();
   const { setFriends } = useFriendStore();
 
-  React.useEffect(() => {
-    setFriends(friends);
-  }, [friends, setFriends]);
+  useEffect(() => {
+    if (friends) {
+      setFriends(friends);
+    }
+  }, []);
 
   const tab = friendsTabsProps[currentTab];
   const isAllOrAvailableTab = [
@@ -118,11 +121,10 @@ export default function FriendList({
     : currentTab === FriendsTabEnum.Pending
     ? friendRequests
     : blockedFriends;
-
   return (
     <div className="flex flex-1 flex-col">
       <TooltipProvider>
-        <ListData key={currentTab} tab={tab} data={data} />
+        <ListData key={currentTab} tab={tab} data={data || []} />
       </TooltipProvider>
     </div>
   );

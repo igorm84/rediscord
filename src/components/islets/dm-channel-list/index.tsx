@@ -5,18 +5,24 @@ import { List } from "@/components/ui/list";
 import DMChannelListHeader from "./dm-channel-list-header";
 import DMChannelListItem from "./dm-channel-list-item";
 import { useParams } from "next/navigation";
+import { useChannelStore } from "@/state/channel-list";
 
 interface DMChannelListrops {
-  channels: ListedDMChannel[];
+  channelsData: ListedDMChannel[];
 }
-export default function DMChannelList({ channels }: DMChannelListrops) {
-  const [currentChannels, setCurrentChannels] =
-    React.useState<ListedDMChannel[]>(channels);
+export default function DMChannelList({ channelsData }: DMChannelListrops) {
+  const { channels, setChannels } = useChannelStore();
+
+  React.useEffect(() => {
+    if (channelsData) {
+      setChannels(channelsData);
+    }
+  }, []);
 
   const handleChannelDelete = (channelId: string) => {
-    setCurrentChannels((prev) =>
-      prev.filter((channel) => channel.id !== channelId),
-    );
+    if (channels !== null) {
+      setChannels(channels.filter((channel) => channel.id !== channelId));
+    }
   };
   const params = useParams();
 
@@ -24,7 +30,7 @@ export default function DMChannelList({ channels }: DMChannelListrops) {
     <div className="pt-4">
       <DMChannelListHeader />
       <List className="mt-1">
-        {currentChannels.map((channel) => (
+        {channels?.map((channel) => (
           <DMChannelListItem
             active={params.id === channel.id}
             key={channel.id}

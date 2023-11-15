@@ -7,4 +7,5 @@ export enum ActivityTypes {
 export type Activity = {
   type: ActivityTypes;
   name: string;
+  since: Date;
 };

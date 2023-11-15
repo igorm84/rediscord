@@ -1,20 +1,17 @@
-import { Page, PageContent, PageHeader } from "@/components/layout/page";
-import Avatar from "@/components/ui/avatar";
-import Divider from "@/components/ui/divider";
+import ChannelDM from "@/components/islets/dm-channel";
+import { Page } from "@/components/layout/page";
+import { ListedDMChannel } from "@/lib/entities/channel";
 import { User } from "@/lib/entities/user";
 import { delay } from "@/lib/utils";
-import { MOCK_DELAY, getRandomUserById } from "@/lib/utils/mock";
-import { GiCow } from "react-icons/gi";
+import { MOCK_DELAY, generateRandomFakeChannels } from "@/lib/utils/mock";
 
-const getData = async (id: string): Promise<{ user: User }> => {
-  /*
-   * Generate fake user for testing
-   */
-  const user = getRandomUserById(id);
-  user.id = id;
-
+export const getChannelByID = async (
+  id: string,
+): Promise<{ channel: User | undefined }> => {
+  if (!id) throw new Error("Invalid ID");
+  const channel: ListedDMChannel = generateRandomFakeChannels(1)[0];
   await delay(MOCK_DELAY);
-  return { user };
+  return { channel };
 };
 
 export default async function ChannelPage({
@@ -22,28 +19,10 @@ export default async function ChannelPage({
 }: {
   params: { id: string };
 }) {
-  const { user } = await getData(params.id);
+  const { channel } = await getChannelByID(params.id);
   return (
     <Page>
-      <PageHeader>
-        <div className="flex items-center gap-4">
-          <div className="flex flex-none items-center gap-3 text-sm font-semibold">
-            <Avatar
-              size="sm"
-              src={user.avatar}
-              alt="ewqwqe"
-              status={user.status}
-            />
-            {user.name}
-          </div>
-          <Divider vertical />
-          <div className="text-xs text-gray-400">{user.username}</div>
-        </div>
-      </PageHeader>
-      <PageContent>
-        <span className="text-sm text-gray-300">Currently working here...</span>
-        <GiCow fontSize={42} className="mt-2 animate-bounce" />
-      </PageContent>
+      <ChannelDM user={channel} />
     </Page>
   );
 }

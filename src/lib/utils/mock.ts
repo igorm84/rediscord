@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { User, UserStatuses } from "@/lib/entities/user";
-import { ActivityTypes } from "@/lib/entities/activity";
+import { Activity, ActivityTypes } from "@/lib/entities/activity";
 import { ListedServer } from "../entities/server";
 import { ListedDMChannel } from "../entities/channel";
 
@@ -13,14 +13,19 @@ const generateRandomDiscordID = () =>
   faker.number.int({ min: 100000000000000, max: 999999999999999 }).toString();
 
 export const generateFakeCurrentUser = () => ({
+  id: generateRandomDiscordID(),
   name: "Repeep",
   avatar: "https://avatars.githubusercontent.com/u/16727448?v=4",
   status: UserStatuses.DND,
 });
 
-const currentActivity = {
+const generatePastHoursDate = (hours: number) =>
+  new Date(Date.now() - hours * 60 * 60 * 1000);
+
+const currentActivity: Activity = {
   type: ActivityTypes.Playing,
   name: "Dead by Daylight",
+  since: generatePastHoursDate(5),
 };
 
 export const generateRandomFakeChannels = (length: number): ListedDMChannel[] =>
@@ -33,6 +38,7 @@ export const generateRandomFakeChannels = (length: number): ListedDMChannel[] =>
     name: faker.person.fullName(),
     avatar: i === 6 ? undefined : faker.image.avatarGitHub(),
     activity: i === 0 ? currentActivity : undefined,
+    username: faker.internet.userName().toLowerCase(),
   }));
 
 export const generateRandomFakeServers = (length: number): ListedServer[] =>
