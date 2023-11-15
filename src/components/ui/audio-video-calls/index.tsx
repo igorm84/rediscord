@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "@livekit/components-styles";
 import {
   LiveKitRoom,
@@ -65,6 +66,7 @@ export default function AudioVideoCall({
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function MyVideoConference({ currentUser }: { currentUser: User | null }) {
   const tracks = useTracks(
     [
