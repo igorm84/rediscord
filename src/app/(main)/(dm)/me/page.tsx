@@ -28,14 +28,14 @@ const getData = async (): Promise<FriendFetchData> => {
 export default async function MePage() {
   const data = await getData();
   return (
-    <Page>
+    <Page className="duration-[200ms] transition-all ease-in-out sm:ml-[310px]">
       <PageHeader>
-        <div className="flex gap-4">
-          <div className="flex flex-none items-center gap-2 text-sm font-semibold">
+        <div className="flex w-full gap-4">
+          <div className="flex flex-none items-center gap-2 pb-2 text-sm font-semibold sm:pb-0">
             <BsPersonFill className="text-gray-500" fontSize={22} />
             Friends
           </div>
-          <Divider vertical />
+          <Divider vertical className="pb-2 sm:pb-0" />
           <FriendsTabGroup friendRequestsCount={data.friendRequests.length} />
         </div>
       </PageHeader>

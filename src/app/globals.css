@@ -17,6 +17,7 @@
   }
   body {
     background-color: rgb(var(--color-foreground));
+    overflow-x: hidden;
   }
   * {
     scrollbar-width: auto;
@@ -69,9 +70,19 @@
     }
   }
 }
+.horizontal-scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 8px;
+  }
+}
 * {
   outline: none !important;
   &:focus-visible {
     @apply ring-2 ring-primary;
   }
+}
+.side-menu-wrapper {
+  @apply hidden-scrollbar fixed z-50 h-[calc(100vh-40px)] 
+  w-[70px] gap-3 overflow-y-auto pt-3 sm:h-screen bg-gradient-to-b from-semibackground to-background;
 }

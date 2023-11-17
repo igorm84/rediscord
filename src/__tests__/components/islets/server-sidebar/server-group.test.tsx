@@ -1,5 +1,6 @@
 import Meta, { Template } from "@/components/islets/server-sidebar/server-group.stories";
 import { Channel } from "@/lib/entities/channel";
+import { useViewportType } from "@/state/viewport-type";
 import { composeStory } from "@storybook/react";
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -56,4 +57,5 @@ describe('ServerGroup', () => {
             expect(elementWithoutChannels.getByTestId("channel-list").children.length).toBe(0);
         })
     })
+    
 })

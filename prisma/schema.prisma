@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id        String    @id @default(uuid())
+  username  String    @unique
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  messages  Message[]
+
+  recivedFriendRequest   Request[] @relation("FriendRequestReciever")
+  sendedFriendRequest   Request[] @relation("FriendRequester")
+  channels   Channel[]
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  channelId String
+  channel   Channel  @relation(fields: [channelId], references: [id])
+
+  @@index([userId])
+  @@index([channelId])
+}
+
+model Request {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  requesterId String
+  requester   User     @relation("FriendRequester", fields: [requesterId], references: [id])
+  addresseeId String
+  addressee   User     @relation("FriendRequestReciever", fields: [addresseeId], references: [id])
+  @@index([requesterId])
+  @@index([addresseeId])
+}
+
+model Channel {
+  id       String      @id @default(uuid())
+  name     String
+  type     ChannelType
+  messages Message[]
+  users    User[]
+}
+
+enum ChannelType {
+  DIRECT
+  SERVER
+}

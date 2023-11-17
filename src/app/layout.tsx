@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
+import "swiper/css";
 import Providers from "./Providers";
+import { ListenViewportChanges } from "./MediaQuery";
 
 const mainFont = Open_Sans({
   subsets: ["latin"],
@@ -18,6 +20,7 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
     <html lang="en">
       <body className={mainFont.className + " dark"}>
         <Providers>{children}</Providers>
+        <ListenViewportChanges />
       </body>
     </html>
   );

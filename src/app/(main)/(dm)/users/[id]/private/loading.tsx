@@ -7,7 +7,7 @@ import {
 
 export default function MePageSkeleton() {
   return (
-    <Page>
+    <Page className="ml-0 sm:ml-[310px] transition-all">
       <PageHeaderSkeleton gap="4" boxSkeletonType="avatar" />
       <PageContent className="grid max-w-md gap-3">
         {Array(20)

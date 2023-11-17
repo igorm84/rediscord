@@ -8,6 +8,7 @@ import DMChatListSkeleton from "../dm-chat-list/dm-chat-list-skeleton";
 export default function DMLayoutSkeleton({
   children,
 }: React.PropsWithChildren) {
+  
   return (
     <>
       <Sidebar className="bottom-70 flex flex-col">

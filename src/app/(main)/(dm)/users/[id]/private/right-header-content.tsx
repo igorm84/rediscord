@@ -2,7 +2,7 @@ import { PageHeaderButton } from "@/components/layout/page/page-header";
 import Divider from "@/components/ui/divider";
 import { BsChatRightFill, BsGithub, BsInboxFill } from "react-icons/bs";
 
-export default function RightHeaderContent() {
+export default function RightHeaderContent({className, ...props}: React.HTMLAttributes<HTMLDivElement> ) {
   return (
     <>
       <PageHeaderButton>

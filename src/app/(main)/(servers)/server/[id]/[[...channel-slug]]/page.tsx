@@ -5,7 +5,7 @@ import { Page, PageContent, PageHeader } from "@/components/layout/page";
 import Divider from "@/components/ui/divider";
 import { channelIcons } from "@/lib/entities/channel";
 import { generateRandomChannels } from "@/lib/utils/mock";
-import { Hydrate, dehydrate } from "@tanstack/react-query";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 
 export default async function ServerChannelPage({
   params,
@@ -18,11 +18,11 @@ export default async function ServerChannelPage({
   const slug = params["channel-slug"]?.at(0) || "test";
   const channel = generateRandomChannels(1)[0];
   const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(["server-channel", slug], () => channel);
+  await queryClient.prefetchQuery({queryKey: ['channel', channel.id], queryFn: () => channel});
 
   const ChannelIcon = channelIcons[channel.type];
   return (
-    <Page>
+    <Page className="sm:ml-[310px]">
       <PageHeader rightContent={<RightHeaderContent />}>
         <div className=" flex items-center gap-4">
           <div className="flex flex-none items-center gap-3 text-sm font-semibold text-white">
@@ -35,10 +35,10 @@ export default async function ServerChannelPage({
           </div>
         </div>
       </PageHeader>
-      <PageContent className="hover-scrollbar grid px-0">
-        <Hydrate state={dehydrate(queryClient)}>
+      <PageContent className="hover-scrollbar relative grid pl-7 sm:px-4">
+        <HydrationBoundary state={dehydrate(queryClient)}>
           <ServerChannelContent channel={channel} />
-        </Hydrate>
+        </HydrationBoundary>
       </PageContent>
     </Page>
   );

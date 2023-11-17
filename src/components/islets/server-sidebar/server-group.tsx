@@ -5,6 +5,7 @@ import { Channel } from "@/lib/entities/channel";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
+import { useSidebarStatus } from "@/state/sidebar-status";
 
 interface ServerGroupProps {
   groupTitle: string;
@@ -17,7 +18,7 @@ export default function ServerGroup({
 }: ServerGroupProps) {
   const pathSegments = usePathname().split("/") || [];
   const router = useRouter();
-
+  const { setSidebarStatus, status } = useSidebarStatus();
   const isActiveGroup = useMemo(
     () => channelList.find((v) => v.slug == pathSegments.at(-1)),
     [],
@@ -25,6 +26,7 @@ export default function ServerGroup({
   const changeChannel = (slug: string) => {
     pathSegments.length = 4; // cut rest non-needed segments
     pathSegments[3] = slug;
+    status === "open" && setSidebarStatus("closed");
     router.push(pathSegments.join("/"));
   };
   const [isChannelVisible, setChannelVisibility] = useState(!!isActiveGroup);

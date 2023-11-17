@@ -6,7 +6,7 @@ export type HybridButtonProps =
   | React.ComponentPropsWithoutRef<typeof Link>
   | React.ComponentPropsWithoutRef<"button">;
 
-type HybridButtonRef = React.ElementRef<typeof Link> &
+export type HybridButtonRef = React.ElementRef<typeof Link> &
   React.ElementRef<"button">;
 
 const HybridButton = React.forwardRef<HybridButtonRef, HybridButtonProps>(

@@ -18,18 +18,21 @@ export const PageHeaderButton = ({
     {children}
   </HybridButton>
 );
-interface PageHeaderProps {
+interface PageHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   rightContent?: React.ReactNode;
   children: React.ReactNode;
+
 }
 export default function PageHeader({
   children,
   rightContent,
+  className,
+  ...props
 }: PageHeaderProps) {
   return (
-    <Header className="sticky top-0 z-10 flex-none justify-between bg-foreground">
+    <Header className={clsx(`sticky top-0 z-10 flex-none justify-between bg-foreground`, className)} {...props}>
       {children}
-      <div className="flex items-center gap-6">{rightContent}</div>
+      <div className="flex relative items-center gap-6">{rightContent}</div>
     </Header>
   );
 }

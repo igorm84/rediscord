@@ -9,7 +9,7 @@ export const getData = async (): Promise<{ servers: ListedServer[] }> => {
    * Generate fake servers for testing
    */
   const servers: ListedServer[] = generateRandomFakeServers(18);
-  await delay(MOCK_DELAY);
+  await delay(MOCK_DELAY * 2);
   return { servers };
 };
 

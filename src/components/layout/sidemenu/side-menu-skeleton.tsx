@@ -26,7 +26,7 @@ const SideMenuItemSkeleton = ({
 );
 export default function SideMenuSkeleton() {
   return (
-    <SideMenuWrapper>
+    <div className="side-menu-wrapper">
       <SideMenuItemSkeleton
         isActive
         className="mx-auto mb-2 flex items-center justify-center bg-primary text-white"
@@ -39,6 +39,6 @@ export default function SideMenuSkeleton() {
           <SideMenuItemSkeleton key={i} className="mx-auto my-2" />
         ))}
       </div>
-    </SideMenuWrapper>
+    </div>
   );
 }

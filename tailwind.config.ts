@@ -36,6 +36,12 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      keyframes: {
+        "pulse-rotate": {
+          "0%": { transform: "rotate(0deg)", opacity: "0.5" },
+          "100%": {transform: "rotate(360deg)", opacity: "1" },
+        }
+      }
     },
   },
   darkMode: "class",

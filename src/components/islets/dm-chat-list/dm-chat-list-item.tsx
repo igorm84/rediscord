@@ -1,11 +1,13 @@
 import Avatar from "@/components/ui/avatar";
 import { ListItem } from "@/components/ui/list";
-import { ListedDMChat } from "@/lib/entities/chat";
+import { Chat } from "@/lib/entities/chat";
+import { useSidebarStatus } from "@/state/sidebar-status";
+import { useViewportType } from "@/state/viewport-type";
 import { BsFillChatLeftTextFill, BsX } from "react-icons/bs";
 
 type DMChannelListItemProps = {
   active?: boolean;
-  channel: ListedDMChat;
+  channel: Chat;
   onDelete: () => void;
 };
 
@@ -14,11 +16,14 @@ export default function DMChatListItem({
   channel,
   onDelete,
 }: DMChannelListItemProps) {
+  const { setSidebarStatus } = useSidebarStatus();
+  const { type: viewportType } = useViewportType();
   return (
     <ListItem
       noVerticalPadding
       active={active}
       href={`/users/${channel.id}/private`}
+      onClick={() => viewportType === "mobile" && setSidebarStatus("closed")}
       className="group max-h-[44px] gap-3 bg-transparent py-1.5"
     >
       <Avatar

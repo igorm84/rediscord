@@ -3,6 +3,7 @@ import MessageList from "../message-list";
 import InputMessageBox from "../input-message-box";
 import EmptyChannel from "./empty-channel";
 import { Channel } from "@/lib/entities/channel";
+import { GoBackWideBtn } from "../go-back-btn";
 
 interface ServerChannelContentProps {
   channel: Channel;
@@ -24,6 +25,7 @@ export default async function ServerChannelContent({
       <div className="sticky bottom-0 z-[1] flex flex-grow items-end bg-[#313338] px-4">
         <InputMessageBox />
       </div>
+      <GoBackWideBtn />
     </>
   );
 }

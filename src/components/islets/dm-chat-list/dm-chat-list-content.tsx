@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { List } from "@/components/ui/list";
-import { useParams, usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import DMChatListHeader from "./dm-chat-list-header";
 import DMChatListItem from "./dm-chat-list-item";
 import { Chat } from "@/lib/entities/chat";
@@ -49,15 +49,15 @@ export default function DMChatListContent({
     );
   };
   const params = useParams();
-  const pathname = usePathname();
   const activeIdx = currentChannels.findIndex((v) => v.id == params.id);
+  
   return (
     <div className="pt-4">
       <DMChatListHeader />
-      <List className="relative mt-1 ">
+      <List className="relative mt-1">
         <ActiveListItemTab
-          offsetY={Math.abs(activeIdx * 44)}
-          hide={pathname !== `/users/${params.id}/private` || activeIdx == -1}
+          offsetY={Math.max(activeIdx * 44, 0)}
+          hide={ activeIdx == -1}
         />
         {currentChannels.map((channel) => (
           <DMChatListItem

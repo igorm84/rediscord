@@ -12,7 +12,7 @@ export default function DMChatListSkeleton() {
       </div>
       <div className="mt-1">
         {Array.from({ length: MOCK_CHATS }, (_, i) => i).map((i) => (
-          <DMChatListItemSkeleton even={i % 2 === 0} />
+          <DMChatListItemSkeleton key={i} even={i % 2 === 0} />
         ))}
       </div>
     </div>
