@@ -84,5 +84,12 @@
 }
 .side-menu-wrapper {
   @apply hidden-scrollbar fixed z-50 h-[calc(100vh-40px)] 
-  w-[70px] gap-3 overflow-y-auto pt-3 sm:h-screen bg-gradient-to-b from-semibackground to-background;
+  w-[70px] gap-3 overflow-y-auto bg-gradient-to-b from-semibackground to-background pt-3 sm:h-screen;
 }
+.input-label {
+  @apply flex gap-1 uppercase transition-all;
+}
+.input-label-error {
+  @apply text-red-600 font-bold;
+}
+

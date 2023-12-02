@@ -30,7 +30,7 @@ export default async function ServerChannelPage({
             {channel.title}
           </div>
           <Divider vertical />
-          <div className="text-xs text-gray-400">
+          <div className="truncate text-xs text-gray-400">
             {"Some channel description"}
           </div>
         </div>

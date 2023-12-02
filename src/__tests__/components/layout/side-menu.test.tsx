@@ -1,4 +1,4 @@
-import { render, waitFor } from "@testing-library/react";
+import { render, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
 import { composeStory } from "@storybook/react";
 import { generateRandomFakeServers } from "@/lib/utils/mock";
 import userEvent from "@testing-library/user-event";
@@ -63,9 +63,11 @@ describe("SideMenuTrack", () => {
     await waitFor(() => {
       expect(element.getByTestId("side-menu-wrapper")).toBeInTheDocument();
     });
-    jest.mock("next/navigation", () => ({
-      usePathname: () => "/server/someid",
-    }));
+    await act(() =>
+      jest.doMock("next/navigation", () => ({
+        usePathname: () => "/server/someid",
+      })),
+    );
     await waitFor(() => {
       expect(element.getByTestId("side-menu-wrapper")).toBeInTheDocument();
     });
@@ -76,7 +78,7 @@ describe("SideMenuTrack", () => {
       useViewportType.setState({ type: "mobile" });
       useSidebarStatus.setState({ status: "closed" });
     });
-    await waitFor(() => {
+    await waitForElementToBeRemoved(() => {
       expect(
         element.queryByTestId("side-menu-wrapper"),
       ).not.toBeInTheDocument();
@@ -87,5 +89,6 @@ describe("SideMenuTrack", () => {
     await waitFor(() => {
       expect(element.queryByTestId("side-menu-wrapper")).toBeInTheDocument();
     });
+    
   });
 });

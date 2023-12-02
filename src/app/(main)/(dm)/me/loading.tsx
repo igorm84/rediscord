@@ -7,7 +7,7 @@ import {
 
 export default function MePageSkeleton() {
   return (
-    <Page className="ml-[310px]">
+    <Page className="sm:ml-[310px]">
       <PageHeaderSkeleton />
       <PageContent className="flex-col lg:flex-row" padding="none">
         <div className="flex flex-1 px-6 pt-4">

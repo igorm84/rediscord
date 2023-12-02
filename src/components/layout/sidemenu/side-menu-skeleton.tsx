@@ -1,5 +1,4 @@
 import Divider from "@/components/ui/divider";
-import SideMenuWrapper from "./side-menu-wrapper";
 import { clsx } from "@/lib/utils";
 import { BsDiscord } from "react-icons/bs";
 import { MOCK_SERVERS } from "@/lib/utils/mock";
@@ -26,7 +25,7 @@ const SideMenuItemSkeleton = ({
 );
 export default function SideMenuSkeleton() {
   return (
-    <div className="side-menu-wrapper">
+    <>
       <SideMenuItemSkeleton
         isActive
         className="mx-auto mb-2 flex items-center justify-center bg-primary text-white"
@@ -39,6 +38,6 @@ export default function SideMenuSkeleton() {
           <SideMenuItemSkeleton key={i} className="mx-auto my-2" />
         ))}
       </div>
-    </div>
+    </>
   );
 }

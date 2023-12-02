@@ -23,7 +23,7 @@ export default function SideMenuWrapper({
       {isShowSideMenu && (
         <motion.div
           animate={{
-            translateX: 0,
+            translateX: viewportType === "mobile" ? ["-100vw", "0vw"] : ["0vw"],
           }}
           className={clsx(
             "hidden-scrollbar  fixed z-50 h-[calc(100vh-40px)] w-[70px] gap-3 overflow-y-auto pt-3 sm:h-screen",

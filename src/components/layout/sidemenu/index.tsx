@@ -9,15 +9,11 @@ export const getData = async (): Promise<{ servers: ListedServer[] }> => {
    * Generate fake servers for testing
    */
   const servers: ListedServer[] = generateRandomFakeServers(18);
-  await delay(MOCK_DELAY * 2);
+  await delay(MOCK_DELAY );
   return { servers };
 };
 
 export default async function SideMenu() {
   const { servers } = await getData();
-  return (
-    <SideMenuWrapper>
-      <SideMenuTrack servers={servers} />
-    </SideMenuWrapper>
-  );
+  return <SideMenuTrack servers={servers} />;
 }

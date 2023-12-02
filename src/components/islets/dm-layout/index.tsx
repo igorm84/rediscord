@@ -8,6 +8,7 @@ import DMLayoutSidebar from "./dm-layout-sidebar";
 import { useViewportType } from "@/state/viewport-type";
 import { useSidebarStatus } from "@/state/sidebar-status";
 import DMLayoutSidebarContent from "./dm-layout-sidebar-content";
+import { AnimatePresence } from "framer-motion";
 
 const ActiveNowPanel = dynamic(() => import("../active-now-panel"), {
   ssr: false,
@@ -31,7 +32,9 @@ export default function DMLayout({ children }: React.PropsWithChildren) {
           <ActiveNowPanel />
         </div>
       </div>
-      {viewportType === "mobile" && status === "open" && <NavBar />}
+      <AnimatePresence>
+        {viewportType === "mobile" && status === "open" && <NavBar />}
+      </AnimatePresence>
     </>
   );
 }

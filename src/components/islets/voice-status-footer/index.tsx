@@ -10,6 +10,7 @@ import { VoiceStatus } from "@/lib/entities/user";
 import { t } from "@/lib/i18n";
 import { clsx } from "@/lib/utils";
 import { generateFakeCurrentUser } from "@/lib/utils/mock";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BsGearFill, BsHeadphones, BsMicFill } from "react-icons/bs";
 
@@ -59,6 +60,7 @@ const VoiceStatusButton = ({
 
 export default function VoiceStatusFooter() {
   const [voiceStatus, setVoiceStatus] = useState<VoiceStatus>({ mute: true });
+  const router = useRouter();
   const currentUser = generateFakeCurrentUser();
   return (
     <TooltipProvider>
@@ -102,6 +104,7 @@ export default function VoiceStatusFooter() {
             icon={<BsHeadphones fontSize={20} />}
           />
           <VoiceStatusButton
+            onClick={() => router.push("/user-settings")}
             tooltipText="Settings"
             dataTestid="settings-button"
             icon={<BsGearFill fontSize={18} />}
