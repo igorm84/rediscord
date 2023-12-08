@@ -1,10 +1,9 @@
 "use client";
 import React from "react";
 import Avatar from "@/components/ui/avatar";
-import RoundedButton from "@/components/ui/button/rounded-button";
+import RoundedButton from "@/components/ui/button/with-tooltip";
 import { ListItem } from "@/components/ui/list";
-import { User } from "@/lib/entities/user";
-import { t } from "@/lib/i18n";
+import { User, UserStatuses } from "@/lib/entities/user";
 import { BsChatLeftFill, BsThreeDotsVertical } from "react-icons/bs";
 import { FriendsTab } from "@/lib/types/friend-tab-prop";
 
@@ -35,7 +34,7 @@ export default function FriendListItem({ friend }: FriendListItemProps) {
             </span>
           </div>
           <div className="text-[13px] text-gray-300">
-            {t(`user.status.${friend.status}`)}
+            {UserStatuses.Mobile}
           </div>
         </div>
       </div>

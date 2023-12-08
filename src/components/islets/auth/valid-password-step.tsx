@@ -43,10 +43,10 @@ export default function ValidPasswordStep({
 
   return (
     <div className="inline-flex flex-col gap-1">
-      {allErrorsMessages.current?.map((err) => {
+      {allErrorsMessages.current?.map((err, i) => {
         const isDone = !errors?.includes(err) && password?.length;
         return (
-          <div className="flex items-center gap-1">
+          <div key={i} className="flex items-center gap-1">
             {isDone ? (
               <Check className="h-4 w-4 text-green-500" />
             ) : (

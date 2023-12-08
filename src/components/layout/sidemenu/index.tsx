@@ -1,6 +1,5 @@
 import { ListedServer } from "@/lib/entities/server";
 import SideMenuTrack from "./side-menu-track";
-import SideMenuWrapper from "./side-menu-wrapper";
 import { delay } from "@/lib/utils";
 import { MOCK_DELAY, generateRandomFakeServers } from "@/lib/utils/mock";
 

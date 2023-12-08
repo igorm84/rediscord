@@ -3,13 +3,13 @@ import { Input as InputDefault } from "@/components/ui/input";
 import { IoMdStarOutline } from "react-icons/io";
 import { HTMLInputTypeAttribute, forwardRef } from "react";
 
-export interface InputProps extends React.HTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   renderLabel?: boolean;
   inputStatus?: "normal" | "error" | "success";
   labelText?: string;
   required?: boolean;
   errorMessage?: string;
-  type?: HTMLInputTypeAttribute
+  type?: HTMLInputTypeAttribute;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -20,6 +20,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       renderLabel = true,
       labelText,
       required = true,
+      size,
       ...props
     }: InputProps,
     ref,
@@ -38,7 +39,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
         <InputDefault
           ref={ref}
-          size="md"
+          size={"md"}
           className={clsx("bg-[#202225]")}
           state={isError ? "error" : "normal"}
           {...props}

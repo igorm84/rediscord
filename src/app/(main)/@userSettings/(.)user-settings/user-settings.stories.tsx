@@ -9,7 +9,17 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj<typeof Page>;
 export const Template: Story = {
-  render: Page,
+  render: (props) => <Page  />,
+  args: {
+    open: true,
+  },
+  argTypes: {
+    open: {
+      control: {
+        type: "boolean",
+      },
+    },
+  },
   parameters: {
     nextjs: {
       appDirectory: true,

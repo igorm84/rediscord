@@ -9,8 +9,8 @@ const nextConfig = {
     {
       source: "/channels/me",
       destination: "/me",
-      permanent: true
-    }
+      permanent: true,
+    },
   ],
   images: {
     remotePatterns: [
@@ -18,11 +18,21 @@ const nextConfig = {
         protocol: "https",
         hostname: "**",
       },
+      {
+        protocol: "http",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
   webpack: (config) => {
-    config.externals = [...config.externals, { canvas: 'canvas' }]; // required to make Konva & react-konva work
+    config.externals = [...config.externals, { canvas: "canvas" }]; // required to make Konva & react-konva work
+
     return config;
+  },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "10mb",
+    },
   },
 };
 

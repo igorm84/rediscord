@@ -6,10 +6,9 @@ import {
   Tooltip,
   TooltipContent,
 } from "@/components/ui/tooltip";
-import { VoiceStatus } from "@/lib/entities/user";
-import { t } from "@/lib/i18n";
+import { UserStatuses, VoiceStatus } from "@/lib/entities/user";
 import { clsx } from "@/lib/utils";
-import { generateFakeCurrentUser } from "@/lib/utils/mock";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BsGearFill, BsHeadphones, BsMicFill } from "react-icons/bs";
@@ -61,20 +60,20 @@ const VoiceStatusButton = ({
 export default function VoiceStatusFooter() {
   const [voiceStatus, setVoiceStatus] = useState<VoiceStatus>({ mute: true });
   const router = useRouter();
-  const currentUser = generateFakeCurrentUser();
+  const {data: session} = useSession();
   return (
     <TooltipProvider>
       <div className="flex justify-between gap-1 bg-semibackground px-2 py-1.5">
         <button className="flex gap-2 rounded-md py-1 pl-0.5 pr-2 text-left leading-tight hover:bg-white/20">
           <Avatar
-            src={currentUser.avatar}
-            status={currentUser.status}
-            alt={currentUser.name}
+            src={session?.user?.avatar}
+            status={UserStatuses.Offline}
+            alt={session?.user?.username!}
           />
           <div>
-            <div className="text-xs font-semibold">{currentUser.name}</div>
+            <div className="text-xs font-semibold">{session?.user?.username}</div>
             <div className="text-[11px] text-gray-300">
-              {t(`user.status.${currentUser.status}`)}
+              {UserStatuses.Offline}
             </div>
           </div>
         </button>

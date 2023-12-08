@@ -4,6 +4,7 @@ import prisma from "@/lib/prismaClient";
 import { randomUUID } from "crypto";
 import { type z } from "zod";
 import bcrypt from "bcrypt";
+import { revalidatePath } from "next/cache";
 
 type FormState = z.infer<typeof schema>;
 export default async function signUp(formState: FormState) {
@@ -25,7 +26,7 @@ export default async function signUp(formState: FormState) {
     const account = await prisma.account.create({
       data: {
         userId: randomUUID(),
-        password: bcrypt.hashSync(password, 10),
+        password: bcrypt.hashSync(password.trim(), 10),
         email,
       },
     });
@@ -35,7 +36,7 @@ export default async function signUp(formState: FormState) {
         accountId: account.id,
       },
     });
-
+    revalidatePath("/signUp")
     return { ok: true, user, error: false };
   } catch (error) {
     throw { ok: false, error, user: null };

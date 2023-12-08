@@ -4,16 +4,14 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { Input } from "@/components/ui/input";
-import HybridButton from "@/components/ui/hybrid/hybrid-button";
 import { IoMdStarOutline } from "react-icons/io";
 import Link from "next/link";
 import clsx from "@/lib/clsx";
 import { signIn } from "next-auth/react";
-import { Loader2, Check } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import AuthButton from "./auth-button";
+import Button from "@/components/ui/button";
 
 const schema = z.object({
   emailOrPhone: z.string().email().or(z.string().min(10).max(10)),
@@ -134,9 +132,9 @@ export default function Login() {
           </Link>
         </div>
         <div className="grid gap-3">
-          <AuthButton pending={mutation.isPending} success={mutation.isSuccess}>
+          <Button pending={mutation.isPending} success={mutation.isSuccess}>
             Log In
-          </AuthButton>
+          </Button>
           <span className="text-sm">
             Need an account?{" "}
             <Link href="/signUp" className="text-[#00AFF4]">

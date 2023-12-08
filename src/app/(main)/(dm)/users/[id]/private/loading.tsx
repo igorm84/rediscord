@@ -13,7 +13,7 @@ export default function MePageSkeleton() {
         {Array(20)
           .fill(0)
           .map((_, i) => (
-            <DMChatListItemSkeleton even={i % 2 === 0} />
+            <DMChatListItemSkeleton key={i} even={i % 2 === 0} />
           ))}
       </PageContent>
     </Page>

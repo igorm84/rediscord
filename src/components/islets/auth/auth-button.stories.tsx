@@ -1,14 +1,13 @@
 import { Meta, StoryObj } from "@storybook/react";
-import AuthButton from "./auth-button";
-
+import Button from "@/components/ui/button";
 const meta: Meta = {
-  title: "Islets/Auth/AuthButton",
-  component: AuthButton,
+  title: "Islets/UI/Button",
+  component: Button,
 };
 export default meta;
-type Story = StoryObj<typeof AuthButton>;
+type Story = StoryObj<typeof Button>;
 export const Template: Story = {
-  render: (props) => <AuthButton {...props} />,
+  render: (props) => <Button {...props} />,
   decorators: [
     (Story) => (
       <div className="max-w-[200px] grid items-center">

@@ -7,7 +7,7 @@ interface SidebarStatusState {
 }
 
 export const useSidebarStatus = create<SidebarStatusState>((set) => ({
-    status: "closed",
+    status: "open",
     setSidebarStatus(newStatus) {
         set({ status: newStatus });
     },

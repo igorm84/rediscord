@@ -1,8 +1,9 @@
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import SignInBg from "../../../public/login-bg.png";
+import authOptions from "@/lib/authOptions";
 
 const ParticleBg = dynamic(
   () => import("@/components/islets/auth/particle-bg"),
@@ -14,7 +15,7 @@ export default async function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (session?.user) {
     redirect("/");
   }

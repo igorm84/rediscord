@@ -10,12 +10,14 @@ type Story = StoryObj<typeof Page>;
 export const WithHeader: Story = {
     render: () => <Page>
         <PageHeader>
+            test
         </PageHeader>
     </Page>
 };
 export const WithHeaderAndContent: Story = {
     render: () => <Page>
         <PageHeader>
+            test
         </PageHeader>
         <PageContent>
             <div className='rounded-lg shadow-md p-4'>

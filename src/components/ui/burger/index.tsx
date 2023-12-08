@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover";
-import RoundedButton from "../button/rounded-button";
+import RoundedButton from "../button/with-tooltip";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
 import { motion } from "framer-motion";

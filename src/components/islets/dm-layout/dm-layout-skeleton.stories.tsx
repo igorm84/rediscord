@@ -9,9 +9,4 @@ export default meta;
 type Story = StoryObj<typeof DMLayoutSkeleton>;
 export const Default: Story = {
     render: () => <DMLayoutSkeleton />,
-    args: {
-    },
-    argTypes: {
-    },
-
 };

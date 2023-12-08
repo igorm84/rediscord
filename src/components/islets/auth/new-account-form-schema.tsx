@@ -1,6 +1,5 @@
 import { SelectWithTrigger } from "@/components/ui/select";
 import {
-  useEffect,
   type FC,
   type HTMLInputTypeAttribute,
   type PropsWithChildren,
@@ -15,6 +14,7 @@ import {
 } from "react-hook-form";
 import { z } from "zod";
 import ValidPasswordStep from "./valid-password-step";
+import { password } from "@/lib/schemas/auth";
 
 const schema = z.object({
   login: z
@@ -74,23 +74,7 @@ const schema = z.object({
       },
     )
     .describe("YYYY"), // same group
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long" })
-    .max(20, { message: "Password must not exceed 20 characters" })
-    .refine((password) => /[A-Z]/.test(password), {
-      message: "Password must contain at least one uppercase letter",
-    })
-    .refine((password) => /[a-z]/.test(password), {
-      message: "Password must contain at least one lowercase letter",
-    })
-    .refine((password) => /[0-9]/.test(password), {
-      message: "Password must contain at least one number",
-    })
-    .refine((password) => /[^a-zA-Z0-9]/.test(password), {
-      message: "Password must contain at least one special character",
-    })
-    .describe("Enter a password"),
+  password: password.describe("Enter a password"),
   repeatPassword: z
     .string()
     .min(8, { message: "Password must be at least 8 characters long" })

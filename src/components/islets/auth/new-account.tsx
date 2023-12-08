@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Input, { InputProps } from "./input";
-import AuthButton from "./auth-button";
 import clsx from "@/lib/clsx";
 import { ArrowLeft } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
@@ -12,6 +11,7 @@ import useNewAccountForm, {
 import schema, { schemaFieldsToRender } from "./new-account-form-schema";
 import Toaster from "@/components/ui/toaster";
 import { ComponentProps, PropsWithChildren } from "react";
+import Button from "@/components/ui/button";
 
 const DefaultContainer = ({ children }: PropsWithChildren) => <>{children}</>;
 export default function NewAccount() {
@@ -138,20 +138,14 @@ export default function NewAccount() {
             )}
           >
             {!!formStep && !mutation.isSuccess && (
-              <AuthButton
-                type="button"
-                onClick={() => setFormStep((v) => v - 1)}
-              >
+              <Button type="button" onClick={() => setFormStep((v) => v - 1)}>
                 <ArrowLeft className="mr-2 text-sm" />
                 Back
-              </AuthButton>
+              </Button>
             )}
-            <AuthButton
-              pending={mutation.isPending}
-              success={mutation.isSuccess}
-            >
+            <Button pending={mutation.isPending} success={mutation.isSuccess}>
               {formStep + 1 !== STEP_COUNT ? "Next" : "Create Account"}
-            </AuthButton>
+            </Button>
           </div>
 
           <span className="text-sm">

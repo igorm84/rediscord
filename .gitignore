@@ -27,6 +27,7 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+/src/lib/coudinaryConfig.ts
 # vercel
 .vercel
 
