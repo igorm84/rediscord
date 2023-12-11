@@ -11,6 +11,8 @@
   .dark {
     --color-background: 30 31 34;
     --color-semibackground: 30 31 34;
+    --color-selected: 228 calc( 1 * 6%) 32.5%;
+    --color-secondary: 220 calc( 1 * 6.5%) 18% / 1;
     --color-midground: 43 45 49;
     --color-foreground: 49 51 56;
     @apply text-gray-100;

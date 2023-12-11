@@ -1,4 +1,4 @@
-import UserSettingsModalContent from "./user-settings-modal-content";
+import UserSettingsModalContent from "@/components/islets/user-settings-modal/user-settings-modal-content";
 import { getServerSession } from "next-auth/next";
 import prisma from "@/lib/prismaClient";
 import authOptions from "@/lib/authOptions";
@@ -21,7 +21,7 @@ const getUserData = async (accountId: string) => {
   }
 };
 
-export default async function UserSettings() {
+export default async function UserSettings({ modal }: { modal?: boolean }) {
   const queryClient = getQueryClient();
   const session = await getServerSession(authOptions);
   const userData = await getUserData(session?.user?.accountId!);
@@ -29,7 +29,7 @@ export default async function UserSettings() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <UserSettingsModalContent />
+      <UserSettingsModalContent modal={modal ?? true} />
     </HydrationBoundary>
   );
 }

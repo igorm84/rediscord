@@ -27,6 +27,8 @@ const config: Config = {
         },
         background: "rgb(var(--color-background) / <alpha-value>)",
         semibackground: "rgb(var(--color-semibackground) / <alpha-value>)",
+        secondary: "hsl(var(--color-secondary))",
+        selected: "hsl(var(--color-selected) / 0.6)",
         midground: "rgb(var(--color-midground) / <alpha-value>)",
         foreground: "rgb(var(--color-foreground) / <alpha-value>)",
         primary: "rgb(var(--color-primary) / <alpha-value>)",

@@ -2,9 +2,10 @@ import clsx from "@/lib/clsx";
 import StatusBadge from "../badge/status-badge";
 interface AvatarSkeletonProps {
   size?: "sm" | "md" | "lg";
+  className?: string
 }
 
-export default function AvatarSkeleton({ size = "md" }: AvatarSkeletonProps) {
+export default function AvatarSkeleton({ size = "md", className }: AvatarSkeletonProps) {
   return (
     <div
       className={clsx(
@@ -12,6 +13,7 @@ export default function AvatarSkeleton({ size = "md" }: AvatarSkeletonProps) {
         size === "sm" && "h-6 w-6",
         size === "md" && "h-8 w-8",
         size === "lg" && "h-12 w-12",
+        className
       )}
     >
       <StatusBadge

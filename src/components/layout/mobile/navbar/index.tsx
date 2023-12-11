@@ -62,7 +62,7 @@ export default function NavBar() {
       transition={{ ease: "easeInOut", duration: 0.4 }}
       animate={{translateX: ["-100vw", "0vw"]}}
       exit={{ translateX: "-100vw" }}
-      className="sticky bottom-0 left-0 z-[60] grid h-10 w-full grid-flow-col gap-4 bg-foreground"
+      className="sticky bottom-0 left-0 z-[10] grid h-10 w-full grid-flow-col gap-4 bg-foreground"
     >
       {routes.map((route) => (
         <NavItem

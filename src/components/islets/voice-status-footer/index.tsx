@@ -8,6 +8,8 @@ import {
 } from "@/components/ui/tooltip";
 import { UserStatuses, VoiceStatus } from "@/lib/entities/user";
 import { clsx } from "@/lib/utils";
+import { User } from "@prisma/client";
+import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -25,7 +27,7 @@ const VoiceStatusButton = ({
   muted,
   tooltipText,
   onClick,
-  dataTestid
+  dataTestid,
 }: VoiceStatusButton) => {
   const [open, setOpen] = useState(false);
 
@@ -58,20 +60,27 @@ const VoiceStatusButton = ({
 };
 
 export default function VoiceStatusFooter() {
+  const queryClient = useQueryClient();
   const [voiceStatus, setVoiceStatus] = useState<VoiceStatus>({ mute: true });
   const router = useRouter();
-  const {data: session} = useSession();
+  const { data: session } = useSession();
+
+  const userFromServer = queryClient.getQueryData<User>([
+    "user-from-server",
+  ]);
+  const user = session?.user || userFromServer;
+
   return (
     <TooltipProvider>
       <div className="flex justify-between gap-1 bg-semibackground px-2 py-1.5">
         <button className="flex gap-2 rounded-md py-1 pl-0.5 pr-2 text-left leading-tight hover:bg-white/20">
           <Avatar
-            src={session?.user?.avatar}
-            status={UserStatuses.Offline}
-            alt={session?.user?.username!}
+            src={user?.avatar}
+            status={UserStatuses.Online}
+            alt={user?.username!}
           />
           <div>
-            <div className="text-xs font-semibold">{session?.user?.username}</div>
+            <div className="text-xs font-semibold">{user?.username}</div>
             <div className="text-[11px] text-gray-300">
               {UserStatuses.Offline}
             </div>

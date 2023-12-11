@@ -1,5 +1,5 @@
 import { UpdateUserProfileResult } from "@/app/(actions)/user-settings/updateUserProfile";
-import schemaFieldsToRender from "@/app/(main)/@userSettings/(.)user-settings/usere-settings-form-schema";
+import schemaFieldsToRender from "@/components/islets/user-settings-modal/usere-settings-form-schema";
 import { useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 import toast from "react-hot-toast";

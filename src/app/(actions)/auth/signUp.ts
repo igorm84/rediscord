@@ -5,9 +5,22 @@ import { randomUUID } from "crypto";
 import { type z } from "zod";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
+import { User } from "@prisma/client";
 
 type FormState = z.infer<typeof schema>;
-export default async function signUp(formState: FormState) {
+type ResultWithError = {
+  ok: false;
+  error: unknown;
+};
+type ResultWithUser = {
+  ok: true;
+  user: User;
+};
+type SignUpResult = ResultWithError | ResultWithUser;
+
+export default async function signUp(
+  formState: FormState,
+): Promise<SignUpResult> {
   try {
     const { email, login, password } = formState;
     const isUserWithCurrentEmail = await prisma.account.findUnique({
@@ -21,7 +34,7 @@ export default async function signUp(formState: FormState) {
       },
     });
     if (isUserWithCurrentEmail || isUserWithCurrentLogin) {
-      return { ok: false, error: "User already exists", user: null };
+      return { ok: false, error: "User already exists"};
     }
     const account = await prisma.account.create({
       data: {
@@ -36,9 +49,9 @@ export default async function signUp(formState: FormState) {
         accountId: account.id,
       },
     });
-    revalidatePath("/signUp")
-    return { ok: true, user, error: false };
+    revalidatePath("/signUp");
+    return { ok: true, user };
   } catch (error) {
-    throw { ok: false, error, user: null };
+    throw { ok: false, error };
   }
 }
