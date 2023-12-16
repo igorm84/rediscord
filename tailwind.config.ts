@@ -41,9 +41,17 @@ const config: Config = {
       keyframes: {
         "pulse-rotate": {
           "0%": { transform: "rotate(0deg)", opacity: "0.5" },
-          "100%": {transform: "rotate(360deg)", opacity: "1" },
-        }
-      }
+          "100%": { transform: "rotate(360deg)", opacity: "1" },
+        },
+        "arrow-pulse": {
+          "0%,100%": {
+            transform: "translate3d(0px, 0, 0)",
+          },
+          "50%": {
+            transform: "translate3d(3px, 0, 0)",
+          },
+        },
+      },
     },
   },
   darkMode: "class",

@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { User, UserStatuses } from "@/lib/entities/user";
+import { User,UserStatuses } from "@/lib/entities/user";
 import { ActivityTypes } from "@/lib/entities/activity";
 import { ListedServer } from "../entities/server";
 import {

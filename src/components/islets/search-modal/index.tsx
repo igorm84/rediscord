@@ -1,54 +1,63 @@
 "use client";
 
 import {
-  SEARCH_MODAL_EVENT,
-  SearchModalEvent,
-} from "@/lib/events/searchModalEvent";
-import { useEffect, useState } from "react";
-
-import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogHeader,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import useSeachModal from "@/lib/hooks/search-modal/useSeachModal";
+import { useRef, useState } from "react";
+import SearchUserItem from "./search-user-item";
+import ArrowGroup from "./arrow-group";
+import SearchModalHeader from "./search-modal-header";
 
 interface SearchModalProps {
   defaultOpen?: boolean;
 }
 
 export default function SearchModal({ defaultOpen = false }: SearchModalProps) {
-  const [open, setOpen] = useState(defaultOpen);
-  useEffect(() => setOpen(defaultOpen), [defaultOpen])
-  useEffect(() => {
-    const handleEvent = (event: Event) => {
-      const { detail } = event as SearchModalEvent;
-      setOpen(detail.action === "open");
-    };
+  const [filterValue, setFilterValue] = useState("");
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.ctrlKey || event.metaKey) && event.key === "k") {
-        event.preventDefault();
-        setOpen(true);
-      }
-    };
+  const parentRef = useRef<HTMLDivElement>(null);
+  const filteredUsersElementsRef = useRef<HTMLDivElement[]>([]);
 
-    window.addEventListener(SEARCH_MODAL_EVENT, handleEvent);
-    window.addEventListener("keydown", handleKeyDown);
+  const {
+    open,
+    setOpen,
+    selectedUserId,
+    setActiveUser,
+    arrowGroupYPos,
+    arrowGroupStatus,
+    filteredUsers
+  } = useSeachModal({
+    defaultOpen,
+    filterValue,
+    filteredUsersElements: filteredUsersElementsRef.current,
+    parentRef,
+  });
 
-    return () => {
-      window.removeEventListener(SEARCH_MODAL_EVENT, handleEvent);
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-
+  // cut unnecessary elements
+  filteredUsersElementsRef.current.length = filteredUsers.length;
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent role="search-dialog-content">
-        <DialogHeader>
-          <Input placeholder="Where you want me to take you?" size="lg" />
-        </DialogHeader>
+      <DialogContent ref={parentRef} role="search-dialog-content">
+        <SearchModalHeader
+          arrowBgActive={arrowGroupStatus === "idle"}
+          setFilterValue={setFilterValue}
+        />
+        <div className="h-60 overflow-y-scroll">
+          {filteredUsers.map(({ avatar, id, username }, idx) => (
+            <SearchUserItem
+              key={id}
+              ref={(ref) => (filteredUsersElementsRef.current[idx] = ref!)}
+              id={id}
+              active={id === selectedUserId}
+              setActive={setActiveUser}
+              avatar={avatar!}
+              username={username.slice(0, 8)}
+            />
+          ))}
+        </div>
         <DialogDescription>
           <span className="text-xs font-semibold text-gray-400">
             LAST CHANNELS
@@ -61,6 +70,7 @@ export default function SearchModal({ defaultOpen = false }: SearchModalProps) {
           <strong className="text-green-400">HERE&apos;s a TIP:</strong> Write
           @, #, ! or * in the beginning of your search to limit results.
         </div>
+        <ArrowGroup active={arrowGroupStatus === "focus"} yPosition={arrowGroupYPos} />
       </DialogContent>
     </Dialog>
   );
