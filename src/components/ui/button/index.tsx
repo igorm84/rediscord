@@ -20,7 +20,7 @@ export default function AuthButton({
     <HybridButton
       type={type}
       className={clsx(
-        `grid grid-flow-col items-center justify-center 
+        `flex flex-1 items-center justify-center 
           rounded-sm bg-[#5865F2] py-2 text-white transition-all hover:scale-95`,
         className,
       )}

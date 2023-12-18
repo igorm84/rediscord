@@ -41,7 +41,7 @@ export default function useSearchModalInteraction({
             filteredUsersElements[newUserIdx]?.getBoundingClientRect()!,
           );
         }
-      } else if (e.key === "ArrowDown" && currUserIdx !== -1) {
+      } else if (e.key === "ArrowDown") {
         const newUserIdx = currUserIdx + 1;
         if (newUserIdx < filteredUsers.length) {
           scrollIntoView(newUserIdx);

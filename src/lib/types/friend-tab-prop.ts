@@ -20,9 +20,9 @@ export type FriendsTab = {
   };
 };
 const FRIENDS_EMPTY_PROP = {
-  imageSrc: "/NotFoundSearching.svg",
+  imageSrc: "/zero-friends.svg",
   imageAlt: "No friends found",
-  text: "we can't find anyone with that name :(",
+  text: "Oops seems you don't have any friends :(",
 };
 
 export const friendsTabsProps: Record<
@@ -51,7 +51,7 @@ export const friendsTabsProps: Record<
     key: FriendsTabEnum.Pending,
     title: "Pending",
     empty: {
-      imageSrc: "/Waiting.svg",
+      imageSrc: "/zero-friends.svg",
       imageAlt: "No friend requests",
       text: "Looks like no one requested to be your friend :(",
     },
@@ -60,7 +60,7 @@ export const friendsTabsProps: Record<
     key: FriendsTabEnum.Blocked,
     title: "Blocked",
     empty: {
-      imageSrc: "/Waiting.svg",
+      imageSrc: "/zero-friends.svg",
       imageAlt: "No blocked friends",
       text: "You haven't blocked anyone :)",
     },

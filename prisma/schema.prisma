@@ -30,6 +30,7 @@ model User {
   username             String    @unique
   avatar               String?
   lastSeen             DateTime?
+  status               UserStatuses
   messages             Message[]
   leaderChannels       Channel[] @relation("ChannelLeader")
   serverParticipations Server[]  @relation("ServerParticipant")
@@ -111,4 +112,11 @@ enum ChannelType {
 enum ServerChannelType {
   TEXT
   VOICE
+}
+
+enum UserStatuses {
+  IDLE
+  ONLINE
+  OFFLINE
+  DONT_DISTURB
 }

@@ -6,10 +6,11 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import useSeachModal from "@/lib/hooks/search-modal/useSeachModal";
-import { useRef, useState } from "react";
-import SearchUserItem from "./search-user-item";
+import { useEffect, useRef, useState } from "react";
 import ArrowGroup from "./arrow-group";
 import SearchModalHeader from "./search-modal-header";
+import SearchModalContent from "./search-modal-content";
+import useGetFilteredUsers from "@/lib/hooks/search-modal/useGetFilteredUsers";
 
 interface SearchModalProps {
   defaultOpen?: boolean;
@@ -21,6 +22,10 @@ export default function SearchModal({ defaultOpen = false }: SearchModalProps) {
   const parentRef = useRef<HTMLDivElement>(null);
   const filteredUsersElementsRef = useRef<HTMLDivElement[]>([]);
 
+  const { data: filteredUsers, isFetching } = useGetFilteredUsers({
+    filter: filterValue,
+  });
+
   const {
     open,
     setOpen,
@@ -28,16 +33,20 @@ export default function SearchModal({ defaultOpen = false }: SearchModalProps) {
     setActiveUser,
     arrowGroupYPos,
     arrowGroupStatus,
-    filteredUsers
   } = useSeachModal({
     defaultOpen,
     filterValue,
+    filteredUsers: filteredUsers ?? [],
     filteredUsersElements: filteredUsersElementsRef.current,
     parentRef,
   });
 
+  useEffect(() => {
+    return () => setFilterValue("");
+  }, [open]);
+
   // cut unnecessary elements
-  filteredUsersElementsRef.current.length = filteredUsers.length;
+  filteredUsersElementsRef.current.length = filteredUsers?.length ?? 0;
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent ref={parentRef} role="search-dialog-content">
@@ -45,19 +54,13 @@ export default function SearchModal({ defaultOpen = false }: SearchModalProps) {
           arrowBgActive={arrowGroupStatus === "idle"}
           setFilterValue={setFilterValue}
         />
-        <div className="h-60 overflow-y-scroll">
-          {filteredUsers.map(({ avatar, id, username }, idx) => (
-            <SearchUserItem
-              key={id}
-              ref={(ref) => (filteredUsersElementsRef.current[idx] = ref!)}
-              id={id}
-              active={id === selectedUserId}
-              setActive={setActiveUser}
-              avatar={avatar!}
-              username={username.slice(0, 8)}
-            />
-          ))}
-        </div>
+        <SearchModalContent
+          setActiveUser={setActiveUser}
+          selectedUserId={selectedUserId!}
+          filteredUsers={filteredUsers ?? []}
+          usersElementsRef={filteredUsersElementsRef}
+          isLoading={isFetching}
+        />
         <DialogDescription>
           <span className="text-xs font-semibold text-gray-400">
             LAST CHANNELS
@@ -70,7 +73,10 @@ export default function SearchModal({ defaultOpen = false }: SearchModalProps) {
           <strong className="text-green-400">HERE&apos;s a TIP:</strong> Write
           @, #, ! or * in the beginning of your search to limit results.
         </div>
-        <ArrowGroup active={arrowGroupStatus === "focus"} yPosition={arrowGroupYPos} />
+        <ArrowGroup
+          active={arrowGroupStatus === "focus"}
+          yPosition={arrowGroupYPos}
+        />
       </DialogContent>
     </Dialog>
   );

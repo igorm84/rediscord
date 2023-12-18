@@ -1,35 +1,31 @@
-import { RefObject, useEffect, useMemo, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 import useSearchModalInteraction from "./useSearchModalInteraction";
-import { generateRandomFakeUsers } from "@/lib/utils/mock";
+import { User } from "@prisma/client";
 
 export const BASE_ARROW_GROUP_Y_POS = 44;
 type ArrowGroupStatus = "idle" | "focus";
 
-const fakeUsers = generateRandomFakeUsers(40);
+interface UseSearchModalProps {
+  defaultOpen: boolean;
+  filterValue: string;
+  parentRef: RefObject<HTMLDivElement>;
+  filteredUsersElements: HTMLDivElement[];
+  filteredUsers: User[];
+}
 
 export default function useSeachModal({
   defaultOpen,
   filterValue,
   parentRef,
+  filteredUsers,
   filteredUsersElements,
-}: {
-  defaultOpen: boolean;
-  filterValue: string;
-  parentRef: RefObject<HTMLDivElement>;
-  filteredUsersElements: HTMLDivElement[];
-}) {
+}: UseSearchModalProps) {
   const [open, setOpen] = useState(defaultOpen);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   // Relative position to parent container
   const [arrowGroupYPos, setArrowGroupYPos] = useState(BASE_ARROW_GROUP_Y_POS);
   const [arrowGroupStatus, setArrowGroupStatus] =
     useState<ArrowGroupStatus>("idle");
-
-  const filteredUsers = useMemo(
-    () =>
-      fakeUsers.filter((v) => v.username.toLowerCase().includes(filterValue)),
-    [filterValue],
-  );
 
   function setActiveUser(id: string, rect: DOMRect) {
     const relativeY =
@@ -44,25 +40,24 @@ export default function useSeachModal({
     selectedUserId,
     setActiveUser,
     setOpen,
-    filteredUsers,
+    filteredUsers: filteredUsers ?? [],
     filteredUsersElements,
   });
-
+  
   useEffect(() => setOpen(defaultOpen), [defaultOpen]);
 
   useEffect(() => {
     const firstUserEl = filteredUsersElements[0];
 
     if (
-      (!filterValue || !filteredUsers.length) &&
+      (!filterValue || !filteredUsers?.length) &&
       arrowGroupStatus === "focus"
     ) {
       setArrowGroupStatus("idle");
     }
 
-    if (filteredUsers.length && filterValue && firstUserEl) {
+    if (filteredUsers?.length && filterValue && firstUserEl) {
       setActiveUser(filteredUsers[0].id, firstUserEl.getBoundingClientRect());
-
       parentRef.current?.scrollTo({ top: 0 });
     } else {
       setArrowGroupYPos(BASE_ARROW_GROUP_Y_POS);
@@ -79,6 +74,6 @@ export default function useSeachModal({
     arrowGroupStatus,
     setArrowGroupYPos,
     setActiveUser,
-    filteredUsers,
+    filteredUsers: filteredUsers ?? [],
   };
 }

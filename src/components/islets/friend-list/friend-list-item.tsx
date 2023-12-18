@@ -34,7 +34,7 @@ export default function FriendListItem({ friend }: FriendListItemProps) {
             </span>
           </div>
           <div className="text-[13px] text-gray-300">
-            {UserStatuses.Mobile}
+            {UserStatuses.Online}
           </div>
         </div>
       </div>
