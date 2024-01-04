@@ -42,7 +42,6 @@ export default function SideMenuItem({
   const roundClasses = isActive
     ? "rounded-[15px]"
     : "rounded-[100%] hover:rounded-[15px]";
-
   return (
     <Tooltip>
       <TooltipTrigger asChild>

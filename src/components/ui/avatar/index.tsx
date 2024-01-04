@@ -1,8 +1,8 @@
 import { clsx } from "@/lib/utils";
-import { UserStatuses } from "@/lib/entities/user";
 import Image from "next/image";
 import { BsDiscord } from "react-icons/bs";
 import StatusBadge from "@/components/ui/badge/status-badge";
+import { UserStatuses } from "@prisma/client";
 
 interface AvatarProps {
   status?: UserStatuses;

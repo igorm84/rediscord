@@ -1,18 +1,34 @@
 "use client";
-import React from "react";
+import React, { ComponentProps } from "react";
 import Avatar from "@/components/ui/avatar";
 import RoundedButton from "@/components/ui/button/with-tooltip";
 import { ListItem } from "@/components/ui/list";
-import { User, UserStatuses } from "@/lib/entities/user";
 import { BsChatLeftFill, BsThreeDotsVertical } from "react-icons/bs";
-import { FriendsTab } from "@/lib/types/friend-tab-prop";
-
-interface FriendListItemProps {
+import { FaCheck } from "react-icons/fa";
+import { ImCancelCircle } from "react-icons/im";
+import { User, UserStatuses } from "@prisma/client";
+interface FriendListItemBase {
   friend: User;
-  tab: FriendsTab;
+  variant: "base";
 }
+export type FriendListItemInvite = Omit<FriendListItemBase, "variant"> & {
+  variant: "invite";
+  onInviteSubmitted: (userId: string, accepted: boolean) => void;
+};
+export type FriendListItemBlocked = Omit<FriendListItemBase, "variant"> & {
+  variant: "blocked";
+  onUnblock: (userId: string) => void;
+};
+export type FriendListItemProps =
+  | FriendListItemBase
+  | FriendListItemInvite
+  | FriendListItemBlocked;
 
-export default function FriendListItem({ friend }: FriendListItemProps) {
+export type FriendListItemVariant = FriendListItemProps["variant"];
+
+export default function FriendListItem(props: FriendListItemProps) {
+  const { variant, friend } = props;
+  const currentVariantValue = getFriendListItemVariantsMap(props)[variant];
   return (
     <ListItem
       href={`/users/${friend.id}/private`}
@@ -22,30 +38,73 @@ export default function FriendListItem({ friend }: FriendListItemProps) {
       <div className="flex items-center gap-3">
         <Avatar
           src={friend.avatar}
-          alt={friend.name}
+          alt={friend.username}
           className="flex-none"
-          status={friend.status}
+          status={friend.status!}
         />
         <div className="flex-1 leading-4">
           <div className="flex items-center gap-1.5 text-sm text-gray-200">
-            <span className="font-semibold">{friend.name}</span>
+            <span className="font-semibold">{friend.username}</span>
             <span className="hidden text-xs text-gray-400 group-hover:block">
               {friend.username}
             </span>
           </div>
           <div className="text-[13px] text-gray-300">
-            {UserStatuses.Online}
+            {UserStatuses["ONLINE"]}
           </div>
         </div>
       </div>
       <div className="flex items-center gap-2.5">
-        <RoundedButton tooltipContent="Message">
-          <BsChatLeftFill />
-        </RoundedButton>
-        <RoundedButton tooltipContent="More">
-          <BsThreeDotsVertical />
-        </RoundedButton>
+        {currentVariantValue.map((props, idx) => (
+          <RoundedButton key={idx} {...props} />
+        ))}
       </div>
     </ListItem>
   );
+}
+
+function getFriendListItemVariantsMap(
+  props: FriendListItemProps,
+): Record<FriendListItemVariant, ComponentProps<typeof RoundedButton>[]> {
+  const { variant, friend } = props;
+  return {
+    base:
+      variant === "base"
+        ? [
+            {
+              tooltipContent: "Message",
+              children: <BsChatLeftFill />,
+            },
+            {
+              tooltipContent: "More",
+              children: <BsThreeDotsVertical />,
+            },
+          ]
+        : [],
+    blocked:
+      variant === "blocked"
+        ? [
+            {
+              tooltipContent: "Unblock",
+              onClick: () => props.onUnblock(friend.id),
+              children: <ImCancelCircle />,
+            },
+          ]
+        : [],
+    invite:
+      variant === "invite"
+        ? [
+            {
+              tooltipContent: "Accept",
+              children: <FaCheck />,
+              onClick: () => props.onInviteSubmitted(friend.id, true),
+            },
+            {
+              tooltipContent: "Decline",
+              children: <ImCancelCircle />,
+              onClick: () => props.onInviteSubmitted(friend.id, false),
+            },
+          ]
+        : [],
+  };
 }

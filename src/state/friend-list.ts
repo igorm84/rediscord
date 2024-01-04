@@ -1,5 +1,5 @@
+import { User } from "@prisma/client";
 import { create } from "zustand";
-import { User } from "../lib/entities/user";
 
 type FriendStore = {
   friends: User[] | null;

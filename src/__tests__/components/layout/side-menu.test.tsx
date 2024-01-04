@@ -1,4 +1,4 @@
-import { render, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
+import { render, waitFor, screen } from "@testing-library/react";
 import { composeStory } from "@storybook/react";
 import { generateRandomFakeServers } from "@/lib/utils/mock";
 import userEvent from "@testing-library/user-event";
@@ -9,6 +9,7 @@ import { useViewportType } from "@/state/viewport-type";
 import { act } from "react-dom/test-utils";
 import SideMenu from "@/components/layout/sidemenu";
 import { useSidebarStatus } from "@/state/sidebar-status";
+import SideMenuWrapper from "@/components/layout/sidemenu/side-menu-wrapper";
 
 const SideMenuTrack = composeStory(Template, Meta);
 
@@ -56,39 +57,43 @@ describe("SideMenuTrack", () => {
     });
   });
   it("should be rendered on any page on desktop screen", async () => {
-    const element = render(await SideMenu());
-    await act(async () => {
+    render(await SideMenu(), {wrapper: SideMenuWrapper});
+    act(() => {
       useViewportType.setState({ type: "desktop" });
     });
     await waitFor(() => {
-      expect(element.getByTestId("side-menu-wrapper")).toBeInTheDocument();
+      expect(screen.getByTestId("side-menu-wrapper")).toBeInTheDocument();
     });
-    await act(() =>
+    act(() =>
       jest.doMock("next/navigation", () => ({
         usePathname: () => "/server/someid",
       })),
     );
     await waitFor(() => {
-      expect(element.getByTestId("side-menu-wrapper")).toBeInTheDocument();
+      expect(screen.getByTestId("side-menu-wrapper")).toBeInTheDocument();
     });
   });
   it("when sidebar is closed, it should not be rendered on mobile screen", async () => {
-    const element = render(await SideMenu());
-    await act(async () => {
+    act(() =>
+      jest.doMock("next/navigation", () => ({
+        usePathname: () => "/me",
+      })),
+    );
+    const element = render(await SideMenu(), {wrapper: SideMenuWrapper});
+    act(() => {
       useViewportType.setState({ type: "mobile" });
       useSidebarStatus.setState({ status: "closed" });
     });
-    await waitForElementToBeRemoved(() => {
+    await waitFor(() => {
       expect(
         element.queryByTestId("side-menu-wrapper"),
       ).not.toBeInTheDocument();
     });
-    await act(async () => {
+    act(() => {
       useSidebarStatus.setState({ status: "open" });
     });
     await waitFor(() => {
-      expect(element.queryByTestId("side-menu-wrapper")).toBeInTheDocument();
+      expect(screen.queryByTestId("side-menu-wrapper")).toBeInTheDocument();
     });
-    
   });
 });

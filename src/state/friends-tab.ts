@@ -1,4 +1,4 @@
-import { FriendsTabEnum } from "@/lib/types/friend-tab-prop";
+import { FriendsTabEnum } from "@/components/islets/friend-list/friend-tabs";
 import { create } from "zustand";
 
 interface FriendsTabState {

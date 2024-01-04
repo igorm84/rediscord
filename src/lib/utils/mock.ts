@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { User,UserStatuses } from "@/lib/entities/user";
+import { UserStatuses } from "@/lib/entities/user";
 import { ActivityTypes } from "@/lib/entities/activity";
 import { ListedServer } from "../entities/server";
 import {
@@ -13,6 +13,7 @@ import {
 import { Message } from "../entities/message";
 import { Chat } from "../entities/chat";
 import { Channel, ChannelGroup } from "../entities/channel";
+import { User } from "@prisma/client";
 
 export const MOCK_DELAY = 2000;
 export const MOCK_FRIENDS = 18;
@@ -56,16 +57,17 @@ export const generateRandomFakeServers = (length: number): ListedServer[] =>
     messages: !i ? 3 : undefined,
   }));
 export const generateRandomFakeUsers = (length: number): User[] =>
-  Array.from({ length }, (_, i) => ({
-    id: generateRandomDiscordID(),
-    name: faker.person.fullName(),
-    username: faker.internet.userName().toLowerCase(),
-    bio: faker.lorem.paragraph(),
-    avatar: faker.image.avatarGitHub(),
-    status: faker.helpers.arrayElement(Object.values(UserStatuses)),
-    activity: i === 0 ? currentActivity : undefined,
-    type: "user",
-  }));
+  Array.from(
+    { length },
+    (_, i): User => ({
+      id: generateRandomDiscordID(),
+      username: faker.internet.userName().toLowerCase(),
+      avatar: faker.image.avatarGitHub(),
+      accountId: "",
+      status: "ONLINE",
+      lastSeen: new Date(),
+    }),
+  );
 
 export const generateRandomChannels = (length: number): Channel[] =>
   // @ts-ignore

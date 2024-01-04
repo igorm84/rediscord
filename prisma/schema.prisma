@@ -30,7 +30,7 @@ model User {
   username             String    @unique
   avatar               String?
   lastSeen             DateTime?
-  status               UserStatuses
+  status               UserStatuses?
   messages             Message[]
   leaderChannels       Channel[] @relation("ChannelLeader")
   serverParticipations Server[]  @relation("ServerParticipant")
@@ -119,4 +119,5 @@ enum UserStatuses {
   ONLINE
   OFFLINE
   DONT_DISTURB
+  MOBILE
 }

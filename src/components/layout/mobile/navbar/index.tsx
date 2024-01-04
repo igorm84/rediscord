@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BsDiscord, BsPeople, BsSearch } from "react-icons/bs";
-import { motion } from "framer-motion";
+
 const routes: {
   name: string;
   path: string;
@@ -40,7 +40,7 @@ function NavItem({ path, icon, onClick, active }: NavItemProps) {
     <div
       onClick={onClick}
       className={clsx(
-        "flex items-center justify-center rounded-xl py-4",
+        "flex items-center justify-center rounded-xl py-2",
         active && "bg-gray-800",
       )}
     >
@@ -58,11 +58,8 @@ export default function NavBar() {
   const { setSidebarStatus } = useSidebarStatus();
   const pathname = usePathname();
   return (
-    <motion.div
-      transition={{ ease: "easeInOut", duration: 0.4 }}
-      animate={{translateX: ["-100vw", "0vw"]}}
-      exit={{ translateX: "-100vw" }}
-      className="sticky bottom-0 left-0 z-[10] grid h-10 w-full grid-flow-col gap-4 bg-foreground"
+    <div
+      className="sticky bottom-0 left-0 z-[60] grid h-10 w-full grid-flow-col gap-4 bg-foreground"
     >
       {routes.map((route) => (
         <NavItem
@@ -72,6 +69,6 @@ export default function NavBar() {
           {...route}
         />
       ))}
-    </motion.div>
+    </div>
   );
 }

@@ -18,14 +18,12 @@ interface SearchModalProps {
 
 export default function SearchModal({ defaultOpen = false }: SearchModalProps) {
   const [filterValue, setFilterValue] = useState("");
-
   const parentRef = useRef<HTMLDivElement>(null);
   const filteredUsersElementsRef = useRef<HTMLDivElement[]>([]);
 
   const { data: filteredUsers, isFetching } = useGetFilteredUsers({
     filter: filterValue,
   });
-
   const {
     open,
     setOpen,
@@ -36,7 +34,7 @@ export default function SearchModal({ defaultOpen = false }: SearchModalProps) {
   } = useSeachModal({
     defaultOpen,
     filterValue,
-    filteredUsers: filteredUsers ?? [],
+    filteredUsers:  filteredUsers!,
     filteredUsersElements: filteredUsersElementsRef.current,
     parentRef,
   });
@@ -44,7 +42,7 @@ export default function SearchModal({ defaultOpen = false }: SearchModalProps) {
   useEffect(() => {
     return () => setFilterValue("");
   }, [open]);
-
+  
   // cut unnecessary elements
   filteredUsersElementsRef.current.length = filteredUsers?.length ?? 0;
   return (
@@ -57,7 +55,7 @@ export default function SearchModal({ defaultOpen = false }: SearchModalProps) {
         <SearchModalContent
           setActiveUser={setActiveUser}
           selectedUserId={selectedUserId!}
-          filteredUsers={filteredUsers ?? []}
+          filteredUsers={filteredUsers!}
           usersElementsRef={filteredUsersElementsRef}
           isLoading={isFetching}
         />

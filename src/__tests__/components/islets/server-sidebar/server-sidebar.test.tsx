@@ -13,6 +13,8 @@ jest.mock("next/navigation", () => ({
 }));
 
 describe("ServerSidebarWrapper", () => {
+
+
   it("should properly render on mobile screen", async () => {
     await act(async () => {
       useSidebarStatus.setState({ status: "open" });
@@ -21,10 +23,10 @@ describe("ServerSidebarWrapper", () => {
     const element = render(await ServerSidebar(), {
       wrapper: ServerSidebarWrapper,
     });
-    await waitFor(async () => {
+    await waitFor(() => {
       expect(element.getByTestId("sheet-container")).toBeInTheDocument();
     });
-    await act(async () => {
+    act(() => {
       useSidebarStatus.setState({ status: "closed" });
     });
     await waitFor(() =>
@@ -32,7 +34,7 @@ describe("ServerSidebarWrapper", () => {
     );
   });
   it("should be closed on mobile screen after click on go back button", async () => {
-    await act(async () => {
+     act(() => {
       useSidebarStatus.setState({ status: "open" });
       useViewportType.setState({ type: "mobile" });
     });
@@ -41,7 +43,7 @@ describe("ServerSidebarWrapper", () => {
     });
     const goBackButton = element.getByTestId("go-back-btn");
     goBackButton.removeAttribute("sm:hidden");
-    await waitFor(async () => {
+    await waitFor(() => {
       expect(element.getByTestId("sheet-container")).toBeInTheDocument();
     });
     await act(async () => {

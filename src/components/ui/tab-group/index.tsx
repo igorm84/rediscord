@@ -1,5 +1,4 @@
 import { clsx } from "@/lib/utils";
-import { motion } from "framer-motion";
 interface TabGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   gap?: string;
 }
@@ -10,17 +9,19 @@ export default function TabGroup({
   children,
   ...props
 }: TabGroupProps) {
-
   return (
     <div
-      className="horizontal-scrollbar relative h-[25px] w-full overflow-y-hidden overflow-x-auto"
+      className="h-full max-h-[25px] w-full overflow-y-hidden"
       {...props}
     >
-      <motion.div
-        className={clsx(`flex gap-${gap} absolute left-0 top-0`, className)}
+      <div
+        className={clsx(
+          `flex gap-${gap}`,
+          className,
+        )}
       >
         {children}
-      </motion.div>
+      </div>
     </div>
   );
 }

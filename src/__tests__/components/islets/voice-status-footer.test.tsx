@@ -3,6 +3,10 @@ import { composeStory } from "@storybook/react";
 import { render, waitFor } from '@testing-library/react';
 import userEvent from "@testing-library/user-event";
 
+jest.mock("next/navigation", () => ({
+    useRouter: jest.fn()
+}))
+
 const DefaultStory = composeStory(Default, Meta);
 
 describe('VoiceStatusFooter', () => {

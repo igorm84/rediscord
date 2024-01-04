@@ -23,7 +23,7 @@ export default function AddFriendTab() {
               "relative grid w-full grid-cols-[3fr_1fr] items-center",
               "justify-between rounded-md",
               "bg-background px-3 py-1",
-              "h-[50px]",
+              "min-h-[50px]",
               isFocus && "ring-blue-500 ring-4",
             )}
           >
@@ -35,12 +35,12 @@ export default function AddFriendTab() {
               onChange={(e) => setSearchValue(e.currentTarget.value)}
               className="focus:ring-0"
             />
-            <Button className="text-sm">Send a friend request</Button>
+            <Button className="text-sm">Send request</Button>
           </div>
         </div>
       </div>
       <div className="mx-auto w-full">
-        <Divider className="pb-2" />
+        <Divider className="mb-2" />
         <EmptyBox
           src="/not-found.svg"
           text="Wumpus wait for a friends."

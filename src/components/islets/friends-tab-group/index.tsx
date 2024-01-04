@@ -3,8 +3,8 @@
 import Badge from "@/components/ui/badge";
 import TabGroup from "@/components/ui/tab-group";
 import TabGroupButton from "@/components/ui/tab-group/tab-group-button";
-import { FriendsTabEnum, friendsTabsProps } from "@/lib/types/friend-tab-prop";
 import { useFriendsTabStore } from "@/state/friends-tab";
+import { FriendsTabEnum, friendsTabsProps } from "../friend-list/friend-tabs";
 export default function FriendsTabGroup({
   friendRequestsCount,
 }: {
@@ -25,7 +25,7 @@ export default function FriendsTabGroup({
             currentTab === item.key ? "active-tab" : `tab-group-btn-${item.key}`
           }
         >
-          {item.name || item.title}
+          {item.name || item.name}
           {item.key === FriendsTabEnum.Pending && PendingBadge}
         </TabGroupButton>
       ))}
