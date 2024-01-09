@@ -1,14 +1,17 @@
+"use client";
 import { User } from "@prisma/client";
 import { ComponentProps, FC, useState } from "react";
 import { normalizedCompare } from "@/lib/utils/string";
 import FriendsFilterInput from "./friends-filter-input";
 import { List } from "@/components/ui/list";
-import FriendListItem, {
-  FriendListItemBlocked,
-  FriendListItemInvite,
-} from "./friend-list-item";
+import FriendListItem, { FriendListItemBlocked } from "./friend-list-item";
 import NotFound from "./not-found";
 import { EmptyBox } from "../empty-box-image";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import handleFriendInvite from "@/app/(actions)/user-interaction/handleFriendInvite";
+import { FriendsTabEnum } from "./friend-tabs";
+import toast from "react-hot-toast";
+import Toaster from "@/components/ui/toaster";
 
 interface FilterFriendsTabProps {
   loading?: boolean;
@@ -42,6 +45,7 @@ const FilterFriendsTab = ({
   if (initialUsers.length) {
     return (
       <>
+      <Toaster />
         <FriendsFilterInput
           filterValue={search}
           setFilterValue={setSearch}
@@ -74,19 +78,31 @@ const FilterFriendsTab = ({
 export const FilterFriendsInviteTab = (
   props: Omit<FilterFriendsTabProps, "friendListItemComponent">,
 ) => {
-  const onInviteSubmitted: FriendListItemInvite["onInviteSubmitted"] = (
-    id,
-    accepted,
-  ) => {
-    console.log("Invite form user ", id, accepted);
-  };
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async ({ id, accepted }: { id: string; accepted: boolean }) => {
+      return handleFriendInvite({ userId: id, accept: accepted });
+    },
+    onSettled: (data, _, props) => {
+      if (data?.status === "success") {
+        toast.success(data.message);
+        return queryClient.setQueryData<User[]>(
+          ["friends-list", FriendsTabEnum.Pending],
+          (old) => old?.filter(({ id }) => props.id !== id),
+        );
+      }
+    },
+  });
+
   return (
     <FilterFriendsTab
       {...props}
       friendListItemComponent={(listItemProps) => (
         <FriendListItem
           {...listItemProps}
-          onInviteSubmitted={onInviteSubmitted}
+          onInviteSubmitted={(id, accepted) =>
+            mutation.mutate({ id, accepted })
+          }
           variant="invite"
         />
       )}

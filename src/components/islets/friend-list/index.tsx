@@ -1,32 +1,36 @@
 "use client";
 
-import { useEffect } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useFriendsTabStore } from "@/state/friends-tab";
-import { useFriendStore } from "@/state/friend-list";
 import { friendsTabsProps } from "./friend-tabs";
-import { User } from "@prisma/client";
-import { generateRandomFakeUsers } from "@/lib/utils/mock";
+import useGetFriendList from "@/lib/hooks/friend-list/useGetFriendList";
+import { useMemo } from "react";
+import { motion } from "framer-motion";
+import clsx from "@/lib/clsx";
 
-export interface FriendListProps {
-  friends: User[];
-}
-export default function FriendList({ friends }: FriendListProps) {
+export default function FriendList() {
   const { currentTab } = useFriendsTabStore();
-  const { setFriends } = useFriendStore();
+  const { friends, isFetching } = useGetFriendList({
+    currentTab,
+  });
 
-  useEffect(() => {
-    setFriends(friends);
-  }, [friends, setFriends]);
-
-  const tab = friendsTabsProps[currentTab];
-  const initialUsers = generateRandomFakeUsers(10);
+  const tab = useMemo(() => friendsTabsProps[currentTab], [friends]);
   const CurrentTab = tab.component;
   return (
-    <div className="flex flex-1 flex-col">
+    <motion.div
+      key={tab.name}
+      className={clsx("flex flex-1 flex-col", isFetching && "animate-pulse")}
+      animate={{
+        opacity: [0, 1],
+      }}
+      transition={{
+        duration: 0.4,
+        ease: "easeInOut",
+      }}
+    >
       <TooltipProvider>
-        <CurrentTab initialUsers={initialUsers} />
+        <CurrentTab initialUsers={friends || []} />
       </TooltipProvider>
-    </div>
+    </motion.div>
   );
 }

@@ -1,4 +1,4 @@
-import { UserStatuses } from "./user";
+import { UserStatuses } from "@prisma/client";
 import { Activity } from "./activity";
 
 export type Chat = {

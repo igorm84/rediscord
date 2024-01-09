@@ -5,13 +5,19 @@ import TabGroup from "@/components/ui/tab-group";
 import TabGroupButton from "@/components/ui/tab-group/tab-group-button";
 import { useFriendsTabStore } from "@/state/friends-tab";
 import { FriendsTabEnum, friendsTabsProps } from "../friend-list/friend-tabs";
+import useGetFriendList from "@/lib/hooks/friend-list/useGetFriendList";
 export default function FriendsTabGroup({
   friendRequestsCount,
 }: {
   friendRequestsCount: number;
 }) {
   const { currentTab, setCurrentTab } = useFriendsTabStore();
-  const PendingBadge = <Badge className="ml-1" count={friendRequestsCount} />;
+
+  const requestsCount = useGetFriendList({
+    currentTab: FriendsTabEnum.Pending,
+  }).friends.length;
+
+  const PendingBadge = <Badge className="ml-1" count={requestsCount} />;
 
   return (
     <TabGroup data-testid="tab-group">

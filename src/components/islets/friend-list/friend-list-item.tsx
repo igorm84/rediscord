@@ -1,5 +1,5 @@
 "use client";
-import React, { ComponentProps } from "react";
+import React, { ComponentProps, MouseEvent } from "react";
 import Avatar from "@/components/ui/avatar";
 import RoundedButton from "@/components/ui/button/with-tooltip";
 import { ListItem } from "@/components/ui/list";
@@ -7,6 +7,7 @@ import { BsChatLeftFill, BsThreeDotsVertical } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa";
 import { ImCancelCircle } from "react-icons/im";
 import { User, UserStatuses } from "@prisma/client";
+import { useRouter } from "next/navigation";
 interface FriendListItemBase {
   friend: User;
   variant: "base";
@@ -27,11 +28,12 @@ export type FriendListItemProps =
 export type FriendListItemVariant = FriendListItemProps["variant"];
 
 export default function FriendListItem(props: FriendListItemProps) {
+  const router = useRouter();
   const { variant, friend } = props;
   const currentVariantValue = getFriendListItemVariantsMap(props)[variant];
   return (
     <ListItem
-      href={`/users/${friend.id}/private`}
+      onClick={() => router.push(`/users/${friend.id}/private`)}
       className="group justify-between border-t-[1px] border-gray-800 py-2.5 pr-3"
       noVerticalPadding
     >
@@ -56,7 +58,14 @@ export default function FriendListItem(props: FriendListItemProps) {
       </div>
       <div className="flex items-center gap-2.5">
         {currentVariantValue.map((props, idx) => (
-          <RoundedButton key={idx} {...props} />
+          <RoundedButton
+            key={idx}
+            {...props}
+            onClick={(e: MouseEvent) => {
+              e.stopPropagation();
+              props.onClick?.(e);
+            }}
+          />
         ))}
       </div>
     </ListItem>

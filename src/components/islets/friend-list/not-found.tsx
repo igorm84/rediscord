@@ -2,7 +2,7 @@ import clsx from "@/lib/clsx";
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex items-center justify-center">
       <div className="grid gap-4 text-center">
         <div
           className={clsx(

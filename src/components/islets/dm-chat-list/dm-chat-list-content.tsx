@@ -49,7 +49,7 @@ export default function DMChatListContent({
     );
   };
   const params = useParams();
-  const activeIdx = currentChannels.findIndex((v) => v.id == params.id);
+  const activeIdx = currentChannels.findIndex((v) => v.id == params?.id);
   
   return (
     <div className="pt-4">
@@ -61,7 +61,7 @@ export default function DMChatListContent({
         />
         {currentChannels.map((channel) => (
           <DMChatListItem
-            active={params.id === channel.id}
+            active={params?.id === channel.id}
             key={channel.id}
             channel={channel}
             onDelete={() => {

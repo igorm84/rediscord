@@ -12,7 +12,7 @@ import useUserSettingsData, {
   FullUserInfo,
 } from "@/lib/hooks/user-settings/useUserSettingsData";
 import useUserSettingsFieldsData from "@/lib/hooks/user-settings/useUserSettingsFieldsData";
-import { MediaQuery } from "@/app/MediaQuery";
+import { MediaQuery } from "@/components/providers/MediaQuery";
 
 interface UserSettingsModalFormFieldsProps {
   userInfo: FullUserInfo;

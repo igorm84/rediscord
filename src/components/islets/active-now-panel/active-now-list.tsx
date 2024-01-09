@@ -2,9 +2,7 @@
 
 import Avatar from "@/components/ui/avatar";
 import { List, ListItem } from "@/components/ui/list";
-import { ActivityTypes } from "@/lib/entities/activity";
-import { User } from "@/lib/entities/user";
-import { useFriendStore } from "@/state/friend-list";
+import { User } from "@prisma/client";
 
 export const ActiveNowListItemSkeleton = () => (
   <div className="h-[70px] animate-pulse rounded-md bg-gray-900"></div>
@@ -17,8 +15,8 @@ export default function ActiveNowList({ friends }: ActiveNowListItemProps) {
     return <ActiveNowListItemSkeleton />;
   }
   const filteredList = friends.filter(
-    (friend) =>
-      friend.activity && friend.activity.type === ActivityTypes.Playing,
+    (friend) => true
+      // friend.activity && friend.activity.type === ActivityTypes.Playing,
   );
   return filteredList.length ? (
     <List>
@@ -31,17 +29,17 @@ export default function ActiveNowList({ friends }: ActiveNowListItemProps) {
         >
           <Avatar
             src={friend.avatar}
-            alt={friend.name}
-            status={friend.status}
+            alt={friend.username}
+            status={friend.status!}
             className="w-8 flex-none"
           />
           <div className="flex-1 truncate text-sm">
-            <span className="text-gray-100">{friend.name}</span>
-            {friend.activity && (
+            <span className="text-gray-100">{friend.username}</span>
+            {/* {friend.activity && (
               <div className="h-4 truncate text-xs leading-3">
                 {friend.activity.name} - 5 hours
               </div>
-            )}
+            )} */}
           </div>
         </ListItem>
       ))}

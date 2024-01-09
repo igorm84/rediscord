@@ -1,5 +1,4 @@
 import { faker } from "@faker-js/faker";
-import { UserStatuses } from "@/lib/entities/user";
 import { ActivityTypes } from "@/lib/entities/activity";
 import { ListedServer } from "../entities/server";
 import {
@@ -13,7 +12,7 @@ import {
 import { Message } from "../entities/message";
 import { Chat } from "../entities/chat";
 import { Channel, ChannelGroup } from "../entities/channel";
-import { User } from "@prisma/client";
+import { User, UserStatuses } from "@prisma/client";
 
 export const MOCK_DELAY = 2000;
 export const MOCK_FRIENDS = 18;
@@ -26,7 +25,7 @@ const generateRandomDiscordID = () =>
 export const generateFakeCurrentUser = () => ({
   name: "Repeep",
   avatar: "https://avatars.githubusercontent.com/u/16727448?v=4",
-  status: UserStatuses.DND,
+  status: UserStatuses.DONT_DISTURB,
 });
 
 const currentActivity = {
@@ -39,7 +38,7 @@ export const generateRandomFakeChats = (length: number): Chat[] =>
     id: generateRandomDiscordID(),
     status:
       i === 0
-        ? UserStatuses.Online
+        ? UserStatuses.ONLINE
         : faker.helpers.arrayElement(Object.values(UserStatuses)),
     name: faker.person.fullName(),
     avatar: i === 6 ? undefined : faker.image.avatarGitHub(),

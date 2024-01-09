@@ -12,34 +12,37 @@ datasource db {
 }
 
 model Account {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String?  @unique
-  phone     String?  @unique
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  email     String?   @unique
+  phone     String?   @unique
   birthDate DateTime?
   password  String
-  userId    String   @unique
-  user      User?    @relation("AccountUser")
+  userId    String    @unique
+  user      User?     @relation("AccountUser")
 
   @@index([userId])
 }
 
 model User {
-  id                   String    @id @default(uuid())
-  username             String    @unique
+  id                   String        @id @default(uuid())
+  username             String        @unique
   avatar               String?
   lastSeen             DateTime?
   status               UserStatuses?
   messages             Message[]
-  leaderChannels       Channel[] @relation("ChannelLeader")
-  serverParticipations Server[]  @relation("ServerParticipant")
-  serverLeadership     Server[]  @relation("ServerLeader")
-  recivedFriendRequest Request[] @relation("FriendRequestReciever")
-  sendedFriendRequest  Request[] @relation("FriendRequester")
+  leaderChannels       Channel[]     @relation("ChannelLeader")
+  serverParticipations Server[]      @relation("ServerParticipant")
+  serverLeadership     Server[]      @relation("ServerLeader")
+  recivedFriendRequest Request[]     @relation("FriendRequestReciever")
+  sendedFriendRequest  Request[]     @relation("FriendRequester")
   channels             Channel[]
-  accountId            String    @unique
-  account              Account   @relation("AccountUser", references: [id], fields: [accountId])
+  accountId            String        @unique
+  account              Account       @relation("AccountUser", references: [id], fields: [accountId])
+  friends              User[]        @relation("Friends")
+  // Ignore field below, it's just for satisfying Prisma
+  friendOf             User[]        @relation("Friends")
 }
 
 model Message {
