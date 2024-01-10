@@ -12,8 +12,6 @@ export default function useGetFriendList({
     queryFn: () => getFriendsTabUsers({ tab: currentTab }),
     placeholderData: keepPreviousData,
   });
-  console.log(data);
-  
   return {
     friends: Array.isArray(data) ? data : [],
     isFetching,

@@ -17,7 +17,6 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: React.PropsWithChildren) {
-
   return (
     <html lang="en">
       <body className={mainFont.className + " dark"}>

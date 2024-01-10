@@ -20,9 +20,9 @@ export const useSocket = () => {
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
-
+  
   useEffect(() => {
-    const socketInstance = ClientIO(process.env.NEXTAUTH_URL!, {
+    const socketInstance = ClientIO(process.env.PUBLIC_URL!, {
       addTrailingSlash: false,
       path: "/api/socket/io",
     });

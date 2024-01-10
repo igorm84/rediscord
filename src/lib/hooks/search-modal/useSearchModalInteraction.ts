@@ -56,7 +56,7 @@ export default function useSearchModalInteraction({
     return () => {
       window.removeEventListener("keydown", handleEvent);
     };
-  }, [filteredUsers, selectedUserId]);
+  }, [filteredUsers, filteredUsersElements, selectedUserId, setActiveUser]);
 
   // Handle open modal window
   useEffect(() => {
@@ -79,5 +79,5 @@ export default function useSearchModalInteraction({
       window.removeEventListener(SEARCH_MODAL_EVENT, handleEvent);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [setOpen]);
 }

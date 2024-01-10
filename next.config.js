@@ -34,6 +34,9 @@ const nextConfig = {
       bodySizeLimit: "10mb",
     },
   },
+  env: {
+    PUBLIC_URL: "http://localhost:3000",
+  },
 };
 
 module.exports = nextConfig;

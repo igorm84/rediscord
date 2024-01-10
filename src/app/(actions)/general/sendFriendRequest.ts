@@ -2,6 +2,7 @@
 
 import authOptions from "@/lib/authOptions";
 import prisma from "@/lib/prismaClient";
+import emitEventOnServer from "@/lib/utils/emitEventOnServer";
 import { randomUUID } from "crypto";
 import { getServerSession } from "next-auth";
 
@@ -22,6 +23,10 @@ const FRIEND_REQUEST_ERRORS = {
   noUsername: {
     status: "error",
     message: "Please enter username!",
+  },
+  alreadySent: {
+    status: "error",
+    message: "You have already sent the invite!",
   },
   unknownError: {
     status: "error",
@@ -47,10 +52,18 @@ export default async function sendFriendRequest(
     const requestedUser = await prisma.user.findUnique({
       where: { username: friendUsername.toString() },
     });
-
+    const requestCount = await prisma.request.count({
+      where: {
+        requesterId: session?.user?.id,
+        addresseeId: requestedUser?.id,
+      },
+    });
     if (!requestedUser) return FRIEND_REQUEST_ERRORS["notFound"];
 
-    const request = await prisma.request.create({
+    if (requestCount) {
+      return FRIEND_REQUEST_ERRORS["alreadySent"];
+    }
+    await prisma.request.create({
       data: {
         id: randomUUID(),
         addresseeId: requestedUser.id,
@@ -58,7 +71,10 @@ export default async function sendFriendRequest(
         createdAt: new Date(),
       },
     });
-
+    await emitEventOnServer({
+      eventId: `friend-invite-${requestedUser.id}`,
+      data: session?.user,
+    });
     return {
       status: "success",
       message: `User "${friendUsername}" has invited success!`,

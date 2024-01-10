@@ -10,7 +10,6 @@ import { useFormState } from "react-dom";
 import sendFriendRequest, {
   FriendRequestState,
 } from "@/app/(actions)/general/sendFriendRequest";
-import Toaster from "@/components/ui/toaster";
 
 export default function AddFriendTab() {
   const inputRef = useRef<HTMLInputElement>(null);

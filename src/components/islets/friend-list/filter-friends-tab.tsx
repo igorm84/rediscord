@@ -10,8 +10,6 @@ import { EmptyBox } from "../empty-box-image";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import handleFriendInvite from "@/app/(actions)/user-interaction/handleFriendInvite";
 import { FriendsTabEnum } from "./friend-tabs";
-import toast from "react-hot-toast";
-import Toaster from "@/components/ui/toaster";
 
 interface FilterFriendsTabProps {
   loading?: boolean;
@@ -45,7 +43,6 @@ const FilterFriendsTab = ({
   if (initialUsers.length) {
     return (
       <>
-      <Toaster />
         <FriendsFilterInput
           filterValue={search}
           setFilterValue={setSearch}
@@ -85,7 +82,6 @@ export const FilterFriendsInviteTab = (
     },
     onSettled: (data, _, props) => {
       if (data?.status === "success") {
-        toast.success(data.message);
         return queryClient.setQueryData<User[]>(
           ["friends-list", FriendsTabEnum.Pending],
           (old) => old?.filter(({ id }) => props.id !== id),

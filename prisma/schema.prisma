@@ -30,7 +30,7 @@ model User {
   username             String        @unique
   avatar               String?
   lastSeen             DateTime?
-  status               UserStatuses?
+  status               UserStatuses? @default(IDLE)
   messages             Message[]
   leaderChannels       Channel[]     @relation("ChannelLeader")
   serverParticipations Server[]      @relation("ServerParticipant")
