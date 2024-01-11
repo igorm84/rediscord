@@ -54,10 +54,14 @@ export default function SearchModalHeader({
   arrowBgActive,
 }: SearchModalHeaderProps) {
   const [value, setValue] = useState("");
+
+  // Debounce must not be called each function call, we need to memoize it
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const changeFilterValue = useCallback(
     debounce((v: string) => {
       setFilterValue(v);
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
   return (

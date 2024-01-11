@@ -29,6 +29,7 @@ export function useFormWithLocalStorage<T extends FieldValues>(
     const formData = watch();
     localStorage.setItem("formData", JSON.stringify(formData));
     return () => localStorage.removeItem("formData");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch()]);
 
   return formMethods;

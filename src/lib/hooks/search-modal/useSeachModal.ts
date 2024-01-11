@@ -28,11 +28,13 @@ export default function useSeachModal({
     useState<ArrowGroupStatus>("idle");
 
   function setActiveUser(id: string, rect: DOMRect) {
-    const relativeY =
-      rect.y - (parentRef.current?.getBoundingClientRect().y ?? 0);
-    setArrowGroupYPos(relativeY);
-    setArrowGroupStatus("focus");
-    setSelectedUserId(id);
+    if (rect) {
+      const relativeY =
+        rect.y - (parentRef.current?.getBoundingClientRect().y ?? 0);
+      setArrowGroupYPos(relativeY);
+      setArrowGroupStatus("focus");
+      setSelectedUserId(id);
+    }
   }
 
   // Using for better accessibility using ArrowUp/ArrowDown
@@ -43,7 +45,7 @@ export default function useSeachModal({
     filteredUsers: filteredUsers ?? [],
     filteredUsersElements,
   });
-  
+
   useEffect(() => setOpen(defaultOpen), [defaultOpen]);
 
   useEffect(() => {

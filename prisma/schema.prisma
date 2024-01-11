@@ -54,7 +54,7 @@ model Message {
   user      User     @relation(fields: [userId], references: [id])
   channelId String
   channel   Channel  @relation(fields: [channelId], references: [id])
-
+  seen      Boolean  @default(false)
   @@index([userId])
   @@index([channelId])
 }

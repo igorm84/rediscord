@@ -1,6 +1,6 @@
 import { clsx } from "@/lib/utils";
 import { UserStatuses } from "@prisma/client";
-
+import { IoMdPhonePortrait } from "react-icons/io";
 interface StatusBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   status: UserStatuses | "skeleton";
 }
@@ -17,7 +17,7 @@ export default function StatusBadge({
         status === "ONLINE" && "bg-green-600",
         status === "OFFLINE" && "bg-gray-500",
         status === "DONT_DISTURB" && "bg-red-600",
-        // status === "" && "bg-yellow-600",
+        status === "IDLE" && "bg-yellow-600",
         status === "skeleton"
           ? "border-gray-900 bg-gray-900"
           : "border-midground",
@@ -26,6 +26,7 @@ export default function StatusBadge({
           "h-[18px] w-3.5 rounded-sm bg-midground text-green-600",
         className,
       )}
+      data-testid={status}
       {...props}
     >
       {status === "OFFLINE" && (
@@ -37,9 +38,9 @@ export default function StatusBadge({
       {status === "IDLE" && (
         <div className="absolute -left-0.5 -top-0.5 h-2 w-2 rounded-full bg-midground"></div>
       )}
-      {/* {status === UserStatuses.Mobile && (
-        <MdPhoneAndroid fontSize={15} className="flex-none" />
-      )} */}
+      {status === UserStatuses.MOBILE && (
+        <IoMdPhonePortrait fontSize={15} className="flex-none" />
+      )}
     </div>
   );
 }

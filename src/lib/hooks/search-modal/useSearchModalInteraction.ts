@@ -21,10 +21,13 @@ export default function useSearchModalInteraction({
   // Handle arrowUp/arrowDown keys
   useEffect(() => {
     const scrollIntoView = (index: number) => {
-      filteredUsersElements[index].scrollIntoView({
-        behavior: "instant",
-        block: "nearest",
-      });
+      const el = filteredUsersElements[index];
+      if (el) {
+        el.scrollIntoView({
+          behavior: "instant",
+          block: "nearest",
+        });
+      }
     };
     const handleEvent = (e: KeyboardEvent) => {
       const currUserIdx = filteredUsers.findIndex(

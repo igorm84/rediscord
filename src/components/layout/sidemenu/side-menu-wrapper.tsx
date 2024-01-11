@@ -14,7 +14,7 @@ export default function SideMenuWrapper({
   const { type: viewportType } = useViewportType();
   const pathname = usePathname();
 
-  if (pathname.includes("/server") && viewportType === "mobile") {
+  if (pathname?.includes("/server") && viewportType === "mobile") {
     return null;
   }
   const isShowSideMenu = !isHide || viewportType !== "mobile";

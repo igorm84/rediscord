@@ -31,6 +31,8 @@ export default function FriendListItem(props: FriendListItemProps) {
   const router = useRouter();
   const { variant, friend } = props;
   const currentVariantValue = getFriendListItemVariantsMap(props)[variant];
+  const currentStatus = UserStatuses[friend.status || "IDLE"];
+
   return (
     <ListItem
       onClick={() => router.push(`/users/${friend.id}/private`)}
@@ -42,7 +44,7 @@ export default function FriendListItem(props: FriendListItemProps) {
           src={friend.avatar}
           alt={friend.username}
           className="flex-none"
-          status={friend.status!}
+          status={currentStatus}
         />
         <div className="flex-1 leading-4">
           <div className="flex items-center gap-1.5 text-sm text-gray-200">
@@ -52,7 +54,8 @@ export default function FriendListItem(props: FriendListItemProps) {
             </span>
           </div>
           <div className="text-[13px] text-gray-300">
-            {UserStatuses["ONLINE"]}
+            {currentStatus.slice(0, 1).toUpperCase() +
+              currentStatus.slice(1).toLowerCase()}
           </div>
         </div>
       </div>
@@ -63,6 +66,7 @@ export default function FriendListItem(props: FriendListItemProps) {
             {...props}
             onClick={(e: MouseEvent) => {
               e.stopPropagation();
+              // @ts-expect-error doesn't make sense
               props.onClick?.(e);
             }}
           />

@@ -77,14 +77,12 @@ export const FilterFriendsInviteTab = (
 ) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async ({ id, accepted }: { id: string; accepted: boolean }) => {
-      return handleFriendInvite({ userId: id, accept: accepted });
-    },
+    mutationFn: handleFriendInvite,
     onSettled: (data, _, props) => {
       if (data?.status === "success") {
         return queryClient.setQueryData<User[]>(
           ["friends-list", FriendsTabEnum.Pending],
-          (old) => old?.filter(({ id }) => props.id !== id),
+          (old) => old?.filter(({ id }) => props.userId !== id),
         );
       }
     },
@@ -97,7 +95,7 @@ export const FilterFriendsInviteTab = (
         <FriendListItem
           {...listItemProps}
           onInviteSubmitted={(id, accepted) =>
-            mutation.mutate({ id, accepted })
+            mutation.mutate({ userId: id, accept: accepted })
           }
           variant="invite"
         />
