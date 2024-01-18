@@ -79,7 +79,6 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
     };
     setMessages((prevMessages) => [...prevMessages, endedMessage]);
   };
-  console.log(messages);
 
   const intersection = channels?.filter(
     (channel) => friends?.includes(channel),

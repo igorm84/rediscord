@@ -64,6 +64,7 @@ export default function VoiceStatusFooter() {
     if (currentUserData !== null) {
       setCurrentUser(currentUserData);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
