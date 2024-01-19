@@ -1,7 +1,7 @@
 import StatusBadge from "@/components/ui/badge/status-badge";
 import Divider from "@/components/ui/divider";
 import { ListItem } from "@/components/ui/list";
-import { StaticUserStatuses, UserStatuses } from "@/lib/entities/user";
+import { UserStatuses } from "@/lib/entities/user";
 interface UserStatusProps {
   statuses: { value: string }[];
   handleSubmit: (status: UserStatuses) => void;

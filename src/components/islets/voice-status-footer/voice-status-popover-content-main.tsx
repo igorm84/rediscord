@@ -34,7 +34,7 @@ function PopoverContentMain({
 
   const handleSubmit = (status: UserStatuses) => {
     const updatedUser = { ...currentUser, status: status };
-    setCurrentUser(updatedUser);
+    setCurrentUser(updatedUser as User);
   };
   return (
     <PopoverContent

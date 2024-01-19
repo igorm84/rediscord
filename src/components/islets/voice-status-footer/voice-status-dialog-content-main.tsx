@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import clsx from "@/lib/clsx";
 import { Time } from "@/lib/entities/time";
-import { User, StaticUserStatuses, UserStatuses } from "@/lib/entities/user";
+import { User, UserStatuses } from "@/lib/entities/user";
 import React from "react";
 import { BsXLg } from "react-icons/bs";
 import { FaRegSmileBeam } from "react-icons/fa";

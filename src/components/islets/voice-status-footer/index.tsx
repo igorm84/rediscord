@@ -3,7 +3,7 @@
 import Avatar from "@/components/ui/avatar";
 import { Popover, PopoverTrigger } from "@/components/ui/popover";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { StaticUserStatuses, VoiceStatus } from "@/lib/entities/user";
+import { VoiceStatus } from "@/lib/entities/user";
 import { t } from "@/lib/i18n";
 import { generateFakeCurrentUser } from "@/lib/utils/mock";
 import { useCurrentUserStore } from "@/state/user";
@@ -20,7 +20,7 @@ export default function VoiceStatusFooter() {
     if (currentUserData !== null) {
       setCurrentUser(currentUserData);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
