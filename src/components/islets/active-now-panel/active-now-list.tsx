@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useAddChannel } from "@/customHooks/useAddChannel";
 import { ActivityTypes } from "@/lib/entities/activity";
-import { UserStatuses } from "@/lib/entities/user";
+import { StaticUserStatuses } from "@/lib/entities/user";
 import { calculateHoursBetweenDates } from "@/lib/utils";
 
 import { useFriendStore } from "@/state/friend-list";
@@ -30,7 +30,7 @@ export default function ActiveNowList() {
     (friend) =>
       friend.activity &&
       friend.activity.type === ActivityTypes.Playing &&
-      friend.status !== UserStatuses.Offline,
+      friend.status !== StaticUserStatuses.Offline,
   );
 
   return filteredList.length ? (

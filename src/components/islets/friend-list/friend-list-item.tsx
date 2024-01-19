@@ -3,7 +3,7 @@ import React from "react";
 import Avatar from "@/components/ui/avatar";
 import RoundedButton from "@/components/ui/button/rounded-button";
 import { ListItem } from "@/components/ui/list";
-import { User } from "@/lib/entities/user";
+import {  User } from "@/lib/entities/user";
 import { t } from "@/lib/i18n";
 import {
   BsChatLeftFill,

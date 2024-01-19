@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { User, UserStatuses } from "@/lib/entities/user";
+import { User, StaticUserStatuses } from "@/lib/entities/user";
 import { Activity, ActivityTypes } from "@/lib/entities/activity";
 import { ListedServer } from "../entities/server";
 import { ListedDMChannel } from "../entities/channel";
@@ -16,7 +16,8 @@ export const generateFakeCurrentUser = () => ({
   id: generateRandomDiscordID(),
   name: "Repeep",
   avatar: "https://avatars.githubusercontent.com/u/16727448?v=4",
-  status: UserStatuses.DND,
+  status: StaticUserStatuses.DND,
+  username: "Reepep",
 });
 
 const generatePastHoursDate = (hours: number) =>
@@ -33,8 +34,8 @@ export const generateRandomFakeChannels = (length: number): ListedDMChannel[] =>
     id: generateRandomDiscordID(),
     status:
       i === 0
-        ? UserStatuses.Online
-        : faker.helpers.arrayElement(Object.values(UserStatuses)),
+        ? StaticUserStatuses.Online
+        : faker.helpers.arrayElement(Object.values(StaticUserStatuses)),
     name: faker.person.fullName(),
     avatar: i === 6 ? undefined : faker.image.avatarGitHub(),
     activity: i === 0 ? currentActivity : undefined,
@@ -59,7 +60,7 @@ export const generateRandomFakeUsers = (length: number): User[] =>
     username: faker.internet.userName().toLowerCase(),
     bio: faker.lorem.paragraph(),
     avatar: faker.image.avatarGitHub(),
-    status: faker.helpers.arrayElement(Object.values(UserStatuses)),
+    status: faker.helpers.arrayElement(Object.values(StaticUserStatuses)),
     activity: i === 0 ? currentActivity : undefined,
     type: "user",
   }));
