@@ -1,15 +1,15 @@
-import { Suspense } from "react";
 import DMLayoutSkeleton from "@/components/islets/dm-layout/dm-layout-skeleton";
 import DMLayout from "@/components/islets/dm-layout";
+import DemoLoadingGate from "@/components/islets/demo-loading-gate";
 
-export const revalidate = 0;
+export const dynamic = "error";
 
 export default function SuspendedDMLayout({
   children,
-}:  React.PropsWithChildren) {
+}: React.PropsWithChildren) {
   return (
-    <Suspense fallback={<DMLayoutSkeleton>{children}</DMLayoutSkeleton>}>
+    <DemoLoadingGate fallback={<DMLayoutSkeleton>{children}</DMLayoutSkeleton>}>
       <DMLayout>{children}</DMLayout>
-    </Suspense>
+    </DemoLoadingGate>
   );
 }

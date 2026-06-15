@@ -1,5 +1,8 @@
 import { Page, PageContent, PageHeader } from "@/components/layout/page";
 import { BsInboxFill } from "react-icons/bs";
+
+export const dynamic = "error";
+
 export default function MessageRequestsPage() {
   return (
     <Page>

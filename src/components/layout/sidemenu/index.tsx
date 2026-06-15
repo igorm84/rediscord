@@ -1,20 +1,15 @@
 import { ListedServer } from "@/lib/entities/server";
 import SideMenuTrack from "./side-menu-track";
 import SideMenuWrapper from "./side-menu-wrapper";
-import { delay } from "@/lib/utils";
-import { MOCK_DELAY, generateRandomFakeServers } from "@/lib/utils/mock";
+import { PREVIEW_SERVERS } from "@/lib/utils/mock";
 
-export const getData = async (): Promise<{ servers: ListedServer[] }> => {
-  /*
-   * Generate fake servers for testing
-   */
-  const servers: ListedServer[] = generateRandomFakeServers(18);
-  await delay(MOCK_DELAY);
+export const getData = (): { servers: ListedServer[] } => {
+  const servers: ListedServer[] = PREVIEW_SERVERS;
   return { servers };
 };
 
-export default async function SideMenu() {
-  const { servers } = await getData();
+export default function SideMenu() {
+  const { servers } = getData();
   return (
     <SideMenuWrapper>
       <SideMenuTrack servers={servers} />

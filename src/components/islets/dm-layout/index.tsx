@@ -7,21 +7,14 @@ import DMChannelList from "@/components/islets/dm-channel-list";
 import VoiceStatusFooter from "@/components/islets/voice-status-footer";
 
 import { ListedDMChannel } from "@/lib/entities/channel";
-import {
-  MOCK_DELAY,
-  MOCK_CHANNELS,
-  generateRandomFakeChannels,
-} from "@/lib/utils/mock";
-import { delay } from "@/lib/utils";
+import { PREVIEW_CHANNELS } from "@/lib/utils/mock";
 
-export const getData = async (): Promise<{ channels: ListedDMChannel[] }> => {
-  const channels: ListedDMChannel[] = generateRandomFakeChannels(MOCK_CHANNELS);
-  await delay(MOCK_DELAY);
-  return { channels };
+export const getData = (): { channels: ListedDMChannel[] } => {
+  return { channels: PREVIEW_CHANNELS };
 };
 
-export default async function DMLayout({ children }: React.PropsWithChildren) {
-  const { channels } = await getData();
+export default function DMLayout({ children }: React.PropsWithChildren) {
+  const { channels } = getData();
   return (
     <>
       <Sidebar className="bottom-70 flex flex-col">
