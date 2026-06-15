@@ -13,9 +13,10 @@ const getChannelByID = async (id: string) => {
 export default async function ChannelPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { channel } = await getChannelByID(params.id);
+  const { id } = await params;
+  const { channel } = await getChannelByID(id);
   return (
     <Page>
       <ChannelDM user={channel} />

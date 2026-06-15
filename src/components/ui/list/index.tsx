@@ -2,7 +2,7 @@ import { clsx } from "@/lib/utils";
 import React from "react";
 import HybridButton, { HybridButtonProps } from "../hybrid/hybrid-button";
 
-export interface ListProps extends React.HTMLAttributes<HTMLUListElement> {}
+export type ListProps = React.HTMLAttributes<HTMLUListElement>;
 const List = ({ children, className, ...props }: ListProps) => {
   return (
     <ul className={clsx(className)} {...props}>
