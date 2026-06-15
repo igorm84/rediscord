@@ -1,12 +1,22 @@
 import ChannelDM from "@/components/islets/dm-channel";
 import { Page } from "@/components/layout/page";
-import { delay } from "@/lib/utils";
-import { MOCK_DELAY, generateRandomFakeChannels } from "@/lib/utils/mock";
+import { notFound } from "next/navigation";
+import {
+  PREVIEW_STATIC_PARAMS,
+  getPreviewChannelById,
+} from "@/lib/utils/mock";
+import DemoLoadingGate from "@/components/islets/demo-loading-gate";
+import ChannelPageSkeleton from "./loading";
 
-const getChannelByID = async (id: string) => {
-  if (!id) throw new Error("Invalid ID");
-  const channel = generateRandomFakeChannels(1)[0];
-  await delay(MOCK_DELAY);
+export const dynamic = "error";
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return PREVIEW_STATIC_PARAMS;
+}
+
+const getChannelByID = (id: string) => {
+  const channel = getPreviewChannelById(id);
   return { channel };
 };
 
@@ -16,10 +26,16 @@ export default async function ChannelPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const { channel } = await getChannelByID(id);
+  const { channel } = getChannelByID(id);
+  if (!channel) {
+    notFound();
+  }
+
   return (
-    <Page>
-      <ChannelDM user={channel} />
-    </Page>
+    <DemoLoadingGate fallback={<ChannelPageSkeleton />}>
+      <Page>
+        <ChannelDM user={channel} />
+      </Page>
+    </DemoLoadingGate>
   );
 }

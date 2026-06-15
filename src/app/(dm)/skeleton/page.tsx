@@ -7,6 +7,8 @@ import {
   PageHeaderSkeleton,
 } from "@/components/layout/page";
 
+export const dynamic = "error";
+
 export default function SkeletonPage() {
   return (
     <DMLayoutSkeleton>
