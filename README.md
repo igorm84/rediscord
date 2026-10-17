@@ -40,15 +40,6 @@ npm run dev
 npm run lint
 npm run typecheck
 npm run build
-npm test
-```
-
-The smoke tests start the production build automatically and check redirects,
-public pages, all 36 static channel URLs, 404s, assets, and image optimization.
-To check an already running deployment, set `SMOKE_BASE_URL`:
-
-```bash
-SMOKE_BASE_URL=https://rediscord-gamma.vercel.app npm test
 ```
 
 Tailwind stays on version 3 to preserve the existing design. The
