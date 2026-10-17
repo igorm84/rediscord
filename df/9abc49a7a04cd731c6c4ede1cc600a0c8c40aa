@@ -1,0 +1,19 @@
+package.json
+  s_bcde55dc00103a::t_48775ac01b094c 10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "df9abc49a7a04cd731c6c4ede1cc600a0c8c40aa",
+  "prompts": {},
+  "sessions": {
+    "s_bcde55dc00103a": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a14839-e18e-7363-9da7-d0d9dbda7e20",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Igor Penaque <igormodesto.jf@gmail.com>"
+    }
+  }
+}
