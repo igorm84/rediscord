@@ -12,7 +12,7 @@ Rediscord is a study of Discord UI built in NextJS and TailwindCSS using some [s
 > I'll be working in features soon, feel free to sugest something
 ## Running locally
 
-Requires Node.js 20.9 or later. CI runs on Node.js 22.
+Requires Node.js 20.9 or later.
 
 1. Clone the repository
 
