@@ -6,40 +6,42 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "typecheck": "next typegen && tsc --noEmit"
   },
   "dependencies": {
-    "@faker-js/faker": "^8.0.2",
-    "@livekit/components-react": "^1.1.7",
-    "@livekit/components-styles": "^1.0.6",
     "@radix-ui/react-dialog": "^1.1.16",
     "@radix-ui/react-popover": "^1.1.16",
     "@radix-ui/react-select": "^2.3.0",
     "@radix-ui/react-tooltip": "^1.2.9",
-    "@types/node": "20.4.9",
-    "@types/react": "19.2.17",
-    "@types/react-dom": "19.2.3",
-    "autoprefixer": "10.4.14",
     "class-variance-authority": "^0.7.0",
-    "eslint": "^9.39.1",
-    "eslint-config-next": "16.2.9",
-    "livekit-client": "^1.13.2",
-    "livekit-server-sdk": "^1.2.6",
-    "next": "16.2.9",
-    "postcss": "8.4.27",
-    "react": "19.2.7",
-    "react-dom": "19.2.7",
+    "next": "16.4.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
     "react-icons": "^4.10.1",
-    "tailwindcss": "3.3.3",
-    "typescript": "^5.9.3",
     "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.4",
-    "@typescript-eslint/eslint-plugin": "^8.61.0",
-    "@typescript-eslint/parser": "^8.61.0",
+    "@types/node": "20.19.43",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.71.2",
+    "@typescript-eslint/parser": "^8.71.2",
+    "autoprefixer": "10.6.1",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.4.2",
+    "postcss": "8.5.30",
     "prettier": "^3.0.1",
     "prettier-plugin-tailwindcss": "^0.5.1",
-    "tailwindcss-animate": "^1.0.6"
+    "tailwindcss": "3.4.19",
+    "tailwindcss-animate": "^1.0.6",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "overrides": {
+    "postcss-selector-parser": "^7.1.6"
   }
 }
