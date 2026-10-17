@@ -85,10 +85,12 @@ test("public pages retain their metadata and load successfully", async () => {
   ]) {
     const response = await request(path);
     assert.equal(response.status, 200, path);
+    assert.equal(new URL(response.url).pathname, path, "Unexpected redirect");
     assert.match(response.headers.get("content-type"), /text\/html/);
-    assert.match(
-      await response.text(),
-      /<title>Rediscord - Reimaginated Discord app<\/title>/,
+    assert.equal(
+      (await response.text()).match(/<title>(.*?)<\/title>/)?.[1],
+      "Rediscord - Reimaginated Discord app",
+      path,
     );
   }
 });
@@ -99,9 +101,17 @@ test("all 36 existing DM and server channel URLs remain available", async () => 
     `200000000000000${String(index + 1).padStart(3, "0")}`,
   ]).flat();
   for (const id of ids) {
-    const response = await request(`/channels/${id}`);
+    const path = `/channels/${id}`;
+    const response = await request(path);
     assert.equal(response.status, 200, id);
-    assert.doesNotMatch(await response.text(), /<h1[^>]*>Not found<\/h1>/);
+    assert.equal(new URL(response.url).pathname, path, "Unexpected redirect");
+    const html = await response.text();
+    assert.equal(
+      html.match(/<title>(.*?)<\/title>/)?.[1],
+      "Rediscord - Reimaginated Discord app",
+      id,
+    );
+    assert.doesNotMatch(html, /<h1[^>]*>Not found<\/h1>/);
   }
 });
 
