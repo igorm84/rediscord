@@ -1,0 +1,19 @@
+tests/smoke.test.mjs
+  s_bcde55dc00103a::t_8748df4c991c08 88,90-93,104-105,107-114
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f9099f43a551e3429d1a6f561ffad380d8885be9",
+  "prompts": {},
+  "sessions": {
+    "s_bcde55dc00103a": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a14839-e18e-7363-9da7-d0d9dbda7e20",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Igor Penaque <igormodesto.jf@gmail.com>"
+    }
+  }
+}
