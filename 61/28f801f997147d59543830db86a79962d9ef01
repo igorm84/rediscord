@@ -1,0 +1,19 @@
+public/googlec9ac46c6bc6ba0ad.html
+  s_1be31e6a07e4cd::t_c1b59e6874f4ed 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6128f801f997147d59543830db86a79962d9ef01",
+  "prompts": {},
+  "sessions": {
+    "s_1be31e6a07e4cd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1483a-3c77-7c13-b8fe-87e1b4110344",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Igor Penaque <igormodesto.jf@gmail.com>"
+    }
+  }
+}
