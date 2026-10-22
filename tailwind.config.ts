@@ -31,6 +31,9 @@ const config: Config = {
         foreground: "rgb(var(--color-foreground) / <alpha-value>)",
         primary: "rgb(var(--color-primary) / <alpha-value>)",
       },
+      spacing: {
+        "demo-banner": "1.75rem",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

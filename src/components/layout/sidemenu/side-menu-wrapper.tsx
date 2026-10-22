@@ -7,7 +7,7 @@ export default function SideMenuWrapper({
   return (
     <div
       className={clsx(
-        "hidden-scrollbar fixed z-50 h-screen w-[70px] gap-3 overflow-y-auto pt-3",
+        "hidden-scrollbar fixed bottom-0 top-demo-banner z-50 w-[70px] gap-3 overflow-y-auto pt-3",
         "bg-gradient-to-b from-semibackground to-background",
         className,
       )}
