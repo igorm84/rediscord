@@ -1,0 +1,31 @@
+src/app/layout.tsx
+  s_35516d9e1973b1::t_8f8a2e51077f2a 4,23
+src/components/layout/container.tsx
+  s_35516d9e1973b1::t_8eae8c095a5f06 3
+src/components/layout/demo-banner.tsx
+  s_35516d9e1973b1::t_6deafc26ec73ed 1-24
+src/components/layout/page/index.tsx
+  s_35516d9e1973b1::t_a38a62e779dcd8 7
+src/components/layout/sidebar/index.tsx
+  s_35516d9e1973b1::t_6ba6e9f9f9d141 11
+src/components/layout/sidemenu/side-menu-wrapper.tsx
+  s_35516d9e1973b1::t_0c3f5b2a0b1f9d 10
+tailwind.config.ts
+  s_35516d9e1973b1::t_a28bba58a20583 34-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e54dec077c6320d2340b4ad4cc0ba89c59fcacda",
+  "prompts": {},
+  "sessions": {
+    "s_35516d9e1973b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "s_35516d9e1973b1",
+        "model": "unknown"
+      },
+      "human_author": "Igor Penaque <igormodesto.jf@gmail.com>"
+    }
+  }
+}
