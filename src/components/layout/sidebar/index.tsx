@@ -8,7 +8,7 @@ export default function Sidebar({
   return (
     <div
       className={clsx(
-        "fixed left-[70px] z-10 h-screen w-60 bg-midground",
+        "fixed bottom-0 left-[70px] top-demo-banner z-10 w-60 bg-midground",
         className,
       )}
       {...props}
