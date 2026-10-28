@@ -14,7 +14,7 @@ import { StaticUserStatuses } from "@/lib/entities/user";
 import { calculateHoursBetweenDates } from "@/lib/utils";
 
 import { useFriendStore } from "@/state/friend-list";
-import { BsController } from "react-icons/bs";
+import Image from "next/image";
 
 export const ActiveNowListItemSkeleton = () => (
   <div className="h-[70px] animate-pulse rounded-md bg-gray-900"></div>
@@ -62,10 +62,14 @@ export default function ActiveNowList() {
                     </div>
                   )}
                 </div>
-                <BsController
-                  role="img"
-                  aria-label={`${friend.activity?.name ?? "Game"} activity`}
-                  className="h-6 w-6 flex-none"
+                <Image
+                  className="aspect-square object-contain"
+                  width={24}
+                  height={24}
+                  alt={`${friend.activity?.name ?? "Game"} logo`}
+                  src="/activity/dead-by-daylight.png"
+                  loading="lazy"
+                  unoptimized
                 />
               </ListItem>
             </TooltipTrigger>
