@@ -34,10 +34,10 @@ export default function Avatar({
         <Image
           className={"rounded-full"}
           unoptimized
-          priority
+          loading="lazy"
           src={src}
-          width={32}
-          height={32}
+          width={size === "sm" ? 24 : size === "lg" ? 48 : 32}
+          height={size === "sm" ? 24 : size === "lg" ? 48 : 32}
           alt={alt}
         />
       ) : (

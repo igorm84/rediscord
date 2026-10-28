@@ -9,11 +9,10 @@ const nextConfig = {
   ],
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
-    ],
+      "avatars.githubusercontent.com",
+      "i.pravatar.cc",
+      "picsum.photos",
+    ].map((hostname) => ({ protocol: "https", hostname })),
   },
 };
 
