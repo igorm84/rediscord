@@ -52,3 +52,9 @@ Josh made an amazing video pointing it out: https://www.youtube.com/watch?v=Rmuc
 
 ## License
 This is a study project based on [Discord](discord.com) UI so they own the design and it needs to be respected. ([see more](discord.com/terms)) - From my part you can freely see and copy the implementation.
+
+State regression tests use [Bun](https://bun.sh/) without additional test dependencies:
+
+```bash
+bun test tests
+```
