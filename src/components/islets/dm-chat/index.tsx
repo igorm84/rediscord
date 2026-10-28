@@ -15,7 +15,11 @@ interface ChatDMProps {
   }[];
 }
 
-export function ChatDM({ messages, user, currentUser }: ChatDMProps) {
+export const ChatDM = React.memo(function ChatDM({
+  messages,
+  user,
+  currentUser,
+}: ChatDMProps) {
   const chatContainerRef = React.useRef<HTMLDivElement | null>(null);
 
   const scrollToBottom = () => {
@@ -31,10 +35,6 @@ export function ChatDM({ messages, user, currentUser }: ChatDMProps) {
     scrollToBottom();
   }, [messages]);
 
-  const [showDetailMessage, setShowDetailMessage] = React.useState<{
-    [key: number]: boolean;
-  }>({});
-
   return (
     <>
       {messages.map((message, index) => (
@@ -46,7 +46,7 @@ export function ChatDM({ messages, user, currentUser }: ChatDMProps) {
             messages[index]?.userId !== messages[index - 1]?.userId
               ? "my-4"
               : "my-0 h-fit"
-          } relative flex items-start gap-2`}
+          } group/message relative flex items-start gap-2`}
         >
           {message.bot === "endCall" ? (
             <div className="flex items-center space-x-2 py-1 text-xs text-gray-300">
@@ -78,14 +78,12 @@ export function ChatDM({ messages, user, currentUser }: ChatDMProps) {
                 alt="Avatar"
                 status={user?.status}
               />
-              {showDetailMessage[message.id] && (
-                <div className="absolute top-1.5 z-0 text-xs text-gray-400">
-                  {new Date(message.timestamp).toLocaleTimeString([], {
-                    hour: "numeric",
-                    minute: "numeric",
-                  })}
-                </div>
-              )}
+              <div className="invisible absolute top-1.5 z-0 text-xs text-gray-400 group-hover/message:visible">
+                {new Date(message.timestamp).toLocaleTimeString([], {
+                  hour: "numeric",
+                  minute: "numeric",
+                })}
+              </div>
               <div className="flex w-full flex-col overflow-hidden">
                 {(index === 0 ||
                   messages[index]?.userId !== messages[index - 1]?.userId) && (
@@ -100,23 +98,7 @@ export function ChatDM({ messages, user, currentUser }: ChatDMProps) {
                     </div>
                   </div>
                 )}
-                <div
-                  onMouseEnter={() => {
-                    setShowDetailMessage((prev) => ({
-                      ...prev,
-                      [message.id]: true,
-                    }));
-                  }}
-                  onMouseLeave={() => {
-                    setShowDetailMessage((prev) => ({
-                      ...prev,
-                      [message.id]: false,
-                    }));
-                  }}
-                  className="break-words pr-12"
-                >
-                  {message.text}
-                </div>
+                <div className="break-words pr-12">{message.text}</div>
               </div>
             </>
           )}
@@ -124,4 +106,4 @@ export function ChatDM({ messages, user, currentUser }: ChatDMProps) {
       ))}
     </>
   );
-}
+});
