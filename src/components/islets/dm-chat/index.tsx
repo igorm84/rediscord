@@ -78,7 +78,7 @@ export const ChatDM = React.memo(function ChatDM({
                 alt="Avatar"
                 status={user?.status}
               />
-              <div className="invisible absolute top-1.5 z-0 text-xs text-gray-400 group-hover/message:visible">
+              <div className="invisible absolute top-1.5 z-0 text-xs text-gray-400 group-has-[.message-text:hover]/message:visible">
                 {new Date(message.timestamp).toLocaleTimeString([], {
                   hour: "numeric",
                   minute: "numeric",
@@ -98,7 +98,9 @@ export const ChatDM = React.memo(function ChatDM({
                     </div>
                   </div>
                 )}
-                <div className="break-words pr-12">{message.text}</div>
+                <div className="message-text break-words pr-12">
+                  {message.text}
+                </div>
               </div>
             </>
           )}
