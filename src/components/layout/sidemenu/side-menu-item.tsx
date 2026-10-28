@@ -68,8 +68,7 @@ export default function SideMenuItem({
               width={48}
               height={48}
               unoptimized
-              priority
-              loader={({ src }) => `${src}`}
+              loading="lazy"
               className={clsx("absolute inset-0 transition-all", roundClasses)}
             />
           )}

@@ -63,11 +63,13 @@ export default function ActiveNowList() {
                   )}
                 </div>
                 <Image
-                  className=" aspect-square  object-contain"
+                  className="aspect-square object-contain"
                   width={24}
                   height={24}
-                  alt={`logo {friend.activity.name} `}
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlvnzzC2oPp5U3HelWw286q48kMHcsjW9rC7Tlni7T-0amCpHLvDiqZVidP2Ony0X7tSA&usqp=CAU"
+                  alt={`${friend.activity?.name ?? "Game"} logo`}
+                  src="/activity/dead-by-daylight.png"
+                  loading="lazy"
+                  unoptimized
                 />
               </ListItem>
             </TooltipTrigger>
