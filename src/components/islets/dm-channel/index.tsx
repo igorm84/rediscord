@@ -47,10 +47,13 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
   ]);
 
   const handleSubmit = () => {
+    const text = newMessage.trim();
+    if (!text) return;
+
     const newMessageObj = {
       id: messages.length + 1,
       userId: currentUser?.id,
-      text: newMessage,
+      text,
       timestamp: new Date().toISOString(),
     };
     setMessages((prevMessages) => [...prevMessages, newMessageObj]);
@@ -164,7 +167,13 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
                 placeholder={`write something to @${user.name}`}
                 value={newMessage}
                 onKeyDown={(event) => {
-                  if (event.key === "Enter") {
+                  if (
+                    event.key === "Enter" &&
+                    !event.nativeEvent.isComposing &&
+                    event.nativeEvent.keyCode !== 229 &&
+                    !event.repeat
+                  ) {
+                    event.preventDefault();
                     handleSubmit();
                   }
                 }}
