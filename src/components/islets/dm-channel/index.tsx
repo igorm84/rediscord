@@ -10,7 +10,6 @@ import {
   AiOutlineGif,
 } from "react-icons/ai";
 import { CgSmileMouthOpen } from "react-icons/cg";
-import { useChannelStore } from "@/state/channel-list";
 import React from "react";
 import InputField from "@/components/ui/input/input-field";
 import { useCurrentUserStore } from "@/state/user";
@@ -28,9 +27,7 @@ interface Message {
 }
 
 export default function ChannelDM({ user }: { user: User | undefined }) {
-  const { channels } = useChannelStore();
-
-  const { friends, setFriends } = useFriendStore();
+  const { friends, addFriend, removeFriend } = useFriendStore();
   const { currentUser } = useCurrentUserStore();
   const [showAudioVideoCall, setShowAudioVideoCall] = React.useState(false);
 
@@ -80,22 +77,12 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
     setMessages((prevMessages) => [...prevMessages, endedMessage]);
   };
 
-  const intersection = channels?.filter(
-    (channel) => friends?.includes(channel),
-  );
-  const isFriend = intersection?.some((friend) => friend.id === user?.id);
+  const isFriend = friends.some((friend) => friend.id === user?.id);
 
   const handleAddDelete = () => {
-    if (friends !== null) {
-      if (isFriend) {
-        setFriends(friends.filter((friend) => friend.id !== user?.id));
-      } else {
-        const newFriend = channels?.find((channel) => channel.id === user?.id);
-        if (newFriend) {
-          setFriends([newFriend, ...friends]);
-        }
-      }
-    }
+    if (!user) return;
+    if (isFriend) removeFriend(user.id);
+    else addFriend(user);
   };
 
   return (

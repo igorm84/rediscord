@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { Input } from "@/components/ui/input";
 import InputField from "@/components/ui/input/input-field";
 import { List } from "@/components/ui/list";
@@ -16,6 +16,7 @@ import {
   friendsTabsProps,
 } from "@/lib/types/friend-tab-prop";
 import { useFriendStore } from "@/state/friend-list";
+import { useFriendRequestStore } from "@/state/friendRequest-list";
 import clsx from "@/lib/clsx";
 
 interface ListDataProps {
@@ -92,23 +93,12 @@ const ListData = ({ tab, data }: ListDataProps) => {
   );
 };
 interface FriendListProps {
-  friends: User[];
-  friendRequests: User[];
   blockedFriends: User[];
 }
-export default function FriendList({
-  friends,
-  friendRequests,
-  blockedFriends,
-}: FriendListProps) {
+export default function FriendList({ blockedFriends }: FriendListProps) {
   const { currentTab } = useFriendsTabStore();
-  const { setFriends } = useFriendStore();
-
-  useEffect(() => {
-    if (friends) {
-      setFriends(friends);
-    }
-  }, []);
+  const { friends } = useFriendStore();
+  const { friendRequest: friendRequests } = useFriendRequestStore();
 
   const tab = friendsTabsProps[currentTab];
   const isAllOrAvailableTab = [
@@ -119,8 +109,8 @@ export default function FriendList({
   const data = isAllOrAvailableTab
     ? friends
     : currentTab === FriendsTabEnum.Pending
-    ? friendRequests
-    : blockedFriends;
+      ? friendRequests
+      : blockedFriends;
   return (
     <div className="flex flex-1 flex-col">
       <TooltipProvider>

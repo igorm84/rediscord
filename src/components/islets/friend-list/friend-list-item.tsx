@@ -2,8 +2,8 @@
 import React from "react";
 import Avatar from "@/components/ui/avatar";
 import RoundedButton from "@/components/ui/button/rounded-button";
-import { ListItem } from "@/components/ui/list";
-import {  User } from "@/lib/entities/user";
+import Link from "next/link";
+import { User } from "@/lib/entities/user";
 import { t } from "@/lib/i18n";
 import {
   BsChatLeftFill,
@@ -12,7 +12,6 @@ import {
   BsX,
 } from "react-icons/bs";
 import { FriendsTab, FriendsTabEnum } from "@/lib/types/friend-tab-prop";
-import { useFriendStore } from "@/state/friend-list";
 import { useFriendRequestStore } from "@/state/friendRequest-list";
 import { useChannelStore } from "@/state/channel-list";
 
@@ -22,22 +21,9 @@ interface FriendListItemProps {
 }
 
 export default function FriendListItem({ friend, tab }: FriendListItemProps) {
-  const { friends, setFriends } = useFriendStore();
-  const { friendRequest, setFriendRequests } = useFriendRequestStore();
+  const { acceptRequest, declineRequest } = useFriendRequestStore();
   const { channels, setChannels } = useChannelStore();
 
-  const handleAcceptFriends = () => {
-    if (friends !== null && friendRequest !== null) {
-      setFriendRequests(friendRequest.filter((item) => item.id !== friend.id));
-      setFriends([...friends, friend]);
-    }
-  };
-
-  const handleDeclineFriends = () => {
-    if (friendRequest !== null) {
-      setFriendRequests(friendRequest.filter((item) => item.id !== friend.id));
-    }
-  };
   const handleAddChannel = () => {
     if (channels !== null) {
       const isFriendAlreadyAdded = channels.some(
@@ -49,11 +35,7 @@ export default function FriendListItem({ friend, tab }: FriendListItemProps) {
     }
   };
   return (
-    <ListItem
-      href={tab.key === FriendsTabEnum.Pending ? "" : `/channels/${friend.id}`}
-      className={`group justify-between border-t-[1px] border-gray-800 py-2.5 pr-3 `}
-      noVerticalPadding
-    >
+    <li className="group flex items-center justify-between border-t border-gray-800 py-2.5 pl-3 pr-3">
       <div className="flex items-center gap-3">
         <Avatar
           src={friend.avatar}
@@ -65,7 +47,17 @@ export default function FriendListItem({ friend, tab }: FriendListItemProps) {
         />
         <div className="flex-1 leading-4">
           <div className="flex items-center gap-1.5 text-sm text-gray-200">
-            <span className="font-semibold">{friend.name}</span>
+            {tab.key === FriendsTabEnum.Pending ? (
+              <span className="font-semibold">{friend.name}</span>
+            ) : (
+              <Link
+                href={`/channels/${friend.id}`}
+                onClick={handleAddChannel}
+                className="font-semibold hover:underline"
+              >
+                {friend.name}
+              </Link>
+            )}
             <span className="hidden text-xs text-gray-400 group-hover:block">
               {friend.username}
             </span>
@@ -82,13 +74,15 @@ export default function FriendListItem({ friend, tab }: FriendListItemProps) {
           <>
             <RoundedButton
               className="!p-1.5"
-              onClick={handleAcceptFriends}
+              onClick={() => acceptRequest(friend.id)}
+              aria-label={`Accept ${friend.name}`}
               tooltipContent="Accept"
             >
               <BsCheck2 size={23} />
             </RoundedButton>
             <RoundedButton
-              onClick={handleDeclineFriends}
+              onClick={() => declineRequest(friend.id)}
+              aria-label={`Decline ${friend.name}`}
               className="!p-1.5"
               tooltipContent="Decline"
             >
@@ -97,7 +91,12 @@ export default function FriendListItem({ friend, tab }: FriendListItemProps) {
           </>
         ) : (
           <>
-            <RoundedButton onClick={handleAddChannel} tooltipContent="Message">
+            <RoundedButton
+              href={`/channels/${friend.id}`}
+              onClick={handleAddChannel}
+              aria-label={`Message ${friend.name}`}
+              tooltipContent="Message"
+            >
               <BsChatLeftFill />
             </RoundedButton>
             <RoundedButton tooltipContent="More">
@@ -106,6 +105,6 @@ export default function FriendListItem({ friend, tab }: FriendListItemProps) {
           </>
         )}
       </div>
-    </ListItem>
+    </li>
   );
 }

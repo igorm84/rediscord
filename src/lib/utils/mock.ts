@@ -260,15 +260,18 @@ export const PREVIEW_SERVER_CHANNELS: ListedDMChannel[] = PREVIEW_SERVERS.map(
   }),
 );
 
-export const PREVIEW_STATIC_PARAMS = [
+const PREVIEW_CHAT_RECIPIENTS = [
   ...PREVIEW_CHANNELS,
   ...PREVIEW_SERVER_CHANNELS,
-].map((channel) => ({ id: channel.id }));
+  ...PREVIEW_FRIEND_REQUESTS,
+];
+
+export const PREVIEW_STATIC_PARAMS = PREVIEW_CHAT_RECIPIENTS.map((channel) => ({
+  id: channel.id,
+}));
 
 export const getPreviewChannelById = (id: string) =>
-  [...PREVIEW_CHANNELS, ...PREVIEW_SERVER_CHANNELS].find(
-    (channel) => channel.id === id,
-  );
+  PREVIEW_CHAT_RECIPIENTS.find((channel) => channel.id === id);
 
 export const generateFakeCurrentUser = () => PREVIEW_CURRENT_USER;
 
