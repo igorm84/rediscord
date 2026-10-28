@@ -83,8 +83,8 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
     setMessages((prevMessages) => [...prevMessages, endedMessage]);
   };
 
-  const intersection = channels?.filter((channel) =>
-    friends?.includes(channel),
+  const intersection = channels?.filter(
+    (channel) => friends?.includes(channel),
   );
   const isFriend = intersection?.some((friend) => friend.id === user?.id);
 
