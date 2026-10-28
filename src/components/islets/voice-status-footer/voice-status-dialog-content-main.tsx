@@ -20,15 +20,15 @@ import {
 } from "@/components/ui/select";
 import clsx from "@/lib/clsx";
 import { Time } from "@/lib/entities/time";
-import { User, UserStatuses } from "@/lib/entities/user";
+import { User, StaticUserStatuses } from "@/lib/entities/user";
 import React from "react";
 import { BsXLg } from "react-icons/bs";
 import { FaRegSmileBeam } from "react-icons/fa";
 
 interface DialogContentMainProps {
   currentUser: User;
-  statuses: { value: string }[];
-  handleSubmit: (status: UserStatuses) => void;
+  statuses: { value: StaticUserStatuses }[];
+  handleSubmit: (status: StaticUserStatuses) => void;
 }
 
 function DialogContentMain({
@@ -40,11 +40,13 @@ function DialogContentMain({
   const [formData, setFormData] = React.useState({
     statusValue: "",
     cleanStatus: "",
-    status: "",
+    status: currentUser.status,
   });
-  const formNames = Object.keys(formData);
 
-  const handleValueChange = (value: string, name: string) => {
+  const handleValueChange = (
+    value: string,
+    name: "statusValue" | "cleanStatus",
+  ) => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -59,7 +61,19 @@ function DialogContentMain({
   ];
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => {
+        if (isOpen) {
+          setFormData({
+            statusValue: "",
+            cleanStatus: "",
+            status: currentUser.status,
+          });
+        }
+        setOpen(isOpen);
+      }}
+    >
       <DialogTrigger asChild>
         <ListItem className="mb-2 flex  items-center  !rounded !py-1 active:!bg-primary">
           <FaRegSmileBeam />
@@ -76,7 +90,7 @@ function DialogContentMain({
             <Input
               value={formData.statusValue}
               onChange={(e) => {
-                handleValueChange(e.target.value, formNames[0]);
+                handleValueChange(e.target.value, "statusValue");
               }}
               className="!rounded font-thin"
               placeholder="reinforcements arrived"
@@ -88,7 +102,7 @@ function DialogContentMain({
                   ? "rotate-0 opacity-100"
                   : "rotate-90 opacity-0",
               )}
-              onClick={() => handleValueChange("", formNames[0])}
+              onClick={() => handleValueChange("", "statusValue")}
             >
               <BsXLg />
             </button>
@@ -97,7 +111,7 @@ function DialogContentMain({
         <DialogDescription>
           <p className="mb-2 text-[12px] font-bold">CLEAN AFTER</p>
           <Select
-            onValueChange={(value) => handleValueChange(value, formNames[1])}
+            onValueChange={(value) => handleValueChange(value, "cleanStatus")}
           >
             <SelectTrigger className="w-full !border-none">
               <SelectValue placeholder="Today" />
@@ -113,7 +127,14 @@ function DialogContentMain({
           <Divider className="my-4 h-[1px] w-full" />
           <p className="mb-2 text-[12px] font-bold">STATUS</p>
           <Select
-            onValueChange={(value) => handleValueChange(value, formNames[2])}
+            value={formData.status}
+            onValueChange={(value) => {
+              const selected = statuses.find(
+                (status) => status.value === value,
+              );
+              if (selected)
+                setFormData((prev) => ({ ...prev, status: selected.value }));
+            }}
           >
             <SelectTrigger className="w-full !border-none">
               <SelectValue placeholder={currentUser.status} />
@@ -137,18 +158,13 @@ function DialogContentMain({
             </SelectContent>
           </Select>
           <div className=" flex w-full justify-end">
-            <Button
-              onClick={() => setOpen((prev) => !prev)}
-              className="mr-2"
-              bg={false}
-            >
+            <Button onClick={() => setOpen(false)} className="mr-2" bg={false}>
               Cancel
             </Button>
             <Button
               onClick={() => {
-                setOpen((prev) => !prev);
+                setOpen(false);
                 handleSubmit(formData.status);
-                // handleSubmit(formData.statusValue.trim() || formData.status);
               }}
             >
               Save
