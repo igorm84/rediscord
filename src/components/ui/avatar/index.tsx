@@ -36,8 +36,8 @@ export default function Avatar({
           unoptimized
           loading="lazy"
           src={src}
-          width={size === "sm" ? 24 : size === "lg" ? 48 : 32}
-          height={size === "sm" ? 24 : size === "lg" ? 48 : 32}
+          width={32}
+          height={32}
           alt={alt}
         />
       ) : (
