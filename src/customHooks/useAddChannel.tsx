@@ -8,15 +8,15 @@ export const useAddChannel = () => {
   const { channels, setChannels } = useChannelStore();
   const router = useRouter();
 
-  const handleAddChannel = () => {
-    if (selectedFriend && channels !== null) {
+  const handleAddChannel = (friend = selectedFriend) => {
+    if (friend && channels !== null) {
       const isFriendAlreadyAdded = channels.some(
-        (channel) => channel.id === selectedFriend.id,
+        (channel) => channel.id === friend.id,
       );
       if (!isFriendAlreadyAdded) {
-        setChannels([selectedFriend, ...channels]);
+        setChannels([friend, ...channels]);
       }
-      router.push(`/channels/${selectedFriend.id}`);
+      router.push(`/channels/${friend.id}`);
     }
   };
 

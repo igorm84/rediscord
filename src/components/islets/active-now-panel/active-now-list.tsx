@@ -21,7 +21,7 @@ export const ActiveNowListItemSkeleton = () => (
 );
 export default function ActiveNowList() {
   const { friends } = useFriendStore();
-  const { handleAddChannel, setSelectedFriend } = useAddChannel();
+  const { handleAddChannel } = useAddChannel();
   if (friends === null) {
     return <ActiveNowListItemSkeleton />;
   }
@@ -38,7 +38,7 @@ export default function ActiveNowList() {
       {filteredList.map((friend) => (
         <TooltipProvider key={friend.id}>
           <Tooltip>
-            <TooltipTrigger className="w-full">
+            <TooltipTrigger asChild className="w-full">
               <ListItem
                 noVerticalPadding
                 className="group  gap-3 border-[1px] border-gray-800  bg-midground p-4"
@@ -79,8 +79,7 @@ export default function ActiveNowList() {
               <div className="flex w-full flex-col items-end justify-center ">
                 <p
                   onClick={() => {
-                    setSelectedFriend(friend);
-                    handleAddChannel();
+                    handleAddChannel(friend);
                   }}
                   className="flex h-8 w-full cursor-pointer items-center rounded px-2 transition-colors duration-300 ease-in-out hover:bg-blue-600"
                 >

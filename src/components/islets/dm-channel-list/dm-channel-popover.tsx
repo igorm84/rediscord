@@ -6,7 +6,7 @@ import { useFriendStore } from "@/state/friend-list";
 import { useAddChannel } from "@/customHooks/useAddChannel";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { normalizedCompare } from "@/lib/utils/string";
+import { searchFriends } from "@/lib/utils/friend-search";
 import InputField from "@/components/ui/input/input-field";
 interface DMChannelPopoverProps {
   position: string;
@@ -16,13 +16,10 @@ interface DMChannelPopoverProps {
 function DMChannelPopover({ position, setOpen }: DMChannelPopoverProps) {
   const [search, setSearch] = useState("");
   const { friends } = useFriendStore();
-  const partFriends = friends?.slice(0, 6);
   const { handleAddChannel, setSelectedFriend, selectedFriend } =
     useAddChannel();
 
-  const filteredFriends = partFriends?.filter((user) => {
-    return normalizedCompare(user.name, search);
-  });
+  const filteredFriends = searchFriends(friends ?? [], search);
 
   return (
     <PopoverContent
@@ -33,7 +30,7 @@ function DMChannelPopover({ position, setOpen }: DMChannelPopoverProps) {
         <div className="flex flex-col px-4">
           <h2 className="font-bold">Choose friends</h2>
           <p className="text-[12px] text-gray-300">
-            you can add more {partFriends?.length}
+            Choose a friend to start a conversation.
           </p>
         </div>
         <InputField className="mt-4 px-4">
@@ -43,6 +40,7 @@ function DMChannelPopover({ position, setOpen }: DMChannelPopoverProps) {
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
+              setSelectedFriend(null);
             }}
           />
         </InputField>
@@ -54,13 +52,13 @@ function DMChannelPopover({ position, setOpen }: DMChannelPopoverProps) {
               conversation.
             </p>
           ) : (
-            filteredFriends?.map((friend, index) => (
+            filteredFriends?.map((friend) => (
               <ListItem
                 className={` ${
                   selectedFriend?.id === friend.id ? "bg-gray-800/50" : ""
                 }`}
                 onClick={() => setSelectedFriend(friend)}
-                key={index}
+                key={friend.id}
               >
                 <Avatar
                   alt={friend.name}
@@ -79,13 +77,14 @@ function DMChannelPopover({ position, setOpen }: DMChannelPopoverProps) {
         <div className="px-4">
           <Divider className="mb-4 h-[1px]" />
           <button
+            disabled={!selectedFriend}
             onClick={() => {
               handleAddChannel();
               setOpen(false);
             }}
-            className="w-full rounded bg-primary p-2 text-sm font-semibold transition-colors duration-300 ease-in-out hover:bg-[#4750b8]"
+            className="w-full rounded bg-primary p-2 text-sm font-semibold transition-colors duration-300 ease-in-out hover:bg-[#4750b8] disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Create private messsage
+            Create private message
           </button>
         </div>
       </>
