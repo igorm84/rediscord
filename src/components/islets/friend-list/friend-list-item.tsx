@@ -35,7 +35,7 @@ export default function FriendListItem({ friend, tab }: FriendListItemProps) {
     }
   };
   return (
-    <li className="group flex items-center justify-between border-t border-gray-800 py-2.5 pl-3 pr-3">
+    <li className="group relative flex w-full list-none items-center justify-between rounded-md border-t border-gray-800 py-2.5 pl-3 pr-3 text-left text-[15px] text-gray-400 focus-within:bg-gray-800/50 focus-within:text-gray-100 hover:bg-gray-800/50 hover:text-gray-100 active:bg-gray-800/50 active:text-white">
       <div className="flex items-center gap-3">
         <Avatar
           src={friend.avatar}
@@ -53,7 +53,7 @@ export default function FriendListItem({ friend, tab }: FriendListItemProps) {
               <Link
                 href={`/channels/${friend.id}`}
                 onClick={handleAddChannel}
-                className="font-semibold hover:underline"
+                className="font-semibold after:absolute after:inset-0 focus-visible:outline-none"
               >
                 {friend.name}
               </Link>
@@ -69,7 +69,7 @@ export default function FriendListItem({ friend, tab }: FriendListItemProps) {
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-2.5">
+      <div className="relative z-10 flex items-center gap-2.5">
         {tab.key === FriendsTabEnum.Pending ? (
           <>
             <RoundedButton
