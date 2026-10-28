@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 import React from "react";
 import { AiOutlineRight } from "react-icons/ai";
-import { StaticUserStatuses, User, UserStatuses } from "@/lib/entities/user";
+import { StaticUserStatuses, User } from "@/lib/entities/user";
 import UserStatus from "./voice-status-user-status";
 import DialogContentMain from "./voice-status-dialog-content-main";
 import PopoverContentSub from "./voice-status-popover-content-sub";
@@ -32,9 +32,9 @@ function PopoverContentMain({
       value: status,
     }));
 
-  const handleSubmit = (status: UserStatuses) => {
+  const handleSubmit = (status: StaticUserStatuses) => {
     const updatedUser = { ...currentUser, status: status };
-    setCurrentUser(updatedUser as User);
+    setCurrentUser(updatedUser);
   };
   return (
     <PopoverContent

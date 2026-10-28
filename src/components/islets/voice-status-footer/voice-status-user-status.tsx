@@ -1,10 +1,11 @@
 import StatusBadge from "@/components/ui/badge/status-badge";
 import Divider from "@/components/ui/divider";
 import { ListItem } from "@/components/ui/list";
-import { UserStatuses } from "@/lib/entities/user";
+import React from "react";
+import { StaticUserStatuses } from "@/lib/entities/user";
 interface UserStatusProps {
-  statuses: { value: string }[];
-  handleSubmit: (status: UserStatuses) => void;
+  statuses: { value: StaticUserStatuses }[];
+  handleSubmit: (status: StaticUserStatuses) => void;
   setOpen: (open: boolean) => void;
 }
 
@@ -12,10 +13,11 @@ function UserStatus({ statuses, handleSubmit, setOpen }: UserStatusProps) {
   return (
     <div className="leading-[16px]">
       {statuses.map((status, index) => (
-        <>
+        <React.Fragment key={status.value}>
           <ListItem
             onClick={() => {
-              setOpen(false), handleSubmit(status.value);
+              setOpen(false);
+              handleSubmit(status.value);
             }}
             className="group my-1 min-w-[180px] max-w-[380px] flex-col  !items-start !rounded text-gray-300 hover:!bg-primary"
             key={index}
@@ -47,7 +49,7 @@ function UserStatus({ statuses, handleSubmit, setOpen }: UserStatusProps) {
               status.value === "online" ? "block" : "hidden"
             } `}
           />
-        </>
+        </React.Fragment>
       ))}
     </div>
   );

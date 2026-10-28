@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import Avatar from "@/components/ui/avatar";
 import { Popover, PopoverTrigger } from "@/components/ui/popover";
@@ -20,8 +19,7 @@ export default function VoiceStatusFooter() {
     if (currentUserData !== null) {
       setCurrentUser(currentUserData);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentUserData, setCurrentUser]);
 
   return (
     <>
