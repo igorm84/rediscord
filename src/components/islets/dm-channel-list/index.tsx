@@ -9,9 +9,7 @@ export default function DMChannelList() {
   const { channels, setChannels } = useChannelStore();
 
   const handleChannelDelete = (channelId: string) => {
-    if (channels !== null) {
-      setChannels(channels.filter((channel) => channel.id !== channelId));
-    }
+    setChannels(channels.filter((channel) => channel.id !== channelId));
   };
   const params = useParams();
 
@@ -19,7 +17,7 @@ export default function DMChannelList() {
     <div className="pt-4">
       <DMChannelListHeader />
       <List className="mt-1">
-        {channels?.map((channel) => (
+        {channels.map((channel) => (
           <DMChannelListItem
             active={params.id === channel.id}
             key={channel.id}

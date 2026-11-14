@@ -9,7 +9,7 @@ export const useAddChannel = () => {
   const router = useRouter();
 
   const handleAddChannel = (friend = selectedFriend) => {
-    if (friend && channels !== null) {
+    if (friend) {
       const isFriendAlreadyAdded = channels.some(
         (channel) => channel.id === friend.id,
       );

@@ -25,13 +25,11 @@ export default function FriendListItem({ friend, tab }: FriendListItemProps) {
   const { channels, setChannels } = useChannelStore();
 
   const handleAddChannel = () => {
-    if (channels !== null) {
-      const isFriendAlreadyAdded = channels.some(
-        (channel) => channel.id === friend.id,
-      );
-      if (!isFriendAlreadyAdded) {
-        setChannels([friend, ...channels]);
-      }
+    const isFriendAlreadyAdded = channels.some(
+      (channel) => channel.id === friend.id,
+    );
+    if (!isFriendAlreadyAdded) {
+      setChannels([friend, ...channels]);
     }
   };
   return (
