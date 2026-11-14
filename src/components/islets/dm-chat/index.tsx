@@ -20,26 +20,20 @@ export const ChatDM = React.memo(function ChatDM({
   user,
   currentUser,
 }: ChatDMProps) {
-  const chatContainerRef = React.useRef<HTMLDivElement | null>(null);
-
-  const scrollToBottom = () => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
-    }
-  };
+  // Single sentinel after the last message; scrolled into view on new messages.
+  const endOfMessagesRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
-    scrollToBottom();
+    endOfMessagesRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
   }, [messages]);
 
   return (
     <>
       {messages.map((message, index) => (
         <div
-          ref={chatContainerRef}
           key={message.id}
           className={`  ${
             index === 0 ||
@@ -76,7 +70,11 @@ export const ChatDM = React.memo(function ChatDM({
                     : currentUser?.avatar
                 }
                 alt="Avatar"
-                status={user?.status}
+                status={
+                  message?.userId === user?.id
+                    ? user?.status
+                    : currentUser?.status
+                }
               />
               <div className="invisible absolute top-1.5 z-0 text-xs text-gray-400 group-has-[.message-text:hover]/message:visible">
                 {new Date(message.timestamp).toLocaleTimeString([], {
@@ -106,6 +104,7 @@ export const ChatDM = React.memo(function ChatDM({
           )}
         </div>
       ))}
+      <div ref={endOfMessagesRef} />
     </>
   );
 });

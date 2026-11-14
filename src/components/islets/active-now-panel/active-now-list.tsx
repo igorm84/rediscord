@@ -22,9 +22,6 @@ export const ActiveNowListItemSkeleton = () => (
 export default function ActiveNowList() {
   const { friends } = useFriendStore();
   const { handleAddChannel } = useAddChannel();
-  if (friends === null) {
-    return <ActiveNowListItemSkeleton />;
-  }
 
   const filteredList = friends.filter(
     (friend) =>
@@ -57,7 +54,7 @@ export default function ActiveNowList() {
                       {calculateHoursBetweenDates(
                         friend.activity.since,
                         new Date(),
-                      )}
+                      )}{" "}
                       hours
                     </div>
                   )}

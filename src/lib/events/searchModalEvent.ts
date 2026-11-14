@@ -8,7 +8,7 @@ export type SearchModalEvent = CustomEvent<{
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent}
  */
 export const sendSearchModalEvent = (action: "open" | "close") => {
-  if (typeof window !== undefined) {
+  if (typeof window !== "undefined") {
     window.dispatchEvent(
       new CustomEvent(SEARCH_MODAL_EVENT, {
         detail: {

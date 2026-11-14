@@ -18,6 +18,7 @@ import {
 import { useFriendStore } from "@/state/friend-list";
 import { useFriendRequestStore } from "@/state/friendRequest-list";
 import clsx from "@/lib/clsx";
+import AddFriend from "./add-friend";
 
 interface ListDataProps {
   tab: FriendsTab;
@@ -99,6 +100,14 @@ export default function FriendList({ blockedFriends }: FriendListProps) {
   const { currentTab } = useFriendsTabStore();
   const { friends } = useFriendStore();
   const { friendRequest: friendRequests } = useFriendRequestStore();
+
+  if (currentTab === FriendsTabEnum.AddFriend) {
+    return (
+      <div className="flex flex-1 flex-col">
+        <AddFriend />
+      </div>
+    );
+  }
 
   const tab = friendsTabsProps[currentTab];
   const isAllOrAvailableTab = [

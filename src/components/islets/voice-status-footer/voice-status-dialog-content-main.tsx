@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogDescription,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
   DialogContent,
 } from "@/components/ui/dialog";
@@ -20,7 +21,11 @@ import {
 } from "@/components/ui/select";
 import clsx from "@/lib/clsx";
 import { Time } from "@/lib/entities/time";
-import { User, StaticUserStatuses } from "@/lib/entities/user";
+import { CustomStatus, User, StaticUserStatuses } from "@/lib/entities/user";
+import {
+  getActiveCustomStatus,
+  updateCustomStatus,
+} from "@/lib/utils/custom-status";
 import React from "react";
 import { BsXLg } from "react-icons/bs";
 import { FaRegSmileBeam } from "react-icons/fa";
@@ -28,8 +33,20 @@ import { FaRegSmileBeam } from "react-icons/fa";
 interface DialogContentMainProps {
   currentUser: User;
   statuses: { value: StaticUserStatuses }[];
-  handleSubmit: (status: StaticUserStatuses) => void;
+  handleSubmit: (
+    status: StaticUserStatuses,
+    customStatus: CustomStatus | null,
+  ) => void;
 }
+
+const getInitialFormData = (user: User) => {
+  const customStatus = getActiveCustomStatus(user.customStatus);
+  return {
+    statusValue: customStatus?.text ?? "",
+    cleanStatus: customStatus?.clearAfter ?? Time.Today,
+    status: user.status,
+  };
+};
 
 function DialogContentMain({
   currentUser,
@@ -37,23 +54,17 @@ function DialogContentMain({
   handleSubmit,
 }: DialogContentMainProps) {
   const [open, setOpen] = React.useState(false);
-  const [formData, setFormData] = React.useState({
-    statusValue: "",
-    cleanStatus: "",
-    status: currentUser.status,
-  });
+  const statusInputId = React.useId();
+  const [formData, setFormData] = React.useState(() =>
+    getInitialFormData(currentUser),
+  );
 
-  const handleValueChange = (
-    value: string,
-    name: "statusValue" | "cleanStatus",
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleStatusTextChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, statusValue: value }));
   };
 
   const timeMappings = [
+    { value: Time.Today, text: "Today" },
     { value: Time.FourHours, text: "4 hours" },
     { value: Time.OneHour, text: "1 hour" },
     { value: Time.ThirtyMinutes, text: "30 min" },
@@ -65,11 +76,7 @@ function DialogContentMain({
       open={open}
       onOpenChange={(isOpen) => {
         if (isOpen) {
-          setFormData({
-            statusValue: "",
-            cleanStatus: "",
-            status: currentUser.status,
-          });
+          setFormData(getInitialFormData(currentUser));
         }
         setOpen(isOpen);
       }}
@@ -82,36 +89,55 @@ function DialogContentMain({
       </DialogTrigger>
       <DialogContent className=" !rounded text-gray-300">
         <DialogHeader className="text-[12px] font-bold">
-          <h2 className="text-center text-lg text-white">
-            Set your invidual status
-          </h2>
-          <p>HOW ARE YOU, {currentUser.username?.toLocaleUpperCase()}?</p>
+          <DialogTitle className="text-center text-lg font-bold text-white">
+            Set your individual status
+          </DialogTitle>
+          <DialogDescription className="sr-only">
+            Set a custom status message, choose when it clears and pick your
+            online status.
+          </DialogDescription>
+          <label htmlFor={statusInputId}>
+            HOW ARE YOU, {currentUser.username?.toLocaleUpperCase()}?
+          </label>
           <InputField>
             <Input
+              id={statusInputId}
               value={formData.statusValue}
               onChange={(e) => {
-                handleValueChange(e.target.value, "statusValue");
+                handleStatusTextChange(e.target.value);
               }}
               className="!rounded font-thin"
               placeholder="reinforcements arrived"
             />
             <button
+              type="button"
+              aria-label="Clear custom status"
               className={clsx(
                 "absolute  right-4 top-1/2 -translate-y-1/2 outline-none transition-all",
                 formData.statusValue
                   ? "rotate-0 opacity-100"
                   : "rotate-90 opacity-0",
               )}
-              onClick={() => handleValueChange("", "statusValue")}
+              onClick={() => handleStatusTextChange("")}
             >
               <BsXLg />
             </button>
           </InputField>
         </DialogHeader>
-        <DialogDescription>
+        <div className="text-sm">
           <p className="mb-2 text-[12px] font-bold">CLEAN AFTER</p>
           <Select
-            onValueChange={(value) => handleValueChange(value, "cleanStatus")}
+            value={formData.cleanStatus}
+            onValueChange={(value) => {
+              const selected = timeMappings.find(
+                (time) => time.value === value,
+              );
+              if (selected)
+                setFormData((prev) => ({
+                  ...prev,
+                  cleanStatus: selected.value,
+                }));
+            }}
           >
             <SelectTrigger className="w-full !border-none">
               <SelectValue placeholder="Today" />
@@ -164,13 +190,20 @@ function DialogContentMain({
             <Button
               onClick={() => {
                 setOpen(false);
-                handleSubmit(formData.status);
+                handleSubmit(
+                  formData.status,
+                  updateCustomStatus(
+                    currentUser.customStatus,
+                    formData.statusValue,
+                    formData.cleanStatus,
+                  ),
+                );
               }}
             >
               Save
             </Button>
           </div>
-        </DialogDescription>
+        </div>
       </DialogContent>
     </Dialog>
   );

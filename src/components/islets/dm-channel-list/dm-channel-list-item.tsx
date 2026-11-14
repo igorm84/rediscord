@@ -1,5 +1,6 @@
 import Avatar from "@/components/ui/avatar";
 import { ListItem } from "@/components/ui/list";
+import clsx from "@/lib/clsx";
 import { ListedDMChannel } from "@/lib/entities/channel";
 import { BsFillChatLeftTextFill, BsX } from "react-icons/bs";
 
@@ -19,7 +20,20 @@ export default function DMChannelListItem({
       noVerticalPadding
       active={active}
       href={`/channels/${channel.id}`}
-      className="group gap-3 py-1.5"
+      className="gap-3 py-1.5 group-focus-within/list-item:pr-9 group-hover/list-item:pr-9"
+      trailing={
+        <button
+          type="button"
+          onClick={onDelete}
+          aria-label={`Close conversation with ${channel.name}`}
+          className={clsx(
+            "absolute right-2 top-1/2 -translate-y-1/2 text-gray-300 hover:text-white",
+            "opacity-0 focus-visible:opacity-100 group-hover/list-item:opacity-100",
+          )}
+        >
+          <BsX fontSize={24} />
+        </button>
+      }
     >
       <Avatar
         src={channel.avatar}
@@ -40,15 +54,6 @@ export default function DMChannelListItem({
           </div>
         )}
       </div>
-      <button
-        onClick={(event) => {
-          event.preventDefault();
-          onDelete();
-        }}
-        className="hidden text-gray-300 hover:text-white group-hover:block"
-      >
-        <BsX fontSize={24} />
-      </button>
     </ListItem>
   );
 }

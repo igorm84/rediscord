@@ -7,20 +7,23 @@ export interface InputProps
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, size = "md", ...props }, ref) => {
+  ({ className, type, size = "md", onBlur, onKeyUp, ...props }, ref) => {
     const [showFocusRing, setShowFocusRing] = React.useState(false);
     return (
       <input
+        {...props}
         type={type}
+        // Compose with the caller's handlers instead of letting {...props}
+        // override the focus-ring logic.
         onBlur={(event) => {
           setShowFocusRing(false);
-          props.onBlur?.(event);
+          onBlur?.(event);
         }}
         onKeyUp={(event) => {
           if (event.key === "Tab") {
             setShowFocusRing(true);
           }
-          props.onKeyUp?.(event);
+          onKeyUp?.(event);
         }}
         className={clsx(
           "placeholder:text-gray-400",
@@ -34,7 +37,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className,
         )}
         ref={ref}
-        {...props}
       />
     );
   },

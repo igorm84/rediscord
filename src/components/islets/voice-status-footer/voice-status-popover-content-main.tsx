@@ -11,7 +11,8 @@ import {
 import Image from "next/image";
 import React from "react";
 import { AiOutlineRight } from "react-icons/ai";
-import { StaticUserStatuses, User } from "@/lib/entities/user";
+import { CustomStatus, StaticUserStatuses, User } from "@/lib/entities/user";
+import { getActiveCustomStatus } from "@/lib/utils/custom-status";
 import UserStatus from "./voice-status-user-status";
 import DialogContentMain from "./voice-status-dialog-content-main";
 import PopoverContentSub from "./voice-status-popover-content-sub";
@@ -32,10 +33,16 @@ function PopoverContentMain({
       value: status,
     }));
 
-  const handleSubmit = (status: StaticUserStatuses) => {
-    const updatedUser = { ...currentUser, status: status };
+  // customStatus: undefined keeps the current one, null clears it.
+  const handleSubmit = (
+    status: StaticUserStatuses,
+    customStatus?: CustomStatus | null,
+  ) => {
+    const updatedUser: User = { ...currentUser, status };
+    if (customStatus !== undefined) updatedUser.customStatus = customStatus;
     setCurrentUser(updatedUser);
   };
+  const activeCustomStatus = getActiveCustomStatus(currentUser.customStatus);
   return (
     <PopoverContent
       side="top"
@@ -58,6 +65,11 @@ function PopoverContentMain({
         />
         <p className="text-lg font-semibold">{currentUser.name}</p>
         <p className="text-xs">{currentUser.username}</p>
+        {activeCustomStatus && (
+          <p className="mt-1 break-words text-xs text-gray-300">
+            {activeCustomStatus.text}
+          </p>
+        )}
         <Divider className="mt-2 h-[1px]" />
         <p className="mt-2 text-xs font-semibold">DISCORD MEMBER SINCE</p>
         <p className=" py-2 text-xs">3 dec 2019</p>
