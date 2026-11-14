@@ -12,7 +12,8 @@ Rediscord is a study of Discord UI built in NextJS and TailwindCSS using some [s
 All data is client-side mock data, so changes reset on reload.
 
 - Friends page with Online, All, Pending and Blocked tabs, plus name search
-- Accept or decline incoming friend requests
+- Accept or decline incoming friend requests, and send new ones from the Add
+  Friend tab
 - Direct message list: open a conversation from a friend, the "Choose friends"
   popover or the Active Now panel, and remove conversations from the list
 - Conversation view with the recipient's profile, add or remove friend, and
@@ -56,7 +57,7 @@ npm run build
 npm test
 ```
 
-`npm test` runs the state regression tests with [Bun](https://bun.sh/), so Bun
+`npm test` runs the unit tests (state, navigation and custom status helpers) with [Bun](https://bun.sh/), so Bun
 must be installed. They need no additional test dependencies.
 
 Tailwind stays on version 3 to preserve the existing design. The
