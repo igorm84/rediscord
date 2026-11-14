@@ -23,8 +23,8 @@ import clsx from "@/lib/clsx";
 import { Time } from "@/lib/entities/time";
 import { CustomStatus, User, StaticUserStatuses } from "@/lib/entities/user";
 import {
-  createCustomStatus,
   getActiveCustomStatus,
+  updateCustomStatus,
 } from "@/lib/utils/custom-status";
 import React from "react";
 import { BsXLg } from "react-icons/bs";
@@ -192,7 +192,8 @@ function DialogContentMain({
                 setOpen(false);
                 handleSubmit(
                   formData.status,
-                  createCustomStatus(
+                  updateCustomStatus(
+                    currentUser.customStatus,
                     formData.statusValue,
                     formData.cleanStatus,
                   ),

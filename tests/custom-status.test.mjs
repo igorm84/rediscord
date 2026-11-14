@@ -4,6 +4,7 @@ import {
   createCustomStatus,
   getActiveCustomStatus,
   getCustomStatusExpiry,
+  updateCustomStatus,
 } from "../src/lib/utils/custom-status";
 
 const now = new Date(2026, 0, 15, 10, 30, 0);
@@ -45,4 +46,27 @@ test("expired statuses are no longer active", () => {
   const forever = createCustomStatus("here", Time.DoNotClean, now);
   expect(getActiveCustomStatus(forever, now.getTime() + 1e12)).toBe(forever);
   expect(getActiveCustomStatus(null)).toBeNull();
+});
+
+test("saving an unchanged status keeps its original expiry", () => {
+  const first = createCustomStatus("brb", Time.FourHours, now);
+  const later = new Date(now.getTime() + 3 * 60 * MINUTE);
+  expect(updateCustomStatus(first, " brb ", Time.FourHours, later)).toBe(first);
+  // Changing the text or the clear-after option starts a new timer.
+  expect(updateCustomStatus(first, "back soon", Time.FourHours, later)).toEqual(
+    {
+      text: "back soon",
+      clearAfter: Time.FourHours,
+      expiresAt: later.getTime() + 240 * MINUTE,
+    },
+  );
+  expect(updateCustomStatus(first, "brb", Time.OneHour, later)?.expiresAt).toBe(
+    later.getTime() + 60 * MINUTE,
+  );
+  // An expired status is replaced, not kept.
+  const afterExpiry = new Date(now.getTime() + 5 * 60 * MINUTE);
+  expect(
+    updateCustomStatus(first, "brb", Time.FourHours, afterExpiry)?.expiresAt,
+  ).toBe(afterExpiry.getTime() + 240 * MINUTE);
+  expect(updateCustomStatus(first, "  ", Time.FourHours, later)).toBeNull();
 });

@@ -41,6 +41,28 @@ export function createCustomStatus(
   };
 }
 
+/**
+ * The custom status to store when the dialog is saved. Saving the same text
+ * and clear-after option again keeps the original expiry instead of
+ * restarting the timer.
+ */
+export function updateCustomStatus(
+  previous: CustomStatus | null | undefined,
+  text: string,
+  clearAfter: Time,
+  now = new Date(),
+): CustomStatus | null {
+  const active = getActiveCustomStatus(previous, now.getTime());
+  if (
+    active &&
+    active.text === text.trim() &&
+    active.clearAfter === clearAfter
+  ) {
+    return active;
+  }
+  return createCustomStatus(text, clearAfter, now);
+}
+
 /** The custom status if it is set and has not expired yet. */
 export function getActiveCustomStatus(
   customStatus: CustomStatus | null | undefined,
