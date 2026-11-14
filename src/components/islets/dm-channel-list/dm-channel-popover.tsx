@@ -19,12 +19,11 @@ function DMChannelPopover({ position, setOpen }: DMChannelPopoverProps) {
   const { handleAddChannel, setSelectedFriend, selectedFriend } =
     useAddChannel();
 
-  const filteredFriends = searchFriends(friends ?? [], search);
+  const filteredFriends = searchFriends(friends, search);
 
   return (
     <PopoverContent
-      className={`relative ${position}
-      } !w-full border-[1px] border-[#242628] bg-[#313338] !px-0 md:min-w-[400px]`}
+      className={`relative ${position} !w-full border-[1px] border-[#242628] bg-[#313338] !px-0 md:min-w-[400px]`}
     >
       <>
         <div className="flex flex-col px-4">
@@ -46,13 +45,13 @@ function DMChannelPopover({ position, setOpen }: DMChannelPopoverProps) {
         </InputField>
         <Divider className="mt-4 h-[1px] w-full bg-[#242628]" />
         <div className="h-[200px] max-w-[400px]  overflow-y-auto px-2">
-          {filteredFriends?.length === 0 ? (
+          {filteredFriends.length === 0 ? (
             <p className="w-full text-gray-400">
               No friends found who are currently not in this private
               conversation.
             </p>
           ) : (
-            filteredFriends?.map((friend) => (
+            filteredFriends.map((friend) => (
               <ListItem
                 className={` ${
                   selectedFriend?.id === friend.id ? "bg-gray-800/50" : ""
