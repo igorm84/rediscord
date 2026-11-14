@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogDescription,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
   DialogContent,
 } from "@/components/ui/dialog";
@@ -37,6 +38,7 @@ function DialogContentMain({
   handleSubmit,
 }: DialogContentMainProps) {
   const [open, setOpen] = React.useState(false);
+  const statusInputId = React.useId();
   const [formData, setFormData] = React.useState({
     statusValue: "",
     cleanStatus: "",
@@ -82,12 +84,19 @@ function DialogContentMain({
       </DialogTrigger>
       <DialogContent className=" !rounded text-gray-300">
         <DialogHeader className="text-[12px] font-bold">
-          <h2 className="text-center text-lg text-white">
-            Set your invidual status
-          </h2>
-          <p>HOW ARE YOU, {currentUser.username?.toLocaleUpperCase()}?</p>
+          <DialogTitle className="text-center text-lg font-bold text-white">
+            Set your individual status
+          </DialogTitle>
+          <DialogDescription className="sr-only">
+            Set a custom status message, choose when it clears and pick your
+            online status.
+          </DialogDescription>
+          <label htmlFor={statusInputId}>
+            HOW ARE YOU, {currentUser.username?.toLocaleUpperCase()}?
+          </label>
           <InputField>
             <Input
+              id={statusInputId}
               value={formData.statusValue}
               onChange={(e) => {
                 handleValueChange(e.target.value, "statusValue");
@@ -96,6 +105,8 @@ function DialogContentMain({
               placeholder="reinforcements arrived"
             />
             <button
+              type="button"
+              aria-label="Clear custom status"
               className={clsx(
                 "absolute  right-4 top-1/2 -translate-y-1/2 outline-none transition-all",
                 formData.statusValue
@@ -108,7 +119,7 @@ function DialogContentMain({
             </button>
           </InputField>
         </DialogHeader>
-        <DialogDescription>
+        <div className="text-sm">
           <p className="mb-2 text-[12px] font-bold">CLEAN AFTER</p>
           <Select
             onValueChange={(value) => handleValueChange(value, "cleanStatus")}
@@ -170,7 +181,7 @@ function DialogContentMain({
               Save
             </Button>
           </div>
-        </DialogDescription>
+        </div>
       </DialogContent>
     </Dialog>
   );
