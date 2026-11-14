@@ -4,22 +4,14 @@ import { Popover, PopoverTrigger } from "@/components/ui/popover";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { VoiceStatus } from "@/lib/entities/user";
 import { t } from "@/lib/i18n";
-import { generateFakeCurrentUser } from "@/lib/utils/mock";
 import { useCurrentUserStore } from "@/state/user";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import VoiceControls from "./voice-status-controls";
 import PopoverContentMain from "./voice-status-popover-content-main";
 
 export default function VoiceStatusFooter() {
   const [voiceStatus, setVoiceStatus] = useState<VoiceStatus>({ mute: true });
-  const currentUserData = generateFakeCurrentUser();
   const { currentUser, setCurrentUser } = useCurrentUserStore();
-
-  useEffect(() => {
-    if (currentUserData !== null) {
-      setCurrentUser(currentUserData);
-    }
-  }, [currentUserData, setCurrentUser]);
 
   return (
     <>
