@@ -25,20 +25,18 @@ import DMChannelPopover from "@/components/islets/dm-channel-list/dm-channel-pop
 
 type PageHeaderButtonProps = HybridButtonProps;
 
-const PageHeaderButton = React.forwardRef(
-  (
-    { children, className, ...props }: PageHeaderButtonProps,
-    ref: React.Ref<HybridButtonRef>,
-  ) => (
-    <HybridButton
-      ref={ref}
-      className={clsx("text-gray-300 hover:text-gray-200", className)}
-      {...props}
-    >
-      {children}
-    </HybridButton>
-  ),
-);
+const PageHeaderButton = React.forwardRef<
+  HybridButtonRef,
+  PageHeaderButtonProps
+>(({ children, className, ...props }, ref) => (
+  <HybridButton
+    ref={ref}
+    className={clsx("text-gray-300 hover:text-gray-200", className)}
+    {...props}
+  >
+    {children}
+  </HybridButton>
+));
 PageHeaderButton.displayName = "PageHeadeButton";
 
 const headerIcons = [
@@ -49,7 +47,7 @@ const headerIcons = [
   },
   {
     icon: <BsChatRightFill size={18} />,
-    tooltip: "Create  private Message",
+    tooltip: "Create private message",
     href: "",
   },
   { icon: <BsInboxFill size={20} />, tooltip: "Inbox", href: "" },
@@ -91,21 +89,32 @@ export default function PageHeader({
                 return null;
               }
               const messageIconIndex = index === 1;
+              const sharedProps = {
+                className: messageIconIndex ? "hidden md:block" : undefined,
+                "aria-label": icon.tooltip,
+              };
+              const button = icon.href ? (
+                <PageHeaderButton href={icon.href} {...sharedProps}>
+                  {icon.icon}
+                </PageHeaderButton>
+              ) : (
+                <PageHeaderButton
+                  type="button"
+                  onClick={index === 0 ? handleAudioVideoCall : undefined}
+                  {...sharedProps}
+                >
+                  {icon.icon}
+                </PageHeaderButton>
+              );
               return (
                 <Tooltip key={index}>
+                  {/* Only the "new message" icon opens the friends popover. */}
                   <TooltipTrigger asChild>
-                    <PopoverTrigger asChild={messageIconIndex}>
-                      <PageHeaderButton
-                        onClick={index === 0 ? handleAudioVideoCall : undefined}
-                        className={`${
-                          messageIconIndex ? "hidden md:block" : null
-                        }`}
-                        href={icon.href}
-                        key={index}
-                      >
-                        {icon.icon}
-                      </PageHeaderButton>
-                    </PopoverTrigger>
+                    {messageIconIndex ? (
+                      <PopoverTrigger asChild>{button}</PopoverTrigger>
+                    ) : (
+                      button
+                    )}
                   </TooltipTrigger>
                   {messageIconIndex && (
                     <Divider
