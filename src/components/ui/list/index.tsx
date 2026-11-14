@@ -1,6 +1,9 @@
 import { clsx } from "@/lib/utils";
 import React from "react";
-import HybridButton, { HybridButtonProps } from "../hybrid/hybrid-button";
+import HybridButton, {
+  HybridButtonProps,
+  HybridButtonRef,
+} from "../hybrid/hybrid-button";
 
 export type ListProps = React.HTMLAttributes<HTMLUListElement>;
 const List = ({ children, className, ...props }: ListProps) => {
@@ -20,10 +23,14 @@ export type ListItemProps = {
    */
   trailing?: React.ReactNode;
 } & HybridButtonProps;
+/**
+ * The ref (and any props from a Radix `asChild` trigger) go to the inner
+ * button or link, so focus can return to it when a dialog or popover closes.
+ */
 const ListItem = React.forwardRef(
   (
     { active, noVerticalPadding, className, trailing, ...props }: ListItemProps,
-    ref: React.Ref<HTMLLIElement>,
+    ref: React.Ref<HybridButtonRef>,
   ) => {
     const cls = clsx(
       "flex items-center rounded-md pl-3 pr-2 text-[15px] hover:bg-gray-800/50",
@@ -40,9 +47,8 @@ const ListItem = React.forwardRef(
           "list-none",
           trailing != null && "group/list-item relative",
         )}
-        ref={ref}
       >
-        <HybridButton className={cls} {...props} />
+        <HybridButton className={cls} {...props} ref={ref} />
         {trailing}
       </li>
     );
