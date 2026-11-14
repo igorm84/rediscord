@@ -70,7 +70,11 @@ export const ChatDM = React.memo(function ChatDM({
                     : currentUser?.avatar
                 }
                 alt="Avatar"
-                status={user?.status}
+                status={
+                  message?.userId === user?.id
+                    ? user?.status
+                    : currentUser?.status
+                }
               />
               <div className="invisible absolute top-1.5 z-0 text-xs text-gray-400 group-has-[.message-text:hover]/message:visible">
                 {new Date(message.timestamp).toLocaleTimeString([], {
