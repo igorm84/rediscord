@@ -57,7 +57,7 @@ export default function ActiveNowList() {
                       {calculateHoursBetweenDates(
                         friend.activity.since,
                         new Date(),
-                      )}
+                      )}{" "}
                       hours
                     </div>
                   )}
