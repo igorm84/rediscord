@@ -11,6 +11,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
@@ -43,16 +44,21 @@ export default function SearchModal() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
-          <Input placeholder="Where you want me to take you?" size="lg" />
+          <DialogTitle className="sr-only">Search</DialogTitle>
+          <Input
+            placeholder="Where you want me to take you?"
+            aria-label="Search for a channel or conversation"
+            size="lg"
+          />
         </DialogHeader>
-        <DialogDescription>
+        <div>
           <div className="text-xs font-semibold text-gray-400">
             LAST CHANNELS
           </div>
-          <div className="text-gray-500">
+          <DialogDescription className="text-gray-500">
             No recent channels. Start a new search.
-          </div>
-        </DialogDescription>
+          </DialogDescription>
+        </div>
         <div className="text-xs text-gray-400">
           <strong className="text-green-400">HERE&apos;s a TIP:</strong> Write
           @, #, ! or * in the beginning of your search to limit results.
