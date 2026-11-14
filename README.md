@@ -40,7 +40,11 @@ npm run dev
 npm run lint
 npm run typecheck
 npm run build
+npm test
 ```
+
+`npm test` runs the state regression tests with [Bun](https://bun.sh/), so Bun
+must be installed. They need no additional test dependencies.
 
 Tailwind stays on version 3 to preserve the existing design. The
 `postcss-selector-parser` override uses the patched parser with Tailwind's
@@ -54,9 +58,3 @@ Josh made an amazing video pointing it out: https://www.youtube.com/watch?v=Rmuc
 The code in this repository is available under the [MIT License](LICENSE).
 
 This is a study project based on the [Discord](https://discord.com) UI, so Discord owns the design and it needs to be respected ([see more](https://discord.com/terms)). The MIT License covers this implementation only, not Discord's design, name or brand assets.
-
-State regression tests use [Bun](https://bun.sh/) without additional test dependencies:
-
-```bash
-bun test tests
-```
