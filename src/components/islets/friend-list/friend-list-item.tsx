@@ -13,7 +13,7 @@ import {
 } from "react-icons/bs";
 import { FriendsTab, FriendsTabEnum } from "@/lib/types/friend-tab-prop";
 import { useFriendRequestStore } from "@/state/friendRequest-list";
-import { useChannelStore } from "@/state/channel-list";
+import { useAddChannel } from "@/customHooks/useAddChannel";
 
 interface FriendListItemProps {
   friend: User;
@@ -22,16 +22,10 @@ interface FriendListItemProps {
 
 export default function FriendListItem({ friend, tab }: FriendListItemProps) {
   const { acceptRequest, declineRequest } = useFriendRequestStore();
-  const { channels, setChannels } = useChannelStore();
+  const { addChannel } = useAddChannel();
+  // The Link and the message button navigate on their own, so only add the channel.
+  const handleAddChannel = () => addChannel(friend);
 
-  const handleAddChannel = () => {
-    const isFriendAlreadyAdded = channels.some(
-      (channel) => channel.id === friend.id,
-    );
-    if (!isFriendAlreadyAdded) {
-      setChannels([friend, ...channels]);
-    }
-  };
   return (
     <li className="group relative flex w-full list-none items-center justify-between rounded-md border-t border-gray-800 py-2.5 pl-3 pr-3 text-left text-[15px] text-gray-400 focus-within:bg-gray-800/50 focus-within:text-gray-100 hover:bg-gray-800/50 hover:text-gray-100 active:bg-gray-800/50 active:text-white">
       <div className="flex items-center gap-3">

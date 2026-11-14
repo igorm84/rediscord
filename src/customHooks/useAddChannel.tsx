@@ -8,17 +8,23 @@ export const useAddChannel = () => {
   const { channels, setChannels } = useChannelStore();
   const router = useRouter();
 
+  /** Adds a DM channel for the friend unless one already exists. */
+  const addChannel = (friend: User) => {
+    const isFriendAlreadyAdded = channels.some(
+      (channel) => channel.id === friend.id,
+    );
+    if (!isFriendAlreadyAdded) {
+      setChannels([friend, ...channels]);
+    }
+  };
+
+  /** Adds a DM channel for the friend and navigates to it. */
   const handleAddChannel = (friend = selectedFriend) => {
     if (friend) {
-      const isFriendAlreadyAdded = channels.some(
-        (channel) => channel.id === friend.id,
-      );
-      if (!isFriendAlreadyAdded) {
-        setChannels([friend, ...channels]);
-      }
+      addChannel(friend);
       router.push(`/channels/${friend.id}`);
     }
   };
 
-  return { handleAddChannel, selectedFriend, setSelectedFriend };
+  return { addChannel, handleAddChannel, selectedFriend, setSelectedFriend };
 };
