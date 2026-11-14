@@ -1,8 +1,10 @@
 import { User } from "@/lib/entities/user";
 
 interface AudioVideoCallProps {
-  user: User | undefined;
-  currentUser: User | null;
+  /** @deprecated Ignored. Kept optional until dm-channel stops passing it. */
+  user?: User;
+  /** @deprecated Ignored. Kept optional until dm-channel stops passing it. */
+  currentUser?: User | null;
   handleVideoCallEnd: () => void;
 }
 export default function AudioVideoCall({

@@ -272,16 +272,3 @@ export const PREVIEW_STATIC_PARAMS = PREVIEW_CHAT_RECIPIENTS.map((channel) => ({
 
 export const getPreviewChannelById = (id: string) =>
   PREVIEW_CHAT_RECIPIENTS.find((channel) => channel.id === id);
-
-export const generateFakeCurrentUser = () => PREVIEW_CURRENT_USER;
-
-export const generateRandomFakeChannels = (length: number): ListedDMChannel[] =>
-  PREVIEW_CHANNELS.slice(0, length);
-
-export const generateRandomFakeServers = (length: number): ListedServer[] =>
-  PREVIEW_SERVERS.slice(0, length);
-
-export const generateRandomFakeUsers = (length: number): User[] =>
-  PREVIEW_FRIENDS.slice(0, length);
-
-export const getRandomUserById = (id: string) => getPreviewChannelById(id);
