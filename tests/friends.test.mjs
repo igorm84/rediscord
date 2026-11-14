@@ -69,6 +69,14 @@ test("sending a friend request records it once and validates the username", () =
   expect(sendRequest(PREVIEW_FRIEND_REQUESTS[0].username).message).toContain(
     "Pending",
   );
+  expect(
+    sendRequest(PREVIEW_FRIEND_REQUESTS[0].username.toUpperCase()).message,
+  ).toContain("Pending");
+  // Only valid usernames are accepted: no inner spaces or stray @ signs.
+  for (const invalid of ["a b", "Quinn Frost", "@@", "x", "bad!name"]) {
+    expect(sendRequest(invalid).ok).toBe(false);
+  }
+  expect(sendRequest("@@quinn").message).toContain("Pending");
 
   const result = sendRequest("  @New_Person ");
   expect(result).toEqual({

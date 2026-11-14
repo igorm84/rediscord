@@ -18,6 +18,9 @@ type FriendRequestStore = {
   sendRequest: (username: string) => SendFriendRequestResult;
 };
 
+/** Lowercase letters, digits, underscores and periods; 2-32 characters. */
+const USERNAME_PATTERN = /^[a-z0-9_.]{2,32}$/;
+
 const sameUsername = (user: User, username: string) =>
   user.username?.toLowerCase() === username;
 
@@ -37,9 +40,16 @@ export const useFriendRequestStore = create<FriendRequestStore>((set, get) => ({
       friendRequest: friendRequest.filter((request) => request.id !== id),
     })),
   sendRequest: (input) => {
-    const username = input.trim().replace(/^@/, "").toLowerCase();
+    const username = input.trim().replace(/^@+/, "").toLowerCase();
     if (!username) {
       return { ok: false, message: "Enter a username to send a request." };
+    }
+    if (!USERNAME_PATTERN.test(username)) {
+      return {
+        ok: false,
+        message:
+          "Usernames are 2-32 characters: letters, numbers, underscores and periods.",
+      };
     }
     const currentUser =
       useCurrentUserStore.getState().currentUser ?? PREVIEW_CURRENT_USER;
