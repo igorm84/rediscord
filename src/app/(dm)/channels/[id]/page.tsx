@@ -2,6 +2,7 @@ import ChannelDM from "@/components/islets/dm-channel";
 import { Page } from "@/components/layout/page";
 import { notFound } from "next/navigation";
 import {
+  PREVIEW_SERVERS,
   PREVIEW_STATIC_PARAMS,
   getPreviewChannelById,
 } from "@/lib/utils/mock";
@@ -30,11 +31,14 @@ export default async function ChannelPage({
   if (!channel) {
     notFound();
   }
+  // Server icons link here too; there is no server view in the demo, so the
+  // chat is shown without person-only actions (friend, block, call).
+  const isServer = PREVIEW_SERVERS.some((server) => server.id === id);
 
   return (
     <DemoLoadingGate fallback={<ChannelPageSkeleton />}>
       <Page>
-        <ChannelDM user={channel} />
+        <ChannelDM user={channel} isServer={isServer} />
       </Page>
     </DemoLoadingGate>
   );

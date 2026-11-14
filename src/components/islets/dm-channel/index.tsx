@@ -26,8 +26,13 @@ interface Message {
   bot?: string;
 }
 
-// The page calls notFound() for unknown IDs, so a user is always present.
-export default function ChannelDM({ user }: { user: User }) {
+interface ChannelDMProps {
+  user: User;
+  /** Server channels reuse this screen but have no person-only actions. */
+  isServer?: boolean;
+}
+
+export default function ChannelDM({ user, isServer = false }: ChannelDMProps) {
   const { friends, addFriend, removeFriend } = useFriendStore();
   const { currentUser } = useCurrentUserStore();
   const [showAudioVideoCall, setShowAudioVideoCall] = React.useState(false);
@@ -65,7 +70,9 @@ export default function ChannelDM({ user }: { user: User }) {
     setNewMessageText(e.target.value);
   };
   const handleAudioVideoCall = () => {
-    setShowAudioVideoCall(true);
+    if (!isServer) {
+      setShowAudioVideoCall(true);
+    }
   };
   const handleVideoCallEnd = () => {
     setShowAudioVideoCall(false);
@@ -82,6 +89,7 @@ export default function ChannelDM({ user }: { user: User }) {
   const isFriend = friends.some((friend) => friend.id === user.id);
 
   const handleAddDelete = () => {
+    if (isServer) return;
     if (isFriend) removeFriend(user.id);
     else addFriend(user);
   };
@@ -89,7 +97,7 @@ export default function ChannelDM({ user }: { user: User }) {
   return (
     <>
       <PageHeader
-        user={user}
+        user={isServer ? undefined : user}
         handleAudioVideoCall={handleAudioVideoCall}
         showAudioVideoCall={showAudioVideoCall}
       >
@@ -118,6 +126,7 @@ export default function ChannelDM({ user }: { user: User }) {
             user={user}
             handleAddDelete={handleAddDelete}
             isFriend={isFriend}
+            showPersonActions={!isServer}
           />
           <div className="flex items-center">
             <Divider className="h-[1px] w-full" />
