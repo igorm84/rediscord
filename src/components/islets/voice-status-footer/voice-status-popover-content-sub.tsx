@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Divider from "@/components/ui/divider";
@@ -70,20 +71,22 @@ function PopoverContentSub({
           </ListItem>
           <Divider className="my-2 h-[1px] w-full" />
           <Dialog>
-            <DialogTrigger className="w-full">
+            <DialogTrigger asChild>
               <ListItem className=" items-center justify-between  !rounded py-3 text-[12px] leading-[16px] text-white hover:!bg-primary">
                 account management
               </ListItem>
             </DialogTrigger>
             <DialogContent className="!gap-1">
-              <DialogHeader className="w-full text-xl font-bold sm:!text-center">
-                Account management
+              <DialogHeader className="w-full sm:!text-center">
+                <DialogTitle className="text-xl font-bold">
+                  Account management
+                </DialogTitle>
               </DialogHeader>
 
-              <DialogDescription>
-                <p className="text-base text-gray-300">
+              <div>
+                <DialogDescription className="text-base text-gray-300">
                   Switch accounts, log in, log out, go all in.
-                </p>
+                </DialogDescription>
                 <div className=" mt-4 flex items-center justify-between rounded bg-foreground py-2 pl-3 pr-2">
                   <div className="flex items-center">
                     <Avatar
@@ -97,7 +100,7 @@ function PopoverContentSub({
                     </div>
                   </div>
                   <Popover>
-                    <PopoverTrigger>
+                    <PopoverTrigger aria-label="Account options">
                       <BsThreeDots className=" text-xl hover:text-gray-200" />
                     </PopoverTrigger>
                     <PopoverContent className="!w-24 border-none bg-background !p-1.5">
@@ -112,7 +115,7 @@ function PopoverContentSub({
                     Add Account
                   </Button>
                 </div>
-              </DialogDescription>
+              </div>
             </DialogContent>
           </Dialog>
         </PopoverContent>
