@@ -9,7 +9,20 @@ Rediscord is a study of Discord UI built in NextJS and TailwindCSS using some [s
 > Currently only frontend and some mock data.
 > Feel free to request or contribute.
 ## Features
-> I'll be working in features soon, feel free to sugest something
+All data is client-side mock data, so changes reset on reload.
+
+- Friends page with Online, All, Pending and Blocked tabs, plus name search
+- Accept or decline incoming friend requests
+- Direct message list: open a conversation from a friend, the "Choose friends"
+  popover or the Active Now panel, and remove conversations from the list
+- Conversation view with the recipient's profile, add or remove friend, and
+  local message sending
+- Active Now panel with friends' current activities
+- Server sidebar with tooltips
+- Quick switcher modal (Ctrl+K / Cmd+K)
+- User panel: change online status, set a custom status, mute and deafen
+- Skeleton loading states while the demo "loads"
+
 ## Running locally
 
 Requires Node.js 20.9 or later.
