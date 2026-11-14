@@ -14,10 +14,15 @@ const List = ({ children, className, ...props }: ListProps) => {
 export type ListItemProps = {
   active?: boolean;
   noVerticalPadding?: boolean;
+  /**
+   * Interactive content rendered next to (not inside) the item's link or
+   * button, e.g. a delete button. Interactive elements can't be nested.
+   */
+  trailing?: React.ReactNode;
 } & HybridButtonProps;
 const ListItem = React.forwardRef(
   (
-    { active, noVerticalPadding, className, ...props }: ListItemProps,
+    { active, noVerticalPadding, className, trailing, ...props }: ListItemProps,
     ref: React.Ref<HTMLLIElement>,
   ) => {
     const cls = clsx(
@@ -30,8 +35,15 @@ const ListItem = React.forwardRef(
     );
 
     return (
-      <li className="list-none" ref={ref}>
+      <li
+        className={clsx(
+          "list-none",
+          trailing != null && "group/list-item relative",
+        )}
+        ref={ref}
+      >
         <HybridButton className={cls} {...props} />
+        {trailing}
       </li>
     );
   },
