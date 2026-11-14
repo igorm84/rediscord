@@ -3,6 +3,7 @@ import { useFriendStore } from "../src/state/friend-list";
 import { useFriendRequestStore } from "../src/state/friendRequest-list";
 import { useChannelStore } from "../src/state/channel-list";
 import {
+  PREVIEW_CURRENT_USER,
   PREVIEW_FRIENDS,
   PREVIEW_FRIEND_REQUESTS,
   PREVIEW_STATIC_PARAMS,
@@ -11,7 +12,10 @@ import {
 
 beforeEach(() => {
   useFriendStore.setState({ friends: PREVIEW_FRIENDS });
-  useFriendRequestStore.setState({ friendRequest: PREVIEW_FRIEND_REQUESTS });
+  useFriendRequestStore.setState({
+    friendRequest: PREVIEW_FRIEND_REQUESTS,
+    sentRequests: [],
+  });
 });
 
 test("friendship exists by ID before visiting the friends page", () => {
@@ -53,4 +57,27 @@ test("all accepted request recipients have static chat routes; unknown IDs do no
     expect(getPreviewChannelById(friend.id)?.name).toBe(friend.name);
   }
   expect(getPreviewChannelById("unknown")).toBeUndefined();
+});
+
+test("sending a friend request records it once and validates the username", () => {
+  const { sendRequest } = useFriendRequestStore.getState();
+  expect(sendRequest("   ").ok).toBe(false);
+  expect(sendRequest(PREVIEW_CURRENT_USER.username).ok).toBe(false);
+  expect(sendRequest(PREVIEW_FRIENDS[0].username).message).toContain(
+    "already friends",
+  );
+  expect(sendRequest(PREVIEW_FRIEND_REQUESTS[0].username).message).toContain(
+    "Pending",
+  );
+
+  const result = sendRequest("  @New_Person ");
+  expect(result).toEqual({
+    ok: true,
+    message: "Success! Your friend request to new_person was sent.",
+  });
+  expect(sendRequest("new_person").ok).toBe(false);
+  expect(useFriendRequestStore.getState().sentRequests).toEqual(["new_person"]);
+  // Outgoing requests don't touch incoming requests or friends.
+  expect(useFriendRequestStore.getState().friendRequest).toHaveLength(6);
+  expect(useFriendStore.getState().friends).toHaveLength(18);
 });
