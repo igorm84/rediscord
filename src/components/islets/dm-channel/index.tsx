@@ -26,7 +26,13 @@ interface Message {
   bot?: string;
 }
 
-export default function ChannelDM({ user }: { user: User | undefined }) {
+interface ChannelDMProps {
+  user: User;
+  /** Server channels reuse this screen but have no person-only actions. */
+  isServer?: boolean;
+}
+
+export default function ChannelDM({ user, isServer = false }: ChannelDMProps) {
   const { friends, addFriend, removeFriend } = useFriendStore();
   const { currentUser } = useCurrentUserStore();
   const [showAudioVideoCall, setShowAudioVideoCall] = React.useState(false);
@@ -40,7 +46,7 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
   const [messages, setMessages] = React.useState<Message[]>([
     {
       id: 1,
-      userId: user?.id,
+      userId: user.id,
       text: "Hello! How are you?",
       timestamp: new Date().toISOString(),
     },
@@ -64,7 +70,7 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
     setNewMessageText(e.target.value);
   };
   const handleAudioVideoCall = () => {
-    if (user) {
+    if (!isServer) {
       setShowAudioVideoCall(true);
     }
   };
@@ -80,110 +86,96 @@ export default function ChannelDM({ user }: { user: User | undefined }) {
     setMessages((prevMessages) => [...prevMessages, endedMessage]);
   };
 
-  const isFriend = friends.some((friend) => friend.id === user?.id);
+  const isFriend = friends.some((friend) => friend.id === user.id);
 
   const handleAddDelete = () => {
-    if (!user) return;
+    if (isServer) return;
     if (isFriend) removeFriend(user.id);
     else addFriend(user);
   };
 
   return (
     <>
-      {!user?.id ? (
-        <div className="p-4 text-base text-gray-400">
-          Ups probably we cannot find your conversation please back to main page
-        </div>
-      ) : (
-        <>
-          <PageHeader
-            user={user}
-            handleAudioVideoCall={handleAudioVideoCall}
-            showAudioVideoCall={showAudioVideoCall}
-          >
-            <div className="flex items-center gap-4">
-              <div className="flex flex-none items-center gap-3 text-sm font-semibold">
-                <Avatar
-                  size="sm"
-                  src={user?.avatar}
-                  alt="avatar"
-                  status={user?.status}
-                />
-                {user?.name}
-              </div>
-            </div>
-          </PageHeader>
-          {showAudioVideoCall && (
-            <AudioVideoCall
-              user={user}
-              currentUser={currentUser}
-              handleVideoCallEnd={handleVideoCallEnd}
+      <PageHeader
+        user={isServer ? undefined : user}
+        handleAudioVideoCall={handleAudioVideoCall}
+        showAudioVideoCall={showAudioVideoCall}
+      >
+        <div className="flex items-center gap-4">
+          <div className="flex flex-none items-center gap-3 text-sm font-semibold">
+            <Avatar
+              size="sm"
+              src={user.avatar}
+              alt="avatar"
+              status={user.status}
             />
-          )}
-          <PageContent className="h-full w-full flex-col pl-6 pr-1 ">
-            <div className="max-h-[86vh] !overflow-y-auto ">
-              <UserProfileInfo
-                user={user}
-                handleAddDelete={handleAddDelete}
-                isFriend={isFriend}
-              />
-              <div className="flex items-center">
-                <Divider className="h-[1px] w-full" />
-                <p className="flex  whitespace-nowrap px-1 text-xs font-semibold text-gray-400">
-                  {formattedDate}
-                </p>
-                <Divider className="h-[1px] w-full" />
-              </div>
-
-              <ChatDM
-                messages={messages}
-                user={user}
-                currentUser={currentUser}
-              />
-            </div>
-            <InputField
-              startIcon={
-                <AiFillPlusCircle
-                  className="cursor-pointer hover:text-gray-200"
-                  size={22}
-                />
-              }
-              endIcon={
-                <div className="absolute right-4 top-0  flex h-full cursor-pointer items-center space-x-2.5 text-gray-400 ">
-                  <AiFillGift className="hover:text-gray-300" size={22} />
-                  <AiOutlineGif className="hover:text-gray-300" size={22} />
-                  <AiOutlineFileText
-                    className="hover:text-gray-300"
-                    size={22}
-                  />
-                  <CgSmileMouthOpen className="hover:text-gray-300" size={22} />
-                </div>
-              }
-              className="!absolute bottom-0 left-0 right-0 !z-[10] mx-6 mb-4 w-auto bg-foreground"
-            >
-              <Input
-                className=" py-2 pl-12 pr-36 !placeholder-gray-600"
-                type="text"
-                placeholder={`write something to @${user.name}`}
-                value={newMessage}
-                onKeyDown={(event) => {
-                  if (
-                    event.key === "Enter" &&
-                    !event.nativeEvent.isComposing &&
-                    event.nativeEvent.keyCode !== 229 &&
-                    !event.repeat
-                  ) {
-                    event.preventDefault();
-                    handleSubmit();
-                  }
-                }}
-                onChange={handleInputChange}
-              />
-            </InputField>
-            <div className=" absolute bottom-0 left-0 right-0 !z-[9]  h-8 bg-foreground" />
-          </PageContent>
-        </>
+            {user.name}
+          </div>
+        </div>
+      </PageHeader>
+      {showAudioVideoCall && (
+        <AudioVideoCall
+          user={user}
+          currentUser={currentUser}
+          handleVideoCallEnd={handleVideoCallEnd}
+        />
       )}
+      <PageContent className="h-full w-full flex-col pl-6 pr-1 ">
+        <div className="max-h-[86vh] !overflow-y-auto ">
+          <UserProfileInfo
+            user={user}
+            handleAddDelete={handleAddDelete}
+            isFriend={isFriend}
+            showPersonActions={!isServer}
+          />
+          <div className="flex items-center">
+            <Divider className="h-[1px] w-full" />
+            <p className="flex  whitespace-nowrap px-1 text-xs font-semibold text-gray-400">
+              {formattedDate}
+            </p>
+            <Divider className="h-[1px] w-full" />
+          </div>
+
+          <ChatDM messages={messages} user={user} currentUser={currentUser} />
+        </div>
+        <InputField
+          startIcon={
+            <AiFillPlusCircle
+              className="cursor-pointer hover:text-gray-200"
+              size={22}
+            />
+          }
+          endIcon={
+            <div className="absolute right-4 top-0  flex h-full cursor-pointer items-center space-x-2.5 text-gray-400 ">
+              <AiFillGift className="hover:text-gray-300" size={22} />
+              <AiOutlineGif className="hover:text-gray-300" size={22} />
+              <AiOutlineFileText className="hover:text-gray-300" size={22} />
+              <CgSmileMouthOpen className="hover:text-gray-300" size={22} />
+            </div>
+          }
+          className="!absolute bottom-0 left-0 right-0 !z-[10] mx-6 mb-4 w-auto bg-foreground"
+        >
+          <Input
+            className=" py-2 pl-12 pr-36 !placeholder-gray-600"
+            type="text"
+            placeholder={`write something to @${user.name}`}
+            value={newMessage}
+            onKeyDown={(event) => {
+              if (
+                event.key === "Enter" &&
+                !event.nativeEvent.isComposing &&
+                event.nativeEvent.keyCode !== 229 &&
+                !event.repeat
+              ) {
+                event.preventDefault();
+                handleSubmit();
+              }
+            }}
+            onChange={handleInputChange}
+          />
+        </InputField>
+        <div className=" absolute bottom-0 left-0 right-0 !z-[9]  h-8 bg-foreground" />
+      </PageContent>
     </>
   );
 }

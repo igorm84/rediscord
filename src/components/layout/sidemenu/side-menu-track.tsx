@@ -1,11 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
+import { usePathname } from "next/navigation";
 import { ListedServer } from "@/lib/entities/server";
 import SideMenuItem from "./side-menu-item";
 import { clsx } from "@/lib/utils";
 import { BsDiscord } from "react-icons/bs";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import Divider from "@/components/ui/divider";
+import {
+  DIRECT_MESSAGES_ID,
+  getActiveServerId,
+} from "@/lib/navigation/active-server";
 
 type SideMenuTrackProps = {
   servers: ListedServer[];
@@ -37,7 +42,9 @@ const ServerMenuItem = ({
 };
 
 export default function SideMenuTrack({ servers }: SideMenuTrackProps) {
-  const [active, setActive] = useState<string>("default");
+  // Derived from the URL so it stays correct after back/forward navigation,
+  // direct links and links opened from elsewhere in the app.
+  const active = getActiveServerId(usePathname(), servers);
 
   return (
     <>
@@ -47,14 +54,15 @@ export default function SideMenuTrack({ servers }: SideMenuTrackProps) {
         */}
         <SideMenuItem
           href="/channels/me"
-          onClick={() => setActive("default")}
           tooltipContent={<div className="font-semibold">Direct messages</div>}
           notificationCount={432}
           className={clsx(
             "mx-auto mb-2 flex items-center justify-center bg-foreground",
-            active === "default" ? "bg-primary text-white" : "text-gray-300",
+            active === DIRECT_MESSAGES_ID
+              ? "bg-primary text-white"
+              : "text-gray-300",
           )}
-          isActive={active === "default"}
+          isActive={active === DIRECT_MESSAGES_ID}
         >
           <BsDiscord fontSize={26} />
         </SideMenuItem>
@@ -70,9 +78,6 @@ export default function SideMenuTrack({ servers }: SideMenuTrackProps) {
             key={server.id}
             server={server}
             isActive={active === server.id}
-            onClick={() => {
-              setActive(server.id);
-            }}
           />
         ))}
       </TooltipProvider>
