@@ -51,7 +51,9 @@ Josh made an amazing video pointing it out: https://www.youtube.com/watch?v=Rmuc
 [![maxresdefault](https://github.com/igorm84/rediscord/assets/16727448/c350e48b-45e2-4082-b61a-791706df8cc1)](https://www.youtube.com/watch?v=RmucrDgc_Yw&t=27s)
 
 ## License
-This is a study project based on [Discord](discord.com) UI so they own the design and it needs to be respected. ([see more](discord.com/terms)) - From my part you can freely see and copy the implementation.
+The code in this repository is available under the [MIT License](LICENSE).
+
+This is a study project based on the [Discord](https://discord.com) UI, so Discord owns the design and it needs to be respected ([see more](https://discord.com/terms)). The MIT License covers this implementation only, not Discord's design, name or brand assets.
 
 State regression tests use [Bun](https://bun.sh/) without additional test dependencies:
 
