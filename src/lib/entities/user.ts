@@ -1,4 +1,5 @@
 import { Activity } from "./activity";
+import { Time } from "./time";
 
 export enum StaticUserStatuses {
   Online = "online",
@@ -13,6 +14,12 @@ export interface VoiceStatus {
   deaf?: boolean;
   serverMuted?: boolean;
 }
+export interface CustomStatus {
+  text: string;
+  clearAfter: Time;
+  /** Epoch milliseconds after which the status is cleared; null = never. */
+  expiresAt: number | null;
+}
 export interface User {
   id: string;
   name: string;
@@ -22,4 +29,5 @@ export interface User {
   status: StaticUserStatuses;
   activity?: Activity | null;
   type?: "user" | "bot";
+  customStatus?: CustomStatus | null;
 }
