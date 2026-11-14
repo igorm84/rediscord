@@ -9,7 +9,21 @@ Rediscord is a study of Discord UI built in NextJS and TailwindCSS using some [s
 > Currently only frontend and some mock data.
 > Feel free to request or contribute.
 ## Features
-> I'll be working in features soon, feel free to sugest something
+All data is client-side mock data, so changes reset on reload.
+
+- Friends page with Online, All, Pending and Blocked tabs, plus name search
+- Accept or decline incoming friend requests, and send new ones from the Add
+  Friend tab
+- Direct message list: open a conversation from a friend, the "Choose friends"
+  popover or the Active Now panel, and remove conversations from the list
+- Conversation view with the recipient's profile, add or remove friend, and
+  local message sending
+- Active Now panel with friends' current activities
+- Server sidebar with tooltips
+- Quick switcher modal (Ctrl+K / Cmd+K)
+- User panel: change online status, set a custom status, mute and deafen
+- Skeleton loading states while the demo "loads"
+
 ## Running locally
 
 Requires Node.js 20.9 or later.
@@ -40,7 +54,11 @@ npm run dev
 npm run lint
 npm run typecheck
 npm run build
+npm test
 ```
+
+`npm test` runs the unit tests (state, navigation and custom status helpers) with [Bun](https://bun.sh/), so Bun
+must be installed. They need no additional test dependencies.
 
 Tailwind stays on version 3 to preserve the existing design. The
 `postcss-selector-parser` override uses the patched parser with Tailwind's
@@ -51,10 +69,6 @@ Josh made an amazing video pointing it out: https://www.youtube.com/watch?v=Rmuc
 [![maxresdefault](https://github.com/igorm84/rediscord/assets/16727448/c350e48b-45e2-4082-b61a-791706df8cc1)](https://www.youtube.com/watch?v=RmucrDgc_Yw&t=27s)
 
 ## License
-This is a study project based on [Discord](discord.com) UI so they own the design and it needs to be respected. ([see more](discord.com/terms)) - From my part you can freely see and copy the implementation.
+The code in this repository is available under the [MIT License](LICENSE).
 
-State regression tests use [Bun](https://bun.sh/) without additional test dependencies:
-
-```bash
-bun test tests
-```
+This is a study project based on the [Discord](https://discord.com) UI, so Discord owns the design and it needs to be respected ([see more](https://discord.com/terms)). The MIT License covers this implementation only, not Discord's design, name or brand assets.
